@@ -1,243 +1,287 @@
 """
 silesia_road_profile.py
 =======================
-Composite road profile generator for the Shell Eco-Marathon Silesia Ring.
-Combines an ISO 8608 semi-smooth baseline (Class A/B) with deterministic
-discrete kerb bumps located exactly at the apexes of key turns.
+Generates a distance-domain road surface displacement profile z_road(x) [m]
+for the Silesia Ring club circuit, suitable for feeding into the quarter-car
+vertical dynamics model.
 
-Provides the spatial road elevation series `z_road_m` sampled at identical
-10 Hz equivalent resolution (dx) as the distance vector.
+Profile construction:
+  1. ISO 8608 PSD-based random profile  — captures general road roughness
+     by surface class (B = smooth pit asphalt, C = older infield tarmac).
+  2. Discrete deterministic bumps        — kerb/bump features at specific
+     corners (T10 chicane kerb, T12 hairpin kerb, T13 hairpin kerb).
+  3. Start/finish line raised strip      — small transverse strip at d=0.
 
-Authors: Antigravity AI
+References:
+  ISO 8608:2016 — Mechanical vibration — Road surface profiles
+  Guo & Lu (2001) — "Modelling of random road surface roughness"
+
+Units: distance [m], displacement [m], positive = upward bump.
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy.signal import butter, filtfilt
+from functools import lru_cache
 
-# Dependencies
-try:
-    from track_geometry import get_silesia_geometry, build_track_vector
-except ImportError:
-    # Allows fallback if run individually
-    pass
+# ---------------------------------------------------------------------------
+# ISO 8608 PSD Parameters
+# Class:    Gd(n0) [m³/cycle]      where n0 = 0.1 cycle/m (spatial frequency ref)
+# ---------------------------------------------------------------------------
+_ISO_8608 = {
+    'A': 1e-6,    # very smooth motorway
+    'B': 4e-6,    # smooth asphalt (pit straight)
+    'C': 16e-6,   # average road (older tarmac infield)
+    'D': 64e-6,   # rough road
+}
+_WAVINESS = 2.0   # PSD slope exponent w (standard for roads)
+
+# ---------------------------------------------------------------------------
+# Track feature: discrete bump descriptor
+# ---------------------------------------------------------------------------
+_KERB_BUMPS = [
+    # (distance_m, height_m, half_length_m, description)
+    # T10 chicane entry — chicane kerb crossing
+    (510.0,  0.025, 0.30, "T10_chicane_kerb_entry"),
+    (535.0,  0.020, 0.25, "T10_chicane_kerb_exit"),
+    # T12 tight hairpin — typical apex kerb
+    (655.0,  0.030, 0.35, "T12_hairpin_kerb"),
+    # T13 second hairpin — apex kerb
+    (740.0,  0.025, 0.30, "T13_hairpin_kerb"),
+    # Start/finish line — raised strip (timing trigger)
+    (0.0,    0.008, 0.10, "SF_line_strip"),
+    (1248.0, 0.008, 0.10, "SF_line_strip_lap_end"),
+]
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
 
 class SilesiaRoadProfile:
     """
-    Constructs a 1D spatial road profile sequence.
-
-    Steps:
-      1) Generate a stochastic ISO 8608 PSD track model
-      2) Insert deterministic deterministic kerbs (Apex bumps)
-      3) Optionally apply a smoothing pass to remove non-physical high-frequency noise
+    Pre-generates the full road displacement profile for one lap and caches it.
+    Use get_displacement(distance_m) for point queries during simulation.
     """
 
-    def __init__(self, length_m=1250.0, dx=0.5):
+    def __init__(self,
+                 lap_length_m: float = 1250.0,
+                 dx: float = 0.02,
+                 random_seed: int = 42):
         """
         Parameters
         ----------
-        length_m : float
-            Total track length to generate (Silesia club circuit is ~1250m)
-        dx : float
-            Spatial step size in meters. Defaults to 0.5m.
+        lap_length_m : total circuit length [m]
+        dx           : spatial resolution of profile [m]  (0.02 m = 2 cm)
+        random_seed  : for reproducible random profile
         """
-        self.length_m = length_m
+        self.lap_length_m = lap_length_m
         self.dx = dx
-        
-        # Spatial arrays
-        self.x = np.arange(0, self.length_m, self.dx)
+        self.random_seed = random_seed
+
+        # Distance axis for one lap
+        self.x = np.arange(0.0, lap_length_m, dx)
         self.N = len(self.x)
 
-        # Output profile
-        self.z_road = np.zeros(self.N)
+        # Generate one full lap profile
+        self.z_road = self._generate_profile()
 
-        self.kerb_events = []
+    # ------------------------------------------------------------------
+    def _generate_profile(self) -> np.ndarray:
+        """Build the composite road profile for one lap."""
+        from track_geometry import _SEGMENTS
 
-    def load_track_geometry(self):
+        rng = np.random.default_rng(self.random_seed)
+        z = np.zeros(self.N)
+
+        # 1. ISO 8608 PSD profile — segment-by-segment, matched at boundaries
+        for seg in _SEGMENTS:
+            idx_start = int(seg.start_m / self.dx)
+            idx_end   = min(int((seg.start_m + seg.length_m) / self.dx), self.N)
+            n_pts = idx_end - idx_start
+            if n_pts <= 1:
+                continue
+
+            seg_len = seg.length_m
+            z_seg = self._iso8608_segment(seg_len, n_pts, seg.road_class, rng)
+
+            # Smooth boundary: offset so z_seg starts at z value of previous endpoint
+            if idx_start > 0:
+                z_seg = z_seg - z_seg[0] + z[idx_start - 1]
+
+            z[idx_start:idx_end] = z_seg[:n_pts]
+
+        # 2. Add deterministic kerb / bump features
+        z = self._add_bumps(z)
+
+        # 3. Remove mean (zero-mean displacement)
+        z -= np.mean(z)
+
+        return z
+
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _iso8608_segment(length_m: float,
+                         n_pts: int,
+                         road_class: str,
+                         rng: np.random.Generator) -> np.ndarray:
         """
-        Extracts kerb locations directly from track_geometry.py's segment definitions.
-        We place a kerb exactly halfway through any segment marked with kerb_height > 0.
+        Generate a single road segment profile via filtered white noise.
+
+        Uses the ISO 8608 PSD:  Gd(n) = Gd(n0) × (n/n0)^(-w)
+
+        where n = spatial frequency [cycles/m], n0 = 0.1 cycles/m reference.
+
+        Implementation: frequency-domain synthesis (IFFT of PSD amplitudes
+        with random phases), then IFFT to spatial domain.
         """
-        try:
-            segments = get_silesia_geometry()
-            dist = 0.0
-            
-            for seg in segments:
-                # apex is middle of the turn
-                apex_dist = dist + (seg.length_m / 2.0)
-                
-                # Check if it's a kerb turn
-                if getattr(seg, 'kerb_height_m', 0.0) > 0.0:
-                    self.kerb_events.append({
-                        'loc_m': apex_dist,
-                        'height_m': seg.kerb_height_m,
-                        'width_m': getattr(seg, 'kerb_width_m', 2.0),
-                        'name': seg.name
-                    })
-                
-                dist += seg.length_m
-            
-        except NameError:
-            print("[Warning] track_geometry module not available. Using fallback kerbs.")
-            # Fallback for Silesia kerbs (T12, T14, T15)
-            self.kerb_events = [
-                {'loc_m': 300, 'height_m': 0.04, 'width_m': 3.0, 'name': 'T12 Apex'},
-                {'loc_m': 600, 'height_m': 0.05, 'width_m': 2.5, 'name': 'T14 Apex'},
-                {'loc_m': 750, 'height_m': 0.04, 'width_m': 3.0, 'name': 'T15 Apex'},
-            ]
+        Gd_n0 = _ISO_8608.get(road_class, _ISO_8608['C'])
+        n0    = 0.1           # reference spatial frequency [cycles/m]
+        w     = _WAVINESS
 
-    def _generate_iso8608_baseline(self, roughness_class='A', seed=42):
+        dx = length_m / n_pts
+        # Spatial frequencies (one-sided)
+        freqs = np.fft.rfftfreq(n_pts, d=dx)   # [cycles/m]
+
+        # PSD amplitude at each frequency (avoid DC singularity)
+        freqs_safe = np.where(freqs > 0, freqs, 1e-6)
+        Gd = Gd_n0 * (freqs_safe / n0) ** (-w)
+        Gd[0] = 0.0   # zero DC component
+
+        # Complex amplitudes with random phase
+        # Power spectral amplitude: A = sqrt(Gd * df)
+        df = freqs[1] - freqs[0] if len(freqs) > 1 else 1.0
+        A  = np.sqrt(Gd * df)
+        phase = rng.uniform(0, 2 * np.pi, size=len(freqs))
+        spectrum = A * np.exp(1j * phase)
+        spectrum[0] = 0.0   # force zero mean
+
+        # IFFT to spatial domain
+        z = np.fft.irfft(spectrum, n=n_pts)
+        return z
+
+    # ------------------------------------------------------------------
+    def _add_bumps(self, z: np.ndarray) -> np.ndarray:
+        """Superimpose discrete deterministic bump profiles."""
+        for (d_centre, height, half_len, _label) in _KERB_BUMPS:
+            # Versine bump: z_bump = height/2 × (1 - cos(π × Δx / half_len))
+            bump_start = d_centre - half_len
+            bump_end   = d_centre + half_len
+
+            idx_s = max(0,        int(bump_start / self.dx))
+            idx_e = min(self.N,   int(bump_end   / self.dx))
+
+            for i in range(idx_s, idx_e):
+                x_local = self.x[i] - bump_start
+                z_bump = (height / 2.0) * (1.0 - np.cos(np.pi * x_local / (half_len * 2)))
+                z[i] += z_bump
+
+        return z
+
+    # ------------------------------------------------------------------
+    def get_displacement(self, distance_m: float) -> float:
         """
-        Generate background track roughness based on ISO 8608 PSD.
+        Return road surface displacement z [m] at a given distance.
+        Distance is wrapped modulo lap_length for continuous lapping.
 
-        Class A/B represents very good/good quality paved asphalt.
-        L1 FIX (2026-04-09): The ISO 8608 reference PSD scale has been fixed.
-        The previous logic applied a 16x multiplier error resulting in an
-        RMS amplitude of ~12mm. It is now correctly ~3mm RMS.
+        Parameters
+        ----------
+        distance_m : cumulative distance along the lap [m]
+
+        Returns
+        -------
+        z_road : surface displacement [m] (positive = upward)
         """
-        np.random.seed(seed)
+        d = distance_m % self.lap_length_m
+        # Linear interpolation between profile grid points
+        idx_f = d / self.dx
+        idx_lo = int(idx_f)
+        idx_hi = min(idx_lo + 1, self.N - 1)
+        frac = idx_f - idx_lo
+        return float(self.z_road[idx_lo] * (1 - frac) + self.z_road[idx_hi] * frac)
 
-        # Reference PSDs Gd(n0) in [m^3/cycle] @ n0 = 0.1 cycle/m
-        Gd_class = {
-            'A': 1e-6,   # Very smooth / Motorway new
-            'B': 4e-6,   # Smooth / Good surface
-            'C': 16e-6,  # Average road
-        }
-        Gd = Gd_class.get(roughness_class, 1e-6)
+    def get_profile_array(self) -> tuple:
+        """Return (x, z_road) arrays for the full lap profile."""
+        return self.x.copy(), self.z_road.copy()
 
-        n0 = 0.1 # reference spatial freq
-        w = 2.0  # standard waviness constant
-
-        dn = 1 / self.length_m
-        n = np.arange(1, self.N//2 + 1) * dn
-
-        # Power spectrum array
-        Gd_n = Gd * (n / n0) ** (-w)
-
-        # IFFT random phase implementation
-        amplitude = np.sqrt(2 * Gd_n * dn)
-        phase = np.random.uniform(0, 2*np.pi, len(n))
-        spectrum = amplitude * np.exp(1j * phase)
-
-        full_spectrum = np.zeros(self.N, dtype=complex)
-        full_spectrum[1:self.N//2+1] = spectrum
-        full_spectrum[self.N//2+1:] = np.conj(spectrum[:-1][::-1])
-
-        # Multiply by N correctly maps the IFFT scale
-        baseline = np.real(np.fft.ifft(full_spectrum)) * self.N
-
-        # Remove macroscopic drifting slope
-        baseline -= np.polyval(np.polyfit(self.x, baseline, 1), self.x)
-
-        return baseline
-
-    def _add_kerb(self, baseline, center_m, width_m, height_m):
-        """
-        Overlays an isolated track bump onto the baseline profile.
-        Uses a half-cosine wave profile to mimic a typical racing kerb.
-        """
-        start = center_m - width_m/2
-        end = center_m + width_m/2
-        
-        # logical index vector
-        mask = (self.x >= start) & (self.x <= end)
-        
-        # x-values within the kerb bounding zone
-        x_kerb = self.x[mask]
-        
-        # cosine bell amplitude mapping [0 ... height ... 0]
-        bump = height_m * 0.5 * (1 - np.cos(2 * np.pi * (x_kerb - start) / width_m))
-        
-        baseline[mask] += bump
-        return baseline
-
-    def generate(self, roughness_class='A', seed=42):
-        """
-        Master method to construct the full profile sequence.
-        Returns x, z
-        """
-        self.load_track_geometry()
-
-        # Step 1: Base surface
-        self.z_road = self._generate_iso8608_baseline(roughness_class, seed)
-        
-        # Step 2: Overlay kerbs
-        for kerb in self.kerb_events:
-            self._add_kerb(
-                self.z_road, 
-                center_m=kerb['loc_m'], 
-                width_m=kerb['width_m'], 
-                height_m=kerb['height_m']
-            )
-
-        # Step 3: Lowpass spatial filter (tyre envelopment logic)
-        # Tyres act as a spatial low-pass filter (they bridge gaps smaller than contact patch ~10cm)
-        # Using a Butterworth filter at a spatial frequency representing a 15cm wavelength cut-off
-        wavelength_cutoff = 0.15 # m
-        spatial_cutoff = 1.0 / wavelength_cutoff  # cycles/m
-        spatial_nyquist = (1.0 / self.dx) / 2.0   
-        
-        if spatial_cutoff < spatial_nyquist:
-            b, a = butter(2, spatial_cutoff / spatial_nyquist, btype='low')
-            self.z_road = filtfilt(b, a, self.z_road)
-        
-        return self.x, self.z_road
-
-    def export_csv(self, filename="01_Input_Data/Track_Reference/Silesia_Profile.csv"):
-        """Utility to dump the synthesized road to CSV."""
-        import os
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        data = np.column_stack((self.x, self.z_road))
-        np.savetxt(filename, data, delimiter=',', header='distance_m,z_road_m', comments='')
-        print(f"Road profile successfully written to {filename}")
+    def get_rms(self, road_class: str = None) -> float:
+        """Return RMS road displacement [m] — useful for validation."""
+        return float(np.sqrt(np.mean(self.z_road ** 2)))
 
 
-# -----------------------------------------------------------------
-# Diagnostic Run
-# -----------------------------------------------------------------
-if __name__ == "__main__":
-    dx = 0.1 # 10 cm resolution
-    profile = SilesiaRoadProfile(length_m=1250, dx=dx)
-    
-    # 1. Generate Class B (smooth) track
-    x, z = profile.generate(roughness_class='B')
-    
-    # Check max values
-    print(f"Max Track Bump Height: {np.max(z)*1000:.1f} mm")
-    print(f"Min Track Dip Depth: {np.min(z)*1000:.1f} mm")
-    print(f"Kernel Kerbs Included: {len(profile.kerb_events)}")
-    for k in profile.kerb_events:
-        print(f"  - {k['name']} at {k['loc_m']:.1f}m -> Height: {k['height_m']*1000}mm")
+# ---------------------------------------------------------------------------
+# Convenience function for external import
+# ---------------------------------------------------------------------------
+_default_profile: SilesiaRoadProfile | None = None
 
-    # 2. Visual Checks
-    plt.figure(figsize=(14, 6))
-    
-    # Full Track
-    ax1 = plt.subplot(1, 2, 1)
-    ax1.plot(x, z * 1000, 'b', lw=0.8) # to mm
-    ax1.set_title("Full Silesia Ring Spatial Profile (Class B)")
-    ax1.set_xlabel("Distance [m]")
-    ax1.set_ylabel("Elevation [mm]")
-    ax1.grid(True, alpha=0.3)
-    
-    # Highlight kerbs on main plot
-    for k in profile.kerb_events:
-        ax1.axvline(k['loc_m'], color='r', linestyle='--', alpha=0.5)
-        ax1.text(k['loc_m'], 45, k['name'], rotation=90, color='r', alpha=0.8)
 
-    # Zoom in on an apex section (e.g., Turn 14 & 15 complex)
-    ax2 = plt.subplot(1, 2, 2)
-    # search for kerb roughly in T14
-    zoom_center = 800
-    if len(profile.kerb_events) >= 2:
-        zoom_center = profile.kerb_events[1]['loc_m']
-        
-    mask = (x > zoom_center - 50) & (x < zoom_center + 100)
-    ax2.plot(x[mask], z[mask] * 1000, 'g', lw=2)
-    ax2.set_title("Zoomed: Turn Complex (Kerb Overlay)")
-    ax2.set_xlabel("Distance [m]")
-    ax2.set_ylabel("Elevation [mm]")
-    ax2.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    plt.show()
+def get_road_displacement(distance_m: float,
+                          lap_length_m: float = 1250.0) -> float:
+    """
+    Module-level function — creates a singleton profile on first call.
+    Suitable for direct use in main_simulation.py loop.
+    """
+    global _default_profile
+    if _default_profile is None:
+        _default_profile = SilesiaRoadProfile(lap_length_m=lap_length_m)
+    return _default_profile.get_displacement(distance_m)
+
+
+# ---------------------------------------------------------------------------
+# Quick self-test / visualisation
+# ---------------------------------------------------------------------------
+if __name__ == '__main__':
+    profile = SilesiaRoadProfile(lap_length_m=1250.0, dx=0.02, random_seed=42)
+    x, z = profile.get_profile_array()
+
+    print("=" * 60)
+    print("Silesia Ring Road Profile Summary")
+    print("=" * 60)
+    print(f"  Profile length : {x[-1]:.1f} m")
+    print(f"  Resolution     : {profile.dx*1000:.0f} mm")
+    print(f"  Total points   : {profile.N}")
+    print(f"  RMS amplitude  : {profile.get_rms()*1000:.2f} mm")
+    print(f"  Peak positive  : {z.max()*1000:.2f} mm")
+    print(f"  Peak negative  : {z.min()*1000:.2f} mm")
+
+    print("\nSample displacements at key distances:")
+    for d in [0, 340, 510, 655, 740, 960, 1100, 1249]:
+        z_val = profile.get_displacement(d)
+        print(f"  d={d:6.1f} m  →  z_road = {z_val*1000:+7.3f} mm")
+
+    # Optional: plot if matplotlib available
+    try:
+        import matplotlib.pyplot as plt
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 6), sharex=True)
+
+        ax1.plot(x, z * 1000, lw=0.5, color='steelblue', label='Road surface')
+        ax1.set_ylabel('Displacement [mm]')
+        ax1.set_title('Silesia Ring Club Circuit — Road Displacement Profile')
+        ax1.axhline(0, color='k', lw=0.5, ls='--')
+        ax1.legend()
+        ax1.grid(True, alpha=0.3)
+
+        # Mark bump features
+        for (d_c, h, _, lbl) in _KERB_BUMPS:
+            ax1.axvline(d_c, color='red', lw=0.8, ls=':', alpha=0.6)
+            ax1.text(d_c, z.max() * 1000 * 0.8, lbl.split('_')[0],
+                     fontsize=6, color='red', rotation=90, va='top')
+
+        # PSD plot
+        from scipy import signal
+        f_psd, psd = signal.welch(z, fs=1.0/profile.dx, nperseg=1024)
+        f_psd_safe = np.where(f_psd > 0, f_psd, np.nan)
+        ax2.loglog(f_psd_safe, psd, color='steelblue', label='Measured PSD')
+        # ISO reference lines
+        for cls, gd in _ISO_8608.items():
+            psd_ref = gd * (f_psd_safe / 0.1) ** (-_WAVINESS)
+            ax2.loglog(f_psd_safe, psd_ref, '--', lw=0.8, label=f'ISO {cls}', alpha=0.7)
+        ax2.set_xlabel('Spatial frequency [cycles/m]')
+        ax2.set_ylabel('PSD [m²/(cycle/m)]')
+        ax2.set_title('Road Profile PSD vs ISO 8608')
+        ax2.legend(fontsize=7)
+        ax2.grid(True, which='both', alpha=0.3)
+
+        plt.tight_layout()
+        plt.savefig(r'd:\ANTIGRAVITY\road_profile_plot.png', dpi=150)
+        print("\nProfile plot saved to: d:\\ANTIGRAVITY\\road_profile_plot.png")
+        plt.show()
+    except ImportError:
+        print("\n(matplotlib not available for plotting)")

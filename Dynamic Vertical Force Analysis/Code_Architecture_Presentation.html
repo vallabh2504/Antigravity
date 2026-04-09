@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Vertical Force Analysis — Code Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:    #050810;
+  --bg-card:    #0d1120;
+  --bg-panel:   #111827;
+  --accent-blue:#00c8ff;
+  --accent-cyan:#06ffd4;
+  --accent-purple:#a855f7;
+  --accent-amber:#f59e0b;
+  --accent-green:#10b981;
+  --accent-red:  #f43f5e;
+  --text-primary:#f1f5f9;
+  --text-muted:  #94a3b8;
+  --border:      rgba(255,255,255,0.07);
+  --glow-blue:   0 0 30px rgba(0,200,255,0.25);
+  --glow-purple: 0 0 30px rgba(168,85,247,0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+}
+
+/* ── SLIDESHOW WRAPPER ─────────────────────────── */
+#deck {
+  width: 100vw; height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 44px 68px 12px;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+.slide.prev {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+/* ── BACKGROUNDS ───────────────────────────────── */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0,200,255,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 85% 85%, rgba(168,85,247,0.06) 0%, transparent 55%),
+              linear-gradient(160deg, #060a15 0%, #0a0f1e 50%, #06080f 100%);
+  z-index: 0;
+}
+.slide.purple-tint::before {
+  background: radial-gradient(ellipse 80% 60% at 15% 15%, rgba(168,85,247,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 90% 80%, rgba(0,200,255,0.06) 0%, transparent 55%),
+              linear-gradient(160deg, #08060f 0%, #0d0a1a 50%, #060810 100%);
+}
+.slide.green-tint::before {
+  background: radial-gradient(ellipse 80% 60% at 15% 15%, rgba(16,185,129,0.07) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 90% 80%, rgba(0,200,255,0.05) 0%, transparent 55%),
+              linear-gradient(160deg, #050e0b 0%, #080f12 50%, #060810 100%);
+}
+.slide.amber-tint::before {
+  background: radial-gradient(ellipse 80% 60% at 15% 15%, rgba(245,158,11,0.07) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 90% 80%, rgba(168,85,247,0.05) 0%, transparent 55%),
+              linear-gradient(160deg, #0d0b05 0%, #120e07 50%, #060810 100%);
+}
+
+.slide > * { position: relative; z-index: 1; }
+
+/* ── PROGRESS BAR ──────────────────────────────── */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  transition: width 0.4s ease;
+  z-index: 999;
+  box-shadow: 0 0 12px var(--accent-blue);
+}
+
+/* ── HUD OVERLAY (auto-hide) ───────────────────── */
+#hud {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: linear-gradient(to top, rgba(5,8,16,0.92) 0%, transparent 100%);
+  backdrop-filter: blur(0px);
+  z-index: 999;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  pointer-events: all;
+}
+#hud.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── SLIDE COUNTER ─────────────────────────────── */
+#counter {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+#counter span { color: var(--accent-blue); }
+
+/* ── KEY HINT (inside HUD) ─────────────────────── */
+#key-hint-inner {
+  font-size: 11px;
+  color: rgba(148,163,184,0.5);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* ── NAV BUTTONS ───────────────────────────────── */
+.nav-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+.nav-btn:hover { background: rgba(0,200,255,0.12); color: var(--accent-blue); border-color: var(--accent-blue); }
+.nav-group { display: flex; gap: 8px; }
+
+/* ── SECTION BADGE ─────────────────────────────── */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(0,200,255,0.08);
+  border: 1px solid rgba(0,200,255,0.2);
+  color: var(--accent-blue);
+  margin-bottom: 12px;
+  width: fit-content;
+}
+.section-badge.purple { background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.2); color: var(--accent-purple); }
+.section-badge.green  { background: rgba(16,185,129,0.08);  border-color: rgba(16,185,129,0.2);  color: var(--accent-green); }
+.section-badge.amber  { background: rgba(245,158,11,0.08);  border-color: rgba(245,158,11,0.2);  color: var(--accent-amber); }
+.section-badge.red    { background: rgba(244,63,94,0.08);   border-color: rgba(244,63,94,0.2);   color: var(--accent-red); }
+
+/* ── SLIDE TITLE ───────────────────────────────── */
+.slide-title {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  background: linear-gradient(120deg, #ffffff 0%, rgba(255,255,255,0.75) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.slide-title .hl { -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  -webkit-background-clip: text; background-clip: text;
+}
+.slide-title .hl-p { -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, var(--accent-purple), #c084fc);
+  -webkit-background-clip: text; background-clip: text;
+}
+.slide-title .hl-g { -webkit-text-fill-color: transparent;
+  background: linear-gradient(90deg, var(--accent-green), #34d399);
+  -webkit-background-clip: text; background-clip: text;
+}
+
+.slide-subtitle {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── CONTENT GRID ──────────────────────────────── */
+.content { flex: 1; overflow: hidden; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── CARDS ─────────────────────────────────────── */
+.card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(6px);
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title.purple { color: var(--accent-purple); }
+.card-title.green  { color: var(--accent-green); }
+.card-title.amber  { color: var(--accent-amber); }
+
+/* ── TABLES ────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+th {
+  background: rgba(0,200,255,0.08);
+  color: var(--accent-blue);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,200,255,0.2);
+}
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  line-height: 1.5;
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+td code, th code {
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(0,200,255,0.1);
+  color: var(--accent-cyan);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* ── CODE BLOCK ────────────────────────────────── */
+.codeblock {
+  background: #0a0d17;
+  border: 1px solid rgba(0,200,255,0.12);
+  border-radius: 12px;
+  padding: 18px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: #c9d1e0;
+  white-space: pre;
+  overflow: hidden;
+}
+.codeblock .kw  { color: #c084fc; }
+.codeblock .fn  { color: #60d4fa; }
+.codeblock .str { color: #86efac; }
+.codeblock .num { color: #fb923c; }
+.codeblock .cmt { color: #4b5563; font-style: italic; }
+.codeblock .var { color: #f1f5f9; }
+.codeblock .op  { color: var(--accent-amber); }
+.codeblock .hdr { color: var(--accent-cyan); font-weight: 700; }
+
+/* ── FLOW DIAGRAM ──────────────────────────────── */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+.flow.vertical { flex-direction: column; }
+.flow-node {
+  background: rgba(0,200,255,0.07);
+  border: 1px solid rgba(0,200,255,0.25);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--accent-blue);
+  font-weight: 600;
+  min-width: 120px;
+  transition: all 0.2s;
+}
+.flow-node:hover { background: rgba(0,200,255,0.12); box-shadow: var(--glow-blue); }
+.flow-node.purple { background: rgba(168,85,247,0.07); border-color: rgba(168,85,247,0.25); color: var(--accent-purple); }
+.flow-node.green  { background: rgba(16,185,129,0.07); border-color: rgba(16,185,129,0.25); color: var(--accent-green); }
+.flow-node.amber  { background: rgba(245,158,11,0.07); border-color: rgba(245,158,11,0.25); color: var(--accent-amber); }
+.flow-node.main   { background: rgba(0,200,255,0.12); border-color: var(--accent-blue); color: #fff; box-shadow: var(--glow-blue); font-size: 15px; padding: 16px 24px; }
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.flow-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── STAT BOX ──────────────────────────────────── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.stat-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── FORMULA BOX ───────────────────────────────── */
+.formula {
+  background: rgba(168,85,247,0.06);
+  border: 1px solid rgba(168,85,247,0.2);
+  border-left: 3px solid var(--accent-purple);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: #e2d9f3;
+  line-height: 1.9;
+}
+.formula .sym { color: var(--accent-purple); font-weight: 700; }
+.formula .val { color: var(--accent-cyan); }
+.formula .comment { color: var(--text-muted); font-size: 11px; }
+
+/* ── PIPELINE STEPS ────────────────────────────── */
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pipe-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: all 0.2s;
+}
+.pipe-step:hover { border-color: rgba(0,200,255,0.2); background: rgba(0,200,255,0.03); }
+.pipe-num {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #fff;
+}
+.pipe-content { flex: 1; }
+.pipe-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+.pipe-detail { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+/* ── FILE CHIP ─────────────────────────────────── */
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,200,255,0.07);
+  border: 1px solid rgba(0,200,255,0.2);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+.file-chip.purple { background: rgba(168,85,247,0.07); border-color: rgba(168,85,247,0.25); color: #c084fc; }
+
+/* ── DIVIDER ───────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 20px 0;
+}
+
+/* ── HIGHLIGHT LINE ────────────────────────────── */
+.hl-line {
+  background: rgba(0,200,255,0.07);
+  border-left: 3px solid var(--accent-blue);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.hl-line.purple { background: rgba(168,85,247,0.07); border-left-color: var(--accent-purple); }
+.hl-line.amber  { background: rgba(245,158,11,0.07);  border-left-color: var(--accent-amber); }
+.hl-line.green  { background: rgba(16,185,129,0.07);  border-left-color: var(--accent-green); }
+
+/* ── CIRCUIT DIAGRAM ───────────────────────────── */
+.circuit-bar {
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 6px;
+  margin-bottom: 4px;
+  color: #fff;
+}
+.circuit-track {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.circuit-seg {
+  position: absolute;
+  top: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.9);
+  overflow: hidden;
+}
+
+/* ── QUARTER CAR DIAGRAM ───────────────────────── */
+.qcar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  font-size: 12px;
+}
+.qcar-mass {
+  background: rgba(0,200,255,0.1);
+  border: 2px solid rgba(0,200,255,0.4);
+  border-radius: 8px;
+  padding: 10px 40px;
+  text-align: center;
+  color: var(--accent-blue);
+  font-weight: 700;
+  font-size: 13px;
+}
+.qcar-spring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 3px;
+  background: repeating-linear-gradient(to bottom, var(--accent-purple) 0px, var(--accent-purple) 4px, transparent 4px, transparent 8px);
+  height: 36px;
+  position: relative;
+}
+.qcar-spring-label {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: var(--accent-purple);
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+}
+.qcar-road {
+  background: rgba(245,158,11,0.1);
+  border: 2px solid rgba(245,158,11,0.4);
+  border-radius: 4px;
+  padding: 8px 60px;
+  font-size: 11px;
+  color: var(--accent-amber);
+  font-weight: 700;
+}
+
+/* ── KEYBOARD HINT (legacy — hidden, replaced by HUD) */
+#key-hint { display: none; }
+
+/* ── TITLE SLIDE SPECIFIC ──────────────────────── */
+.title-slide { justify-content: center; align-items: center; text-align: center; }
+.title-slide .slide-title { font-size: 54px; margin-bottom: 16px; }
+.title-logo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--accent-blue);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+.title-tags {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.tag {
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid;
+}
+.tag.blue   { background: rgba(0,200,255,0.08); border-color: rgba(0,200,255,0.25); color: var(--accent-blue); }
+.tag.purple { background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.25); color: var(--accent-purple); }
+.tag.green  { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); color: var(--accent-green); }
+.tag.amber  { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.25); color: var(--accent-amber); }
+
+/* ── DEP GRAPH ─────────────────────────────────── */
+.dep-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+.dep-node {
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid;
+}
+.dep-arrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 22px;
+  color: var(--text-muted);
+  margin: 4px 0;
+}
+.dep-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+
+/* ── SCROLLABLE CONTENT ────────────────────────── */
+.scroll-content {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+/* output col badges */
+.col-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  margin: 2px;
+}
+.col-badge.blue   { background: rgba(0,200,255,0.12); color: var(--accent-cyan); }
+.col-badge.purple { background: rgba(168,85,247,0.12); color: #c084fc; }
+.col-badge.green  { background: rgba(16,185,129,0.12); color: #34d399; }
+.col-badge.amber  { background: rgba(245,158,11,0.12); color: #fcd34d; }
+
+</style>
+</head>
+<body>
+
+<!-- ═══ HUD: auto-hides after 1.5s, reappears on mouse/key ═══ -->
+<div id="hud">
+  <div class="nav-group">
+    <button class="nav-btn" id="btn-prev" onclick="nav(-1)">&#8592;</button>
+    <button class="nav-btn" id="btn-next" onclick="nav(1)">&#8594;</button>
+  </div>
+  <div id="key-hint-inner">&#8592; &#8594; arrow keys &nbsp;|&nbsp; Space to advance &nbsp;|&nbsp; hover to show controls</div>
+  <div id="counter">Slide <span id="cur">1</span> / <span id="tot"></span></div>
+</div>
+<div id="key-hint"></div>
+
+<div id="deck">
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 01 -->
+<div class="slide title-slide active">
+  <div class="title-logo">&#9670; Shell Eco-Marathon &#9670; Silesia Ring</div>
+  <div class="slide-title">Dynamic Vertical<br><span class="hl">Force Analysis</span></div>
+  <div class="slide-subtitle" style="font-size:18px; max-width:640px;">
+    Code Architecture & Technical Reference<br>
+    <span style="color:var(--text-muted); font-size:15px;">Structural Fatigue Load Generation Suite</span>
+  </div>
+  <div class="title-tags">
+    <span class="tag blue">Python 3.13</span>
+    <span class="tag purple">SciPy RK45</span>
+    <span class="tag green">PAC89 Tyre Model</span>
+    <span class="tag amber">ISO 8608 Road Profile</span>
+    <span class="tag blue">RockShox Quarter-Car</span>
+    <span class="tag purple">Ansys-Ready Output</span>
+  </div>
+  <div style="margin-top:48px; font-size:12px; color:var(--text-muted); letter-spacing:0.05em;">
+    7 Python modules &nbsp;&#8226;&nbsp; 32 slides &nbsp;&#8226;&nbsp; Complete technical coverage
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 02 -->
+<div class="slide">
+  <div class="section-badge">&#9654; Overview</div>
+  <div class="slide-title">What This Project <span class="hl">Does</span></div>
+  <div class="slide-subtitle">End-to-end pipeline from real drive-cycle data to Ansys-ready fatigue loads</div>
+  <div class="content">
+    <div class="stat-grid" style="margin-bottom:24px;">
+      <div class="stat-box"><div class="stat-value">41,991</div><div class="stat-label">Timesteps</div></div>
+      <div class="stat-box"><div class="stat-value">35 min</div><div class="stat-label">Drive Cycle</div></div>
+      <div class="stat-box"><div class="stat-value">11.9</div><div class="stat-label">Laps Completed</div></div>
+      <div class="stat-box"><div class="stat-value">7.4 MB</div><div class="stat-label">Output CSV</div></div>
+    </div>
+    <div class="grid-2" style="gap:16px; height:auto;">
+      <div class="card">
+        <div class="card-title">&#128229; Inputs</div>
+        <div class="hl-line" style="margin-bottom:10px;">Measured Speed vs Time CSV — 9,031 real data points</div>
+        <div class="hl-line" style="margin-bottom:10px;">Silesia Ring map — digitised into 11 track segments</div>
+        <div class="hl-line">RockShox suspension parameters — from manufacturer specs</div>
+      </div>
+      <div class="card">
+        <div class="card-title green">&#128228; Outputs</div>
+        <div class="hl-line green" style="margin-bottom:10px;"><strong>Fz, Fy, Fx</strong> — hub forces per wheel [N]</div>
+        <div class="hl-line green" style="margin-bottom:10px;"><strong>Mx, My, Mz</strong> — hub moments per wheel [N·m]</div>
+        <div class="hl-line green">24-column CSV at 50 ms resolution — Ansys ready</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 03 -->
+<div class="slide">
+  <div class="section-badge">&#9654; Architecture</div>
+  <div class="slide-title">System <span class="hl">Architecture</span></div>
+  <div class="slide-subtitle">All five modules feed a single master orchestrator</div>
+  <div class="content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;">
+    <div style="display:flex; gap:14px; align-items:flex-end; justify-content:center; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div class="flow-node" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.3); color:var(--accent-green); font-size:12px; padding:10px 14px; min-width:140px;">&#128196; Drive Cycle CSV<br><span style="font-size:10px; color:var(--text-muted); font-family:monospace;">v(t), t</span></div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-node" style="font-size:12px; padding:10px 14px; min-width:140px;">&#128506; track_geometry.py<br><span style="font-size:10px; color:var(--text-muted); font-family:monospace;">R(d), inc(d), bank(d)</span></div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-node" style="font-size:12px; padding:10px 14px; min-width:140px;">&#128739; silesia_road_profile.py<br><span style="font-size:10px; color:var(--text-muted); font-family:monospace;">z_road(d)</span></div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-node purple" style="font-size:12px; padding:10px 14px; min-width:140px;">&#128295; vertical_dynamics.py<br><span style="font-size:10px; color:var(--text-muted); font-family:monospace;">Fz_dynamic(t)</span></div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-node" style="background:rgba(244,63,94,0.08); border-color:rgba(244,63,94,0.3); color:var(--accent-red); font-size:12px; padding:10px 14px; min-width:140px;">&#9889; motor_torque_model.py<br><span style="font-size:10px; color:var(--text-muted); font-family:monospace;">T_motor(t)</span></div>
+      </div>
+      <div style="text-align:center;">
+        <div class="flow-node amber" style="font-size:12px; padding:10px 14px; min-width:140px;">&#128663; Vehicle_Dynamics_V2.py<br><span style="font-size:10px; color:var(--text-muted); font-family:monospace;">Fx, Fy, Fz, Mx, My, Mz</span></div>
+      </div>
+    </div>
+    <div style="display:flex; gap:40px; color:var(--text-muted); font-size:22px; align-items:center;">
+      <span>&#8595;</span><span>&#8595;</span><span>&#8595;</span><span>&#8595;</span><span>&#8595;</span><span>&#8595;</span>
+    </div>
+    <div class="flow-node main" style="font-size:16px; padding:20px 48px; min-width:340px; text-align:center;">
+      &#127897; main_simulation.py<br>
+      <span style="font-size:12px; color:rgba(255,255,255,0.6); font-family:monospace; font-weight:400;">Master Orchestrator · 41,991 timesteps · 50 ms grid</span>
+    </div>
+    <div style="display:flex; gap:6px; color:var(--text-muted); font-size:22px;">
+      <span>&#8595;</span>&nbsp;&nbsp;<span>&#8595;</span>
+    </div>
+    <div style="display:flex; gap:20px;">
+      <div class="flow-node green" style="font-size:12px; padding:10px 20px;">&#128202; fatigue_loads_output.csv<br><span style="font-size:10px; color:var(--text-muted);">24 cols · 7.4 MB · Ansys</span></div>
+      <div class="flow-node amber" style="font-size:12px; padding:10px 20px;">&#128444; fatigue_loads_summary.png<br><span style="font-size:10px; color:var(--text-muted);">9-panel summary plot</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 04 -->
+<div class="slide">
+  <div class="section-badge">&#9654; Architecture</div>
+  <div class="slide-title">Full <span class="hl">Data Flow</span></div>
+  <div class="slide-subtitle">Every variable passed between modules at each timestep</div>
+  <div class="content">
+    <div style="display:grid; grid-template-columns:auto 1fr auto; gap: 16px; align-items:center; height:100%;">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div class="card" style="padding:14px 18px; border-color:rgba(16,185,129,0.2);">
+          <div style="font-size:11px; color:var(--accent-green); font-weight:700; margin-bottom:8px;">&#128229; INPUTS</div>
+          <div style="font-size:12px; color:var(--text-muted); font-family:monospace; line-height:2;">
+            elapsed_sec<br>Speed_kmh<br>Silesia_Ring.jpg
+          </div>
+        </div>
+        <div class="card" style="padding:14px 18px; border-color:rgba(0,200,255,0.2);">
+          <div style="font-size:11px; color:var(--accent-blue); font-weight:700; margin-bottom:8px;">&#128260; SIGNAL PREP</div>
+          <div style="font-size:12px; color:var(--text-muted); font-family:monospace; line-height:2;">
+            t_uni [50ms grid]<br>v_uni [m/s]<br>ax_uni [m/s²]<br>dist_m [m]<br>d_track = dist_m % 1250
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;">
+        <div style="font-size:13px; font-weight:700; color:var(--text-muted); margin-bottom:8px;">PARALLEL MODULE CALLS (per timestep)</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; width:100%;">
+          <div class="card" style="padding:12px 16px; border-color:rgba(0,200,255,0.15);">
+            <div style="font-size:11px; color:var(--accent-blue); font-weight:700;">get_track_state(d)</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace; margin-top:6px; line-height:1.8;">&#8594; turn_radius [m]<br>&#8594; inc_angle [rad]<br>&#8594; bank_angle [rad]<br>&#8594; segment_name</div>
+          </div>
+          <div class="card" style="padding:12px 16px; border-color:rgba(0,200,255,0.15);">
+            <div style="font-size:11px; color:var(--accent-blue); font-weight:700;">get_displacement(d)</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace; margin-top:6px; line-height:1.8;">&#8594; z_road [m]<br>(ISO 8608 PSD +<br>kerb bumps)</div>
+          </div>
+          <div class="card" style="padding:12px 16px; border-color:rgba(168,85,247,0.15);">
+            <div style="font-size:11px; color:var(--accent-purple); font-weight:700;">solve_batch(t, z_road)</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace; margin-top:6px; line-height:1.8;">&#8594; Fz_dynamic [N]<br>&#8594; z_sprung [m]<br>(RK45 ODE)</div>
+          </div>
+          <div class="card" style="padding:12px 16px; border-color:rgba(245,158,11,0.15);">
+            <div style="font-size:11px; color:var(--accent-amber); font-weight:700;">VehicleDynamics chain</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace; margin-top:6px; line-height:1.8;">&#8594; Fx, Fy, Fz<br>&#8594; Mx, My, Mz<br>(PAC89 model)</div>
+          </div>
+          <div class="card" style="padding:12px 16px; border-color:rgba(244,63,94,0.15);">
+            <div style="font-size:11px; color:var(--accent-red); font-weight:700;">compute_batch()</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace; margin-top:6px; line-height:1.8;">&#8594; torque_uni [N·m]<br>(Resistance Power)</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="padding:14px 18px; border-color:rgba(16,185,129,0.2); align-self:center;">
+        <div style="font-size:11px; color:var(--accent-green); font-weight:700; margin-bottom:8px;">&#128228; FINAL OUTPUT<br>(per row)</div>
+        <div style="font-size:11px; color:var(--text-muted); font-family:monospace; line-height:1.9;">
+          time_s<br>distance_m<br>speed_kmh<br>ax_ms2<br>turn_radius_m<br>Fz_outer_N<br>Fy_outer_N<br>Fx_outer_N<br>Mx_outer_Nm<br>My_outer_Nm<br>Mz_outer_Nm<br><span style="color:var(--text-muted); opacity:0.5;">... +13 more</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 05 -->
+<div class="slide">
+  <div class="section-badge">&#9654; Architecture</div>
+  <div class="slide-title">Module <span class="hl">Dependencies</span></div>
+  <div class="slide-subtitle">Who imports whom — know this before editing any file</div>
+  <div class="content" style="display:flex; flex-direction:column; justify-content:center; gap:16px;">
+    <div style="display:flex; justify-content:center; margin-bottom:8px;">
+      <div class="dep-node" style="background:rgba(0,200,255,0.1); border-color:rgba(0,200,255,0.35); color:var(--accent-blue); font-size:15px; padding:18px 40px;">
+        &#127897; main_simulation.py<br><span style="font-size:11px; font-weight:400; color:var(--text-muted)">Entry Point</span>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:8px; font-size:13px; color:var(--text-muted);">
+      <span>&#8595; imports</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>&#8595; imports</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>&#8595; imports</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>&#8595; imports</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>&#8595; imports</span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span>&#8595; imports</span>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px;">
+      <div class="dep-node" style="background:rgba(0,200,255,0.07); border-color:rgba(0,200,255,0.2); color:var(--accent-blue);">
+        track_geometry.py<br><span class="dep-label" style="color:var(--text-muted);">get_track_state<br>get_lap_length<br>compute_roll_gradient</span>
+      </div>
+      <div class="dep-node" style="background:rgba(0,200,255,0.07); border-color:rgba(0,200,255,0.2); color:var(--accent-blue);">
+        silesia_road_profile.py<br><span class="dep-label" style="color:var(--text-muted);">SilesiaRoadProfile</span>
+      </div>
+      <div class="dep-node" style="background:rgba(168,85,247,0.07); border-color:rgba(168,85,247,0.25); color:var(--accent-purple);">
+        vertical_dynamics.py<br><span class="dep-label" style="color:var(--text-muted);">QuarterCarModel<br>ROCKSHOX_PARAMS</span>
+      </div>
+      <div class="dep-node" style="background:rgba(244,63,94,0.07); border-color:rgba(244,63,94,0.25); color:var(--accent-red);">
+        motor_torque_model.py<br><span class="dep-label" style="color:var(--text-muted);">MotorTorqueModel</span>
+      </div>
+      <div class="dep-node" style="background:rgba(245,158,11,0.07); border-color:rgba(245,158,11,0.25); color:var(--accent-amber);">
+        Vehicle_Dynamics_V2.py<br><span class="dep-label" style="color:var(--text-muted);">VehicleDynamics</span>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+        <div style="color:var(--text-muted); font-size:12px;">&#8601; also imports</div>
+        <div class="dep-node" style="width:100%; background:rgba(0,200,255,0.05); border-color:rgba(0,200,255,0.12); color:rgba(0,200,255,0.6); font-size:12px;">
+          &#8678; silesia_road_profile.py<br><span class="dep-label" style="color:var(--text-muted);">_SEGMENTS list</span>
+        </div>
+      </div>
+      <div></div><div></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+        <div style="color:var(--text-muted); font-size:12px;">&#8595; also imports</div>
+        <div class="dep-node" style="width:100%; background:rgba(245,158,11,0.05); border-color:rgba(245,158,11,0.12); color:rgba(245,158,11,0.6); font-size:12px;">
+          road_profile.py<br><span class="dep-label" style="color:var(--text-muted);">generate_road_profile</span>
+        </div>
+      </div>
+    </div>
+    <div class="hl-line amber" style="margin-top:8px;">
+      &#9888; Edit <code>track_geometry.py</code> → affects both <code>silesia_road_profile.py</code> AND <code>main_simulation.py</code><br>
+      &#9888; Edit <code>road_profile.py</code> → only affects <code>Vehicle_Dynamics_V2.py</code>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 06 -->
+<div class="slide">
+  <div class="section-badge">&#9654; Architecture</div>
+  <div class="slide-title">All <span class="hl">7 Files</span> at a Glance</div>
+  <div class="slide-subtitle">Location, role, and key exports for every module</div>
+  <div class="content">
+    <table>
+      <thead><tr><th>File</th><th>Subfolder</th><th>Role</th><th>Key Exports</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>track_geometry.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">02_Physics_Models/<br>Track_and_Road/</td>
+          <td>Digitised Silesia Ring circuit — 11 segments</td>
+          <td><code>get_track_state()</code>&nbsp;<code>get_lap_length()</code></td>
+        </tr>
+        <tr>
+          <td><code>silesia_road_profile.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">02_Physics_Models/<br>Track_and_Road/</td>
+          <td>ISO 8608 road surface + deterministic kerb bumps</td>
+          <td><code>SilesiaRoadProfile</code></td>
+        </tr>
+        <tr>
+          <td><code>vertical_dynamics.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">02_Physics_Models/<br>Suspension_Quarter_Car/</td>
+          <td>2-DOF quarter-car ODE — RockShox 205×65</td>
+          <td><code>QuarterCarModel</code>&nbsp;<code>ROCKSHOX_PARAMS</code></td>
+        </tr>
+        <tr>
+          <td><code>motor_torque_model.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">02_Physics_Models/<br>Core_Vehicle_Dynamics/</td>
+          <td>Physics-based torque demand from aero, rolling, inertia</td>
+          <td><code>MotorTorqueModel</code></td>
+        </tr>
+        <tr>
+          <td><code>Vehicle_Dynamics_V2.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">02_Physics_Models/<br>Core_Vehicle_Dynamics/</td>
+          <td>Steady-state 6-DOF solver — PAC89 tyre model</td>
+          <td><code>VehicleDynamics</code></td>
+        </tr>
+        <tr>
+          <td><code>road_profile.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">02_Physics_Models/<br>Core_Vehicle_Dynamics/</td>
+          <td>ISO 8608 utility — dependency of V2 only</td>
+          <td><code>generate_road_profile()</code></td>
+        </tr>
+        <tr>
+          <td><code>main_simulation.py</code></td>
+          <td style="color:var(--text-muted); font-size:12px;">03_Simulation_Runner/</td>
+          <td>Master orchestrator — run this to generate output</td>
+          <td><code>run_simulation()</code>&nbsp;<code>plot_results()</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 07 -->
+<div class="slide green-tint">
+  <div class="section-badge green">&#128506; track_geometry.py</div>
+  <div class="slide-title"><span class="hl-g">track_geometry</span>.py — Overview</div>
+  <div class="slide-subtitle">Converts cumulative distance [m] → local road geometry state at any point on the circuit</div>
+  <div class="content">
+    <div class="grid-2">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">What It Does</div>
+          <div class="hl-line green" style="margin-bottom:8px;">Stores the Silesia Ring club circuit as <strong>11 sequential TrackSegment objects</strong></div>
+          <div class="hl-line green" style="margin-bottom:8px;">Each segment defines: turn radius, length, inclination, banking, ISO roughness class</div>
+          <div class="hl-line green">Called <strong>41,991 times</strong> — once per simulation timestep</div>
+        </div>
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">Sign Convention</div>
+          <div class="codeblock" style="font-size:11.5px; padding:14px 18px;">
+<span class="hdr">turn_radius > 0</span>  →  Right turn
+<span class="hdr">turn_radius < 0</span>  →  Left turn
+<span class="hdr">turn_radius = 9999</span>  →  Straight
+<span class="hdr">inc_angle > 0</span>    →  Uphill
+<span class="hdr">bank_angle > 0</span>   →  Helpful banking</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">Key Functions</div>
+          <table style="font-size:12px;">
+            <thead><tr><th>Function</th><th>Returns</th></tr></thead>
+            <tbody>
+              <tr><td><code>get_track_state(d)</code></td><td>dict: R, inc, bank, class, segment</td></tr>
+              <tr><td><code>get_segment(d)</code></td><td>TrackSegment dataclass</td></tr>
+              <tr><td><code>get_lap_length()</code></td><td>1250.0 m [constant]</td></tr>
+              <tr><td><code>compute_roll_gradient(p)</code></td><td>roll_gradient [rad/(m/s²)]</td></tr>
+              <tr><td><code>_blend_signed(r1, r2, t)</code></td><td>Smooth curvature blend</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">Transition Blending (±5 m)</div>
+          <div class="formula" style="background:rgba(16,185,129,0.06); border-left-color:var(--accent-green);">
+<span class="sym">κ(d)</span> = (1-t)·κ₁ + t·κ₂   <span class="comment">curvature space</span>
+<span class="sym">R_blend</span> = 1 / κ(d)
+<span class="comment">Prevents step-change spikes in tyre model</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 08 -->
+<div class="slide green-tint">
+  <div class="section-badge green">&#128506; track_geometry.py</div>
+  <div class="slide-title">Silesia Ring <span class="hl-g">Circuit Map</span></div>
+  <div class="slide-subtitle">Red → T17 → T10 → T11 → T12 → T13 → T14 → T15 → T16 → Red &nbsp;|&nbsp; 1,250 m lap</div>
+  <div class="content">
+    <!-- Visual track timeline -->
+    <div style="position:relative; width:100%; height:32px; border-radius:8px; overflow:hidden; margin-bottom:20px; display:flex;">
+      <div style="width:27.2%; background:rgba(0,200,255,0.25); display:flex;align-items:center;justify-content:center; font-size:10px; font-weight:700; color:var(--accent-blue);">Straight 0-340m</div>
+      <div style="width:7.2%; background:rgba(0,200,255,0.5); display:flex;align-items:center;justify-content:center; font-size:9px; font-weight:700; color:#fff;">T17 R+75</div>
+      <div style="width:6.4%; background:rgba(16,185,129,0.3); display:flex;align-items:center;justify-content:center; font-size:9px; color:var(--accent-green);">Link</div>
+      <div style="width:5.2%; background:rgba(244,63,94,0.6); display:flex;align-items:center;justify-content:center; font-size:9px; color:#fff;">T10 L-30</div>
+      <div style="width:5.6%; background:rgba(0,200,255,0.5); display:flex;align-items:center;justify-content:center; font-size:9px; color:#fff;">T11 R+28</div>
+      <div style="width:6.8%; background:rgba(244,63,94,0.8); display:flex;align-items:center;justify-content:center; font-size:9px; font-weight:900; color:#fff;">T12 &#128293;</div>
+      <div style="width:6.4%; background:rgba(244,63,94,0.7); display:flex;align-items:center;justify-content:center; font-size:9px; color:#fff;">T13 L-17</div>
+      <div style="width:5.6%; background:rgba(0,200,255,0.5); display:flex;align-items:center;justify-content:center; font-size:9px; color:#fff;">T14 R+25</div>
+      <div style="width:6.4%; background:rgba(0,200,255,0.4); display:flex;align-items:center;justify-content:center; font-size:9px; color:#fff;">T15 R+45</div>
+      <div style="width:5.2%; background:rgba(244,63,94,0.5); display:flex;align-items:center;justify-content:center; font-size:9px; color:#fff;">T16 L-35</div>
+      <div style="width:18%; background:rgba(0,200,255,0.2); display:flex;align-items:center;justify-content:center; font-size:10px; font-weight:700; color:var(--accent-blue);">Return Str. 1025-1250</div>
+    </div>
+    <table style="font-size:12.5px;">
+      <thead>
+        <tr><th>#</th><th>Segment Name</th><th>Start</th><th>End</th><th>Turn Radius</th><th>Type</th><th>Inc°</th><th>ISO Class</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="color:var(--text-muted);">0</td><td>SF_to_T17_straight</td><td>0 m</td><td>340 m</td><td style="color:var(--accent-blue);">Straight</td><td>—</td><td>+0.5°</td><td><span class="col-badge blue">B</span></td></tr>
+        <tr><td style="color:var(--text-muted);">1</td><td>T17_sweep_right</td><td>340 m</td><td>430 m</td><td style="color:var(--accent-cyan);">+75 m</td><td>&#8594; Right</td><td>0°</td><td><span class="col-badge blue">B</span></td></tr>
+        <tr><td style="color:var(--text-muted);">2</td><td>T17_to_T10_link</td><td>430 m</td><td>510 m</td><td style="color:var(--accent-blue);">Straight</td><td>—</td><td>0°</td><td><span class="col-badge amber">C</span></td></tr>
+        <tr><td style="color:var(--text-muted);">3</td><td>T10_chicane_left</td><td>510 m</td><td>575 m</td><td style="color:var(--accent-red);">−30 m</td><td>&#8592; Left</td><td>−0.3°</td><td><span class="col-badge amber">C</span></td></tr>
+        <tr><td style="color:var(--text-muted);">4</td><td>T11_medium_right</td><td>575 m</td><td>645 m</td><td style="color:var(--accent-cyan);">+28 m</td><td>&#8594; Right</td><td>−0.5°</td><td><span class="col-badge amber">C</span></td></tr>
+        <tr style="background:rgba(244,63,94,0.05);"><td style="color:var(--text-muted);">5</td><td><strong>T12_hairpin_left &#128293;</strong></td><td>645 m</td><td>730 m</td><td style="color:var(--accent-red); font-weight:700;">−13.5 m</td><td>&#8592; Hairpin</td><td>0°</td><td><span class="col-badge amber">C</span></td></tr>
+        <tr><td style="color:var(--text-muted);">6</td><td>T13_hairpin_left</td><td>730 m</td><td>810 m</td><td style="color:var(--accent-red);">−17 m</td><td>&#8592; Hairpin</td><td>+0.3°</td><td><span class="col-badge amber">C</span></td></tr>
+        <tr><td style="color:var(--text-muted);">7</td><td>T14_medium_right</td><td>810 m</td><td>880 m</td><td style="color:var(--accent-cyan);">+25 m</td><td>&#8594; Right</td><td>0°</td><td><span class="col-badge amber">C</span></td></tr>
+        <tr><td style="color:var(--text-muted);">8</td><td>T15_fast_right</td><td>880 m</td><td>960 m</td><td style="color:var(--accent-cyan);">+45 m</td><td>&#8594; Right</td><td>+0.5°</td><td><span class="col-badge blue">B</span></td></tr>
+        <tr><td style="color:var(--text-muted);">9</td><td>T16_left_onto_return</td><td>960 m</td><td>1025 m</td><td style="color:var(--accent-red);">−35 m</td><td>&#8592; Left</td><td>+0.5°</td><td><span class="col-badge blue">B</span></td></tr>
+        <tr><td style="color:var(--text-muted);">10</td><td>T16_to_SF_straight</td><td>1025 m</td><td>1250 m</td><td style="color:var(--accent-blue);">Straight</td><td>—</td><td>+0.3°</td><td><span class="col-badge blue">B</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 09 -->
+<div class="slide green-tint">
+  <div class="section-badge green">&#128739; silesia_road_profile.py</div>
+  <div class="slide-title"><span class="hl-g">silesia_road_profile</span>.py</div>
+  <div class="slide-subtitle">Generates the road surface displacement profile z_road(x) for one full lap</div>
+  <div class="content">
+    <div class="grid-2">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">Two-Component Profile</div>
+          <div class="hl-line green" style="margin-bottom:8px;"><strong>① Stochastic:</strong> ISO 8608 PSD random profile — captures general roughness class</div>
+          <div class="hl-line green">② <strong>Deterministic:</strong> Versine bumps at known kerb locations</div>
+        </div>
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">ISO 8608 Power Spectral Density</div>
+          <div class="formula" style="background:rgba(16,185,129,0.06); border-left-color:var(--accent-green);">
+<span class="sym">Gd(n)</span> = <span class="val">Gd(n₀)</span> × (n / n₀)<span class="sym">⁻ʷ</span>
+
+<span class="comment">n  = spatial frequency [cycles/m]</span>
+<span class="comment">n₀ = 0.1 cycles/m  (reference)</span>
+<span class="comment">w  = 2.0  (waviness exponent)</span></div>
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <div class="col-badge blue">Class B: 4×10⁻⁶ m³/cycle — smooth asphalt</div>
+            <div class="col-badge amber">Class C: 1.6×10⁻⁵ m³/cycle — infield tarmac</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">IFFT Synthesis Method</div>
+          <div class="codeblock" style="font-size:11px; padding:12px 16px;">
+<span class="num">1.</span> freqs = rfftfreq(n_pts, d=dx)
+<span class="num">2.</span> Gd   = Gd_n0 × (freqs/n0)^(-w)
+<span class="num">3.</span> A    = sqrt(Gd × df)
+<span class="num">4.</span> φ    = random [0, 2π]
+<span class="num">5.</span> X    = A × exp(iφ)
+<span class="num">6.</span> z    = IFFT(X)  <span class="cmt">→ spatial profile</span></div>
+        </div>
+        <div class="card" style="border-color:rgba(16,185,129,0.2);">
+          <div class="card-title green">Versine Kerb Bumps</div>
+          <div class="formula" style="background:rgba(16,185,129,0.06); border-left-color:var(--accent-green); font-size:12px; margin-bottom:10px;">z_bump(x) = (h/2) × [1 - cos(π·x / L_half)]</div>
+          <table style="font-size:11.5px;">
+            <thead><tr><th>Location</th><th>Dist</th><th>Height</th></tr></thead>
+            <tbody>
+              <tr><td>T10 chicane entry</td><td>510 m</td><td style="color:var(--accent-green);">25 mm</td></tr>
+              <tr><td>T10 chicane exit</td><td>535 m</td><td style="color:var(--accent-green);">20 mm</td></tr>
+              <tr><td>T12 hairpin kerb</td><td>655 m</td><td style="color:var(--accent-red); font-weight:700;">30 mm &#128293;</td></tr>
+              <tr><td>T13 hairpin kerb</td><td>740 m</td><td style="color:var(--accent-green);">25 mm</td></tr>
+              <tr><td>S/F timing strip</td><td>0 m</td><td style="color:var(--text-muted);">8 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 10 -->
+<div class="slide purple-tint">
+  <div class="section-badge purple">&#128295; vertical_dynamics.py</div>
+  <div class="slide-title"><span class="hl-p">vertical_dynamics</span>.py</div>
+  <div class="slide-subtitle">2-DOF quarter-car ODE — computes dynamic tyre contact force Fz(t) from road input</div>
+  <div class="content">
+    <div class="grid-2">
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0;">
+        <!-- Quarter car ASCII diagram rendered as HTML -->
+        <div style="width:240px; display:flex; flex-direction:column; align-items:center; gap:0;">
+          <div style="background:rgba(0,200,255,0.1); border:2px solid rgba(0,200,255,0.4); border-radius:10px; padding:14px 48px; text-align:center; color:var(--accent-blue); font-weight:700;">
+            Sprung Mass<br><span style="font-size:13px;">ms = 80 kg</span><br><span style="font-size:11px; color:var(--text-muted);">Body + half chassis</span>
+          </div>
+          <div style="width:2px; height:18px; background:repeating-linear-gradient(to bottom, var(--accent-purple) 0, var(--accent-purple) 5px, transparent 5px, transparent 10px);"></div>
+          <div style="display:flex; gap:0; align-items:center;">
+            <div style="width:2px; height:36px; background:var(--border);"></div>
+            <div style="background:rgba(168,85,247,0.12); border:1px dashed rgba(168,85,247,0.4); border-radius:6px; padding:8px 20px; text-align:center; font-size:12px; color:var(--accent-purple);">
+              ks = 28,000 N/m<br>c = 1,500 N·s/m<br><span style="font-size:10px; color:var(--text-muted);">RockShox Luft Air Spring</span>
+            </div>
+            <div style="width:2px; height:36px; background:var(--border);"></div>
+          </div>
+          <div style="width:2px; height:18px; background:var(--border);"></div>
+          <div style="background:rgba(168,85,247,0.1); border:2px solid rgba(168,85,247,0.4); border-radius:10px; padding:12px 40px; text-align:center; color:var(--accent-purple); font-weight:700;">
+            Unsprung Mass<br><span style="font-size:13px;">mu = 12.5 kg</span><br><span style="font-size:11px; color:var(--text-muted);">Wheel + hub + upright</span>
+          </div>
+          <div style="width:2px; height:18px; background:var(--border);"></div>
+          <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); border-radius:6px; padding:6px 20px; text-align:center; font-size:12px; color:var(--accent-amber);">
+            kt = 220,000 N/m<br><span style="font-size:10px; color:var(--text-muted);">Tyre vertical stiffness</span>
+          </div>
+          <div style="width:2px; height:12px; background:var(--accent-amber);"></div>
+          <div style="background:rgba(245,158,11,0.15); border:2px solid var(--accent-amber); border-radius:6px; padding:8px 56px; text-align:center; font-size:12px; color:var(--accent-amber); font-weight:700;">
+            z_road(t) — Road Input
+          </div>
+          <div style="margin-top:8px; font-size:11px; color:var(--accent-green); font-weight:700;">&#8595; Fz_dynamic(t) = kt·(z_road − zu) + Fz_static</div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card" style="border-color:rgba(168,85,247,0.2);">
+          <div class="card-title purple">Equations of Motion</div>
+          <div class="formula">
+<span class="comment">Sprung mass EOM:</span>
+<span class="sym">ms·z̈s</span> = -c·(żs-żu) - ks·(zs-zu)
+
+<span class="comment">Unsprung mass EOM:</span>
+<span class="sym">mu·z̈u</span> = +c·(żs-żu) + ks·(zs-zu) - kt·(zu-z_road)
+
+<span class="comment">Dynamic tyre force:</span>
+<span class="sym">Fz_dyn</span> = kt·(z_road - zu) + <span class="val">(ms+mu)·g</span></div>
+        </div>
+        <div class="card" style="border-color:rgba(168,85,247,0.2);">
+          <div class="card-title purple">Natural Frequencies (Validation)</div>
+          <div class="formula" style="font-size:12px;">
+<span class="sym">fn_sprung  </span> = (1/2π)·√(ks/ms) = <span class="val">2.98 Hz</span>  ✓ (1-4 Hz typical)
+<span class="sym">fn_unsprung</span> = (1/2π)·√((ks+kt)/mu) = <span class="val">22.4 Hz</span> ✓
+<span class="sym">ζ (damping)</span> = c/(2·√(ks·ms)) = <span class="val">0.28</span>  ✓ (race suspension)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 11 -->
+<div class="slide purple-tint">
+  <div class="section-badge purple">&#128295; vertical_dynamics.py</div>
+  <div class="slide-title">RockShox <span class="hl-p">Parameters</span> & Integration</div>
+  <div class="slide-subtitle">Super Deluxe Select+ 205×65mm Trunnion — linearised at operating conditions</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <table>
+          <thead><tr><th>Parameter</th><th>Symbol</th><th>Value</th><th>How Derived</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Air spring rate</td><td><code>ks</code></td>
+              <td style="color:var(--accent-cyan); font-weight:700;">28,000 N/m</td>
+              <td style="font-size:11px; color:var(--text-muted);">F_sag=785N ÷ δ_sag=22.8mm × 0.8 progressivity</td>
+            </tr>
+            <tr>
+              <td>Damping coeff</td><td><code>c</code></td>
+              <td style="color:var(--accent-cyan); font-weight:700;">1,500 N·s/m</td>
+              <td style="font-size:11px; color:var(--text-muted);">ζ = c/(2√(ks·ms)) = 0.28</td>
+            </tr>
+            <tr>
+              <td>Tyre stiffness</td><td><code>kt</code></td>
+              <td style="color:var(--accent-cyan);">220,000 N/m</td>
+              <td style="font-size:11px; color:var(--text-muted);">From V2: k_ver constant</td>
+            </tr>
+            <tr>
+              <td>Sprung mass (corner)</td><td><code>ms</code></td>
+              <td style="color:var(--accent-cyan);">80 kg</td>
+              <td style="font-size:11px; color:var(--text-muted);">160 kg total ÷ 2 corners</td>
+            </tr>
+            <tr>
+              <td>Unsprung mass</td><td><code>mu</code></td>
+              <td style="color:var(--accent-cyan);">12.5 kg</td>
+              <td style="font-size:11px; color:var(--text-muted);">25 kg RA unsprung ÷ 2 corners</td>
+            </tr>
+            <tr>
+              <td>Stroke / eye-to-eye</td><td>—</td>
+              <td style="color:var(--text-muted);">65 / 205 mm</td>
+              <td style="font-size:11px; color:var(--text-muted);">Manufacturer spec</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="hl-line purple" style="margin-top:14px;">Peak dynamic Fz achieved: <strong>8,071 N</strong> (+789% above static 907 N) — at T12 kerb</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card" style="border-color:rgba(168,85,247,0.2);">
+          <div class="card-title purple">RK45 Batch Integration Strategy</div>
+          <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+            <div class="pipe-step">
+              <div class="pipe-num">1</div>
+              <div class="pipe-content"><div class="pipe-title">Build interpolant</div><div class="pipe-detail">scipy.interp1d(t_uni, z_road_uni) → continuous z_road(t)</div></div>
+            </div>
+            <div class="pipe-step">
+              <div class="pipe-num">2</div>
+              <div class="pipe-content"><div class="pipe-title">solve_ivp (RK45)</div><div class="pipe-detail">State y=[zs,żs,zu,żu] · rtol=1e-4 · max_step=50ms</div></div>
+            </div>
+            <div class="pipe-step">
+              <div class="pipe-num">3</div>
+              <div class="pipe-content"><div class="pipe-title">Extract outputs</div><div class="pipe-detail">Fz_dyn = kt·(z_road−zu) + Fz_static · clip to ≥0</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(168,85,247,0.2);">
+          <div class="card-title purple">Why Batch (not per-step)?</div>
+          <div class="hl-line purple">Adaptive stepping: large steps on smooth straights, tiny steps through kerbs — <strong>10× faster</strong> than fixed-step loop</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ ADDED BUGFIX SLIDE -->
+<div class="slide tinted-slide" style="--tint: rgba(244,63,94,0.05);">
+  <div class="section-badge red">&#9889; motor_torque_model.py</div>
+  <div class="slide-title">Physics-Based <span class="hl" style="background:linear-gradient(90deg,var(--accent-red),#fca5a5); -webkit-background-clip:text; background-clip:text;">Motor Torque</span></div>
+  <div class="slide-subtitle">Replaces constant 72 N·m with dynamic demand from rolling resistance, aero, and inertia</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="border-color:rgba(244,63,94,0.2); margin-bottom:14px;">
+          <div class="card-title" style="color:var(--accent-red);">Energy Demand Model</div>
+          <div class="formula" style="background:rgba(244,63,94,0.06); border-left-color:var(--accent-red);">
+<span class="comment">Total resistive force:</span>
+<span class="sym">F_aero</span> = 0.5 · ρ · Cd · A_frontal · v²
+<span class="sym">F_roll</span> = m · g · Crr
+<span class="sym">F_accel</span> = m · ax
+
+<span class="sym">T_wheel</span> = (F_aero + F_roll + F_accel) · r_tire
+<span class="sym">T_motor</span> = T_wheel / (eta_dt · gear_ratio)</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-color:rgba(244,63,94,0.2); margin-bottom:14px;">
+          <div class="card-title" style="color:var(--accent-red);">Coasting Logic</div>
+          <div class="hl-line" style="border-left-color:var(--accent-red); margin-bottom:8px;">If demand is negative (braking) or v ~ 0, T_motor = 0</div>
+          <div class="hl-line" style="border-left-color:var(--accent-red);">Simulation now coasts 39% of the time, fixing unrealistic constant input bias</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 12 -->
+<div class="slide amber-tint">
+  <div class="section-badge amber">&#128663; Vehicle_Dynamics_V2.py</div>
+  <div class="slide-title"><span class="hl" style="background:linear-gradient(90deg,var(--accent-amber),#fcd34d); -webkit-background-clip:text; background-clip:text;">Vehicle_Dynamics_V2</span>.py</div>
+  <div class="slide-subtitle">Steady-state 6-DOF force and moment solver — the most complex module in the project</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="border-color:rgba(245,158,11,0.2); margin-bottom:14px;">
+          <div class="card-title amber">Concept</div>
+          <div class="hl-line amber" style="margin-bottom:8px;">Computes all forces at a <strong>single frozen timestep</strong> — it has no time integration of its own</div>
+          <div class="hl-line amber">Takes instantaneous v, ax, turn_radius, roll_angle, inc_angle → outputs Fx, Fy, Fz, Mx, My, Mz for each rear wheel</div>
+        </div>
+        <div class="card" style="border-color:rgba(245,158,11,0.2);">
+          <div class="card-title amber">State: EasyDict Container</div>
+          <div style="font-size:12.5px; color:var(--text-muted); line-height:1.9;">
+            All inputs and outputs live in <code>vehicle_config</code> — a single mutable dictionary.
+            <code>main_simulation.py</code> updates it before each solver call.
+          </div>
+          <div style="margin-top:10px;">
+            <table style="font-size:11.5px;">
+              <thead><tr><th>Field</th><th>Source per timestep</th></tr></thead>
+              <tbody>
+                <tr><td><code>velo_v</code></td><td>Drive cycle Speed_kmh ÷ 3.6</td></tr>
+                <tr><td><code>ax</code></td><td>∇v smoothed 25-pt mean</td></tr>
+                <tr><td><code>turn_radius</code></td><td>track_geometry.get_track_state(d)</td></tr>
+                <tr><td><code>roll_angle</code></td><td>ay × roll_gradient</td></tr>
+                <tr><td><code>motor_torque</code></td><td>Fixed 72 N·m (constant)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="font-size:13px; font-weight:700; color:var(--text-muted); margin-bottom:4px;">INTERNAL CALL CHAIN (per timestep)</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="background:rgba(0,200,255,0.08); border:1px solid rgba(0,200,255,0.2); border-radius:8px; padding:12px 16px;">
+            <div style="font-size:11px; color:var(--accent-blue); font-weight:700; margin-bottom:4px;">__init__(vehicle_config)</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">Compute: wb, m_ra, m_fa, del_h, cf, cr (roll stiffness)</div>
+          </div>
+          <div style="text-align:center; color:var(--text-muted);">&#8595;</div>
+          <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:12px 16px;">
+            <div style="font-size:11px; color:var(--accent-green); font-weight:700; margin-bottom:4px;">vertical_force_fatigue()</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">Pitch ΔFz + Roll ΔFz + load migration → ra_Fz_out, ra_Fz_inn</div>
+          </div>
+          <div style="text-align:center; color:var(--text-muted);">&#8595;</div>
+          <div style="background:rgba(244,63,94,0.08); border:1px solid rgba(244,63,94,0.2); border-radius:8px; padding:12px 16px;">
+            <div style="font-size:11px; color:var(--accent-red); font-weight:700; margin-bottom:4px;">solve_cornering()</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">kremple() → Fy_pure → friction ellipse → Fy split</div>
+          </div>
+          <div style="text-align:center; color:var(--text-muted);">&#8595;</div>
+          <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:8px; padding:12px 16px;">
+            <div style="font-size:11px; color:var(--accent-amber); font-weight:700; margin-bottom:4px;">solve_propulsion()</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">Open diff logic → inner wheel ID → kremple scan → Fx</div>
+          </div>
+          <div style="text-align:center; color:var(--text-muted);">&#8595;</div>
+          <div style="background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.2); border-radius:8px; padding:12px 16px;">
+            <div style="font-size:11px; color:var(--accent-purple); font-weight:700; margin-bottom:4px;">solve_moment_x/y/z()</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">Mx, My, Mz from Fz_final (with dynamic injection)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 13 -->
+<div class="slide amber-tint">
+  <div class="section-badge amber">&#128663; Vehicle_Dynamics_V2.py</div>
+  <div class="slide-title">PAC89 <span class="hl" style="background:linear-gradient(90deg,var(--accent-amber),#fcd34d); -webkit-background-clip:text; background-clip:text;">Magic Formula</span></div>
+  <div class="slide-subtitle">The kremple() method — Pacejka 1989 semi-empirical tyre model</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="border-color:rgba(245,158,11,0.2); margin-bottom:14px;">
+          <div class="card-title amber">Lateral Force Formula</div>
+          <div class="formula" style="font-size:13px; line-height:2.2;">
+<span class="sym">Fy</span> = D·sin[C·arctan(B·α − E·(B·α − arctan(B·α)))]
+
+<span class="comment">α   = slip angle [rad]</span>
+<span class="sym">B</span>   = BCD / (C·D)   <span class="comment">stiffness factor</span>
+<span class="sym">C</span>   ≈ 1.3            <span class="comment">shape factor (lateral)</span>
+<span class="sym">D</span>   = μ·Fz           <span class="comment">peak force capacity</span>
+<span class="sym">E</span>   = curvature factor
+<span class="sym">BCD</span> = cornering stiffness [N/rad]</div>
+        </div>
+        <div class="card" style="border-color:rgba(245,158,11,0.2);">
+          <div class="card-title amber">Longitudinal: Discrete Scan</div>
+          <div class="hl-line amber" style="margin-bottom:8px;">Scans slip ratio from −30% to +30% in small increments to find torque balance</div>
+          <div class="hl-line amber">Avoids singularity at zero slip (analytical inverse fails there)</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-color:rgba(245,158,11,0.2); margin-bottom:14px;">
+          <div class="card-title amber">Load Transfer Physics</div>
+          <div class="formula" style="font-size:12px; line-height:2;">
+<span class="comment">(a) Pitch transfer from ax:</span>
+<span class="sym">ΔFz_pitch</span> = m·ax·cg_h / wb
+<span class="sym">ra_ΔFz_pitch</span> = ΔFz_pitch × (l_f / wb)
+
+<span class="comment">(b) Roll transfer from φ and Fy:</span>
+<span class="sym">M_roll</span> = m_spr·g·del_h·sin(φ) + Fy·del_h
+<span class="sym">ΔFz_roll</span> = M_roll / (s/2)
+
+<span class="comment">(c) Combined per corner:</span>
+<span class="sym">ra_Fz_out</span> = Fz_static + ΔFz_pitch/2 + ΔFz_roll/2
+<span class="sym">ra_Fz_inn</span> = Fz_static + ΔFz_pitch/2 − ΔFz_roll/2</div>
+        </div>
+        <div class="card" style="border-color:rgba(245,158,11,0.2);">
+          <div class="card-title amber">Open Differential Bug Fix (V1→V2)</div>
+          <div class="codeblock" style="font-size:12px; padding:12px 16px;">
+<span class="kw">if</span> turn_radius <span class="op">&lt;</span> <span class="num">0</span>:  <span class="cmt"># Left turn</span>
+    inner_wheel <span class="op">=</span> <span class="str">'left'</span>
+<span class="kw">else</span>:            <span class="cmt"># Right turn</span>
+    inner_wheel <span class="op">=</span> <span class="str">'right'</span>
+<span class="cmt"># Inner = full torque, Outer = zero</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 14 -->
+<div class="slide">
+  <div class="section-badge">&#127897; main_simulation.py</div>
+  <div class="slide-title">The <span class="hl">Master Orchestrator</span></div>
+  <div class="slide-subtitle">8-stage sequential pipeline — run once to produce the complete fatigue load history</div>
+  <div class="content">
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="pipe-num">1</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Load Drive Cycle</div>
+          <div class="pipe-detail">csv.DictReader → t_raw, v_kmh · Remove duplicates · Sort by time · 9,031 real data points</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">2</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Resample to Uniform Grid</div>
+          <div class="pipe-detail">scipy.interp1d → uniform 50 ms steps · N = 41,991 timesteps · v_uni clipped to ≥0 m/s</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">3</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Derive Signals</div>
+          <div class="pipe-detail">ax_uni = np.gradient(v_uni) smoothed 25-pt · dist_m = cumtrapz(v,t) · d_track = dist_m % 1250</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-num">4</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Generate Road Profile</div>
+          <div class="pipe-detail">SilesiaRoadProfile(dx=0.02 m) · z_road for all 41,991 positions · RMS ≈ 0.66 mm</div>
+        </div>
+      </div>
+      <div class="pipe-step" style="border-color:rgba(168,85,247,0.2);">
+        <div class="pipe-num">5</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Solve Quarter-Car ODE (Batch)</div>
+          <div class="pipe-detail">QuarterCarModel.solve_batch(t_uni, z_road_uni) → Fz_dyn_outer, z_sprung · Peak 8,071 N</div>
+        </div>
+      </div>
+      <div class="pipe-step" style="border-color:rgba(244,63,94,0.2);">
+        <div class="pipe-num">6a</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Pre-compute Motor Torque (Batch)</div>
+          <div class="pipe-detail">MotorTorqueModel.compute_batch(v_uni, ax_uni) → torque_uni · Accounts for Cd, Crr, mass</div>
+        </div>
+      </div>
+      <div class="pipe-step" style="border-color:rgba(245,158,11,0.2);">
+        <div class="pipe-num">6</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Timestep Loop × 41,991</div>
+          <div class="pipe-detail">get_track_state → vertical_force_fatigue → solve_cornering/propulsion → INJECT Fz_dynamic → moments</div>
+        </div>
+      </div>
+      <div class="pipe-step" style="border-color:rgba(16,185,129,0.2);">
+        <div class="pipe-num">7</div>
+        <div class="pipe-content">
+          <div class="pipe-title">Write Output</div>
+          <div class="pipe-detail">csv.writer → 04_Output/CSV_Results/fatigue_loads_output.csv (7.4 MB) · matplotlib → summary plot</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 15 -->
+<div class="slide">
+  <div class="section-badge">&#127897; main_simulation.py</div>
+  <div class="slide-title">Dynamic <span class="hl">Fz Injection</span></div>
+  <div class="slide-subtitle">Critical coupling — how quarter-car result replaces static V2 vertical force</div>
+  <div class="content">
+    <div class="grid-2">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div class="card">
+          <div class="card-title">The Problem</div>
+          <div class="hl-line" style="margin-bottom:8px;">Vehicle_Dynamics_V2 computes Fz from pitch + roll only — <strong>no road roughness</strong></div>
+          <div class="hl-line">QuarterCar computes total dynamic Fz — <strong>no inner/outer split</strong></div>
+        </div>
+        <div class="card">
+          <div class="card-title">The Solution: Ratio Scaling</div>
+          <div class="codeblock" style="font-size:11.5px; padding:14px 18px;">
+<span class="cmt"># V2 gives the load DISTRIBUTION</span>
+<span class="cmt"># QuarterCar gives the MAGNITUDE</span>
+
+Fz_static_total = ra_Fz_out + ra_Fz_inn
+
+dyn_ratio_out = Fz_dyn_outer / (Fz_static_total / 2)
+dyn_ratio_inn = Fz_dyn_inner / (Fz_static_total / 2)
+
+Fz_out_final = ra_Fz_out × dyn_ratio_out
+Fz_inn_final = ra_Fz_inn × dyn_ratio_inn</div>
+        </div>
+        <div class="hl-line purple">Inner wheel Fz_dyn = mirror model: Fz_static − 0.6×(Fz_outer − Fz_static)</div>
+      </div>
+      <div style="display:flex; flex-direction:column; justify-content:center; gap:20px; align-items:center;">
+        <div style="width:100%;">
+          <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:10px; text-align:center;">FORCE COMPOSITION</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:16px; text-align:center;">
+              <div style="font-size:11px; color:var(--accent-amber); font-weight:700; margin-bottom:6px;">V2 — DISTRIBUTION RATIO</div>
+              <div style="display:flex; gap:8px; justify-content:center; font-size:13px;">
+                <div style="background:rgba(245,158,11,0.15); border-radius:6px; padding:8px 16px; color:var(--accent-amber);">ra_Fz_out<br><span style="font-size:10px; color:var(--text-muted);">pitch + roll</span></div>
+                <div style="font-size:18px; color:var(--text-muted); align-self:center;">÷</div>
+                <div style="background:rgba(245,158,11,0.15); border-radius:6px; padding:8px 16px; color:var(--accent-amber);">ra_Fz_inn<br><span style="font-size:10px; color:var(--text-muted);">pitch + roll</span></div>
+              </div>
+            </div>
+            <div style="font-size:24px; text-align:center; color:var(--text-muted);">&#215;</div>
+            <div style="background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.2); border-radius:10px; padding:16px; text-align:center;">
+              <div style="font-size:11px; color:var(--accent-purple); font-weight:700; margin-bottom:6px;">QUARTER-CAR — MAGNITUDE</div>
+              <div style="font-size:13px; color:var(--accent-purple);">Fz_dyn_outer &nbsp;/&nbsp; Fz_dyn_inner<br><span style="font-size:10px; color:var(--text-muted);">road roughness + suspension ODE</span></div>
+            </div>
+            <div style="font-size:24px; text-align:center; color:var(--text-muted);">=</div>
+            <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:10px; padding:14px; text-align:center;">
+              <div style="font-size:11px; color:var(--accent-green); font-weight:700; margin-bottom:4px;">FINAL Fz (sent to moments)</div>
+              <div style="font-size:13px; color:var(--accent-green);">Fz_out_final &nbsp;|&nbsp; Fz_inn_final</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 16 -->
+<div class="slide">
+  <div class="section-badge">&#127897; main_simulation.py</div>
+  <div class="slide-title">Guard Logic & <span class="hl">Path Architecture</span></div>
+  <div class="slide-subtitle">Numerical stability guards and how absolute paths are resolved</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:14px;">
+          <div class="card-title">Timestep Guard Logic</div>
+          <table style="font-size:12.5px;">
+            <thead><tr><th>Condition</th><th>Action</th><th>Reason</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>v &lt; 0.5 m/s</code></td>
+                <td style="color:var(--accent-amber);">Static loads only</td>
+                <td style="color:var(--text-muted); font-size:11px;">Div-by-zero at standstill</td>
+              </tr>
+              <tr>
+                <td><code>|R| ≥ 9000 m</code></td>
+                <td style="color:var(--accent-blue);">Fy = 0, α = 0</td>
+                <td style="color:var(--text-muted); font-size:11px;">Effectively a straight</td>
+              </tr>
+              <tr>
+                <td><code>|R| &lt; 5 m</code></td>
+                <td style="color:var(--accent-red);">Skip cornering</td>
+                <td style="color:var(--text-muted); font-size:11px;">Physically unreachable</td>
+              </tr>
+              <tr>
+                <td>Any exception</td>
+                <td style="color:var(--accent-purple);">Carry-forward</td>
+                <td style="color:var(--text-muted); font-size:11px;">CSV stays complete</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="stat-grid" style="grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="stat-box"><div class="stat-value" style="font-size:22px;">92.0%</div><div class="stat-label">Dynamic timesteps</div></div>
+          <div class="stat-box"><div class="stat-value" style="font-size:22px;">8.0%</div><div class="stat-label">Static (vehicle stopped)</div></div>
+          <div class="stat-box"><div class="stat-value" style="font-size:22px;">0</div><div class="stat-label">Solver errors</div></div>
+          <div class="stat-box"><div class="stat-value" style="font-size:22px;">~5 min</div><div class="stat-label">Runtime</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Path Resolution (portable design)</div>
+          <div class="codeblock" style="font-size:11.5px; padding:14px 18px; margin-bottom:12px;">
+<span class="cmt"># __file__ = 03_Simulation_Runner/main_simulation.py</span>
+_SCRIPT_DIR = dirname(abspath(<span class="var">__file__</span>))
+_DVFA_ROOT  = dirname(_SCRIPT_DIR)  <span class="cmt"># DVFA root</span>
+
+_MODELS_CORE = join(_DVFA_ROOT, <span class="str">'02_Physics_Models'</span>,
+                    <span class="str">'Core_Vehicle_Dynamics'</span>)
+_MODELS_SUSP = join(_DVFA_ROOT, <span class="str">'02_Physics_Models'</span>,
+                    <span class="str">'Suspension_Quarter_Car'</span>)
+_MODELS_ROAD = join(_DVFA_ROOT, <span class="str">'02_Physics_Models'</span>,
+                    <span class="str">'Track_and_Road'</span>)
+
+CSV_PATH    = join(_DVFA_ROOT, <span class="str">'01_Input_Data'</span>, ...)
+OUTPUT_PATH = join(_DVFA_ROOT, <span class="str">'04_Output'</span>, ...)</div>
+          <div class="hl-line">All paths derived from <code>__file__</code> — folder can be moved to any location without code changes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 17 -->
+<div class="slide purple-tint">
+  <div class="section-badge purple">&#128200; Key Physics</div>
+  <div class="slide-title">Key <span class="hl-p">Physics</span> — Slip & Roll</div>
+  <div class="slide-subtitle">Derivations for quantities not measured directly in the drive cycle</div>
+  <div class="content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="border-color:rgba(168,85,247,0.2); margin-bottom:14px;">
+          <div class="card-title purple">5.1 — Longitudinal Slip from ax</div>
+          <div class="hl-line purple" style="margin-bottom:10px;">Drive cycle has no wheel speed sensor → slip must be estimated from ax</div>
+          <div class="formula">
+<span class="sym">lon_slip</span> = clip( (ax / 0.3g) × 30%,  ±30% )
+
+<span class="comment">0.3g = peak longitudinal capability (200 kg vehicle)</span>
+<span class="comment">At 0.3g → slip = 30% (PAC89 max useful slip)</span>
+<span class="comment">ax &gt; 0 → positive slip (acceleration)</span>
+<span class="comment">ax &lt; 0 → negative slip (braking)</span></div>
+        </div>
+        <div class="card" style="border-color:rgba(168,85,247,0.2);">
+          <div class="card-title purple">5.3 — Inner/Outer Wheel ID</div>
+          <div class="codeblock" style="font-size:12px; padding:14px;">
+<span class="kw">if</span> turn_radius <span class="op">&lt;</span> <span class="num">0</span>: <span class="cmt"># Left turn</span>
+    inner = <span class="str">'left'</span>   <span class="cmt"># lower-speed wheel</span>
+<span class="kw">else</span>:           <span class="cmt"># Right turn</span>
+    inner = <span class="str">'right'</span>
+
+<span class="cmt"># Inner → full motor torque (open diff)</span>
+<span class="cmt"># Outer → zero drive torque</span>
+<span class="cmt"># KEY BUG FIXED in V1 → V2</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="border-color:rgba(168,85,247,0.2); margin-bottom:14px;">
+          <div class="card-title purple">5.2 — Roll Angle from ay</div>
+          <div class="hl-line purple" style="margin-bottom:10px;">Roll angle not measured directly — derived from lateral acceleration via suspension stiffness</div>
+          <div class="formula">
+<span class="sym">φ</span> = ay × roll_gradient   [rad]
+
+<span class="sym">roll_gradient</span> = (m_spr × del_h) / K_roll_total
+
+<span class="sym">K_roll_total</span> = ks×(s_f/2)² + ks×(s_r/2)²
+
+<span class="comment">Result for this vehicle:</span>
+<span class="val">roll_gradient ≈ 0.273 deg/(m/s²)  ≈ 2.7 deg/g</span></div>
+        </div>
+        <div class="card" style="border-color:rgba(168,85,247,0.2);">
+          <div class="card-title purple">Lateral Acceleration Estimate</div>
+          <div class="formula" style="font-size:12.5px;">
+<span class="comment">In corners (|R| &lt; 9000 m and &gt; 5 m):</span>
+<span class="sym">ay</span> = v² / |turn_radius|
+
+<span class="comment">On straights: ay = 0</span>
+<span class="comment">Roll angle clamped to ±5°</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 18 -->
+<div class="slide amber-tint">
+  <div class="section-badge amber">&#9881; Where to Make Changes</div>
+  <div class="slide-title">Quick <span class="hl" style="background:linear-gradient(90deg,var(--accent-amber),#fcd34d); -webkit-background-clip:text; background-clip:text;">Modification Guide</span></div>
+  <div class="slide-subtitle">Find the exact file and location for any change — no guesswork</div>
+  <div class="content">
+    <table>
+      <thead><tr><th>What You Want to Change</th><th>Which File</th><th>Where Exactly</th></tr></thead>
+      <tbody>
+        <tr><td>Track layout / corner radii</td><td><code>track_geometry.py</code></td><td><code>_SEGMENTS</code> list — edit <code>turn_radius_m</code>, <code>length_m</code></td></tr>
+        <tr><td>Add a new track corner</td><td><code>track_geometry.py</code></td><td>Append new <code>TrackSegment</code> to <code>_SEGMENTS</code>, update <code>_LAP_LENGTH_M</code></td></tr>
+        <tr><td>Road roughness level</td><td><code>silesia_road_profile.py</code></td><td><code>_ISO_8608</code> dict, or <code>road_class</code> in each <code>TrackSegment</code></td></tr>
+        <tr><td>Add / move a kerb bump</td><td><code>silesia_road_profile.py</code></td><td><code>_KERB_BUMPS</code> list — (distance, height, half_len, label)</td></tr>
+        <tr><td>Suspension spring rate</td><td><code>vertical_dynamics.py</code></td><td><code>ROCKSHOX_PARAMS['ks']</code></td></tr>
+        <tr><td>Suspension damping</td><td><code>vertical_dynamics.py</code></td><td><code>ROCKSHOX_PARAMS['c']</code></td></tr>
+        <tr><td>Vehicle total mass</td><td><code>main_simulation.py</code></td><td><code>_make_vehicle_config()</code> → <code>"m": 200.0</code></td></tr>
+        <tr><td>Motor torque</td><td><code>main_simulation.py</code></td><td><code>_make_vehicle_config()</code> → <code>"motor_torque": 72.0</code></td></tr>
+        <tr><td>Output timestep resolution</td><td><code>main_simulation.py</code></td><td><code>DT_UNIFORM = 0.05</code> (seconds)</td></tr>
+        <tr><td>PAC89 tyre model params</td><td><code>Vehicle_Dynamics_V2.py</code></td><td><code>kremple()</code> method — B, C, D, E coefficients</td></tr>
+        <tr><td>Friction coefficient (μ)</td><td><code>Vehicle_Dynamics_V2.py</code></td><td><code>kremple()</code> — μ used to compute D = μ·Fz</td></tr>
+        <tr><td>Drive cycle CSV source</td><td><code>main_simulation.py</code></td><td><code>CSV_PATH</code> constant at top of file</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 19 -->
+<div class="slide green-tint">
+  <div class="section-badge green">&#128202; Output CSV</div>
+  <div class="slide-title">Output <span class="hl-g">CSV — 24 Columns</span></div>
+  <div class="slide-subtitle">fatigue_loads_output.csv — Ansys-ready time series at 50 ms resolution</div>
+  <div class="content">
+    <div class="grid-3" style="margin-bottom:16px;">
+      <div class="card" style="border-color:rgba(0,200,255,0.2);">
+        <div class="card-title">Vehicle State (8 cols)</div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:4px;">
+          <span class="col-badge blue">time_s</span>
+          <span class="col-badge blue">distance_m</span>
+          <span class="col-badge blue">speed_kmh</span>
+          <span class="col-badge blue">ax_ms2</span>
+          <span class="col-badge blue">turn_radius_m</span>
+          <span class="col-badge blue">inc_angle_deg</span>
+          <span class="col-badge blue">bank_angle_deg</span>
+          <span class="col-badge blue">segment</span>
+        </div>
+      </div>
+      <div class="card" style="border-color:rgba(244,63,94,0.2);">
+        <div class="card-title" style="color:var(--accent-red);">RA Outer Wheel — Ansys Primary (6)</div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:4px;">
+          <span class="col-badge" style="background:rgba(244,63,94,0.1); color:#fb7185;">Fz_outer_N</span>
+          <span class="col-badge" style="background:rgba(244,63,94,0.1); color:#fb7185;">Fy_outer_N</span>
+          <span class="col-badge" style="background:rgba(244,63,94,0.1); color:#fb7185;">Fx_outer_N</span>
+          <span class="col-badge" style="background:rgba(244,63,94,0.1); color:#fb7185;">Mx_outer_Nm</span>
+          <span class="col-badge" style="background:rgba(244,63,94,0.1); color:#fb7185;">My_outer_Nm</span>
+          <span class="col-badge" style="background:rgba(244,63,94,0.1); color:#fb7185;">Mz_outer_Nm</span>
+        </div>
+      </div>
+      <div class="card" style="border-color:rgba(168,85,247,0.2);">
+        <div class="card-title purple">RA Inner Wheel (6)</div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:4px;">
+          <span class="col-badge purple">Fz_inner_N</span>
+          <span class="col-badge purple">Fy_inner_N</span>
+          <span class="col-badge purple">Fx_inner_N</span>
+          <span class="col-badge purple">Mx_inner_Nm</span>
+          <span class="col-badge purple">My_inner_Nm</span>
+          <span class="col-badge purple">Mz_inner_Nm</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(245,158,11,0.2);">
+      <div class="card-title amber">Vertical Dynamics Channels (4 cols)</div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+        <span class="col-badge amber">Fz_dyn_outer_N</span>
+        <span class="col-badge amber">Fz_dyn_inner_N</span>
+        <span class="col-badge amber">z_road_m</span>
+        <span class="col-badge amber">z_sprung_m</span>
+      </div>
+    </div>
+    <div style="margin-top:16px; display:grid; grid-template-columns:repeat(5,1fr); gap:12px;">
+      <div class="stat-box"><div class="stat-value">50 ms</div><div class="stat-label">Timestep Resolution</div></div>
+      <div class="stat-box"><div class="stat-value">24</div><div class="stat-label">Total Columns</div></div>
+      <div class="stat-box"><div class="stat-value">41,991</div><div class="stat-label">Data Rows</div></div>
+      <div class="stat-box"><div class="stat-value">7.4 MB</div><div class="stat-label">File Size</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 20 -->
+<div class="slide">
+  <div class="section-badge">&#128200; Simulation Results</div>
+  <div class="slide-title">Peak <span class="hl">Load Results</span></div>
+  <div class="slide-subtitle">Actual output from the validated run — exit code 0, zero solver errors</div>
+  <div class="content">
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px;">
+      <div class="stat-box" style="border-color:rgba(244,63,94,0.2);">
+        <div class="stat-value" style="background:linear-gradient(90deg,var(--accent-red),#fb7185);">2,206 N</div>
+        <div class="stat-label">Peak Fz (Static + Roll)</div>
+      </div>
+      <div class="stat-box" style="border-color:rgba(168,85,247,0.2);">
+        <div class="stat-value" style="background:linear-gradient(90deg,var(--accent-purple),#c084fc);">8,071 N</div>
+        <div class="stat-label">Peak Fz Dynamic (Quarter-Car)</div>
+      </div>
+      <div class="stat-box" style="border-color:rgba(0,200,255,0.2);">
+        <div class="stat-value">+789%</div>
+        <div class="stat-label">Fz Amplification at T12 Kerb</div>
+      </div>
+      <div class="stat-box" style="border-color:rgba(16,185,129,0.2);">
+        <div class="stat-value" style="background:linear-gradient(90deg,var(--accent-green),#34d399);">481 N</div>
+        <div class="stat-label">Peak Fy (Lateral)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">23.8 N·m</div>
+        <div class="stat-label">Peak Mx (Overturning)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value">0.66 mm</div>
+        <div class="stat-label">Road Profile RMS</div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title green">Run the Simulation</div>
+        <div class="codeblock" style="font-size:12px; padding:16px 20px;">
+<span class="cmt"># From Windows terminal:</span>
+<span class="fn">python</span> <span class="str">"d:\ANTIGRAVITY\Dynamic Vertical Force Analysis\
+03_Simulation_Runner\main_simulation.py"</span>
+
+<span class="cmt"># Expected console output:</span>
+<span class="hdr">[1/7]</span> Loading drive cycle ...  9,031 points
+<span class="hdr">[2/7]</span> Resampling ...  41,991 timesteps
+<span class="hdr">[3/7]</span> 14.83 km · 11.9 laps
+<span class="hdr">[4/7]</span> Road profile RMS 0.66 mm
+<span class="hdr">[5/7]</span> Peak Fz 8,071 N
+<span class="hdr">[6/7]</span> Timestep loop ... (~5 min)
+<span class="hdr">[7/7]</span> fatigue_loads_output.csv 7.4 MB
+     SIMULATION COMPLETE</div>
+      </div>
+      <div class="card">
+        <div class="card-title amber">Dependencies</div>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border);">
+            <code>numpy 2.4.4</code><span style="font-size:11px; color:var(--text-muted);">Array maths, gradient</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border);">
+            <code>scipy 1.17.1</code><span style="font-size:11px; color:var(--text-muted);">RK45 ODE solver, cumtrapz</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border);">
+            <code>easydict 1.13</code><span style="font-size:11px; color:var(--text-muted);">Vehicle config dict-as-object</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border);">
+            <code>matplotlib 3.10.8</code><span style="font-size:11px; color:var(--text-muted);">9-panel summary plot</span>
+          </div>
+        </div>
+        <div class="codeblock" style="font-size:12px; padding:10px 14px;">pip install numpy scipy easydict matplotlib</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ SLIDE 21 -->
+<div class="slide title-slide">
+  <div class="title-logo">&#9670; Dynamic Vertical Force Analysis &#9670;</div>
+  <div class="slide-title" style="font-size:44px;">Architecture <span class="hl">Summary</span></div>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:900px; margin:32px auto 0; text-align:left;">
+    <div class="card" style="border-color:rgba(16,185,129,0.2);">
+      <div style="font-size:13px; color:var(--accent-green); font-weight:700; margin-bottom:12px;">&#128506; Track Layer</div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:2;">track_geometry.py<br>silesia_road_profile.py<br>11 circuit segments<br>ISO 8608 PSD + bumps</div>
+    </div>
+    <div class="card" style="border-color:rgba(168,85,247,0.2);">
+      <div style="font-size:13px; color:var(--accent-purple); font-weight:700; margin-bottom:12px;">&#128295; Dynamics Layer</div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:2;">vertical_dynamics.py<br>Vehicle_Dynamics_V2.py<br>RK45 quarter-car ODE<br>PAC89 tyre model</div>
+    </div>
+    <div class="card" style="border-color:rgba(0,200,255,0.2);">
+      <div style="font-size:13px; color:var(--accent-blue); font-weight:700; margin-bottom:12px;">&#127897; Orchestration</div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:2;">main_simulation.py<br>7-step pipeline<br>Fz injection coupling<br>Ansys CSV output</div>
+    </div>
+  </div>
+  <div style="margin-top:40px; font-size:13px; color:var(--text-muted);">
+    Physics references: Dixon (2009) · Milliken &amp; Milliken (1995) · ISO 8608:2016
+  </div>
+</div>
+
+</div><!-- end #deck -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let current  = 0;
+const hud    = document.getElementById('hud');
+let hideTimer;
+
+document.getElementById('tot').textContent = total;
+
+function showHud() {
+  hud.classList.remove('hidden');
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(() => hud.classList.add('hidden'), 1500);
+}
+
+function update() {
+  slides.forEach((s, i) => {
+    s.classList.remove('active','prev');
+    if (i === current)      s.classList.add('active');
+    else if (i < current)   s.classList.add('prev');
+  });
+  document.getElementById('cur').textContent = current + 1;
+  document.getElementById('progress-bar').style.width =
+    ((current + 1) / total * 100) + '%';
+  showHud();
+}
+
+function nav(dir) {
+  current = Math.max(0, Math.min(total - 1, current + dir));
+  update();
+}
+
+// Show HUD on any mouse movement
+document.addEventListener('mousemove', showHud);
+document.addEventListener('mouseenter', showHud);
+
+// Show HUD (and navigate) on key press
+document.addEventListener('keydown', e => {
+  showHud();
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault(); nav(1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault(); nav(-1);
+  }
+});
+
+// Keep HUD visible while hovering over it
+hud.addEventListener('mouseenter', () => { clearTimeout(hideTimer); hud.classList.remove('hidden'); });
+hud.addEventListener('mouseleave', () => { hideTimer = setTimeout(() => hud.classList.add('hidden'), 1000); });
+
+update();
+// Kick off initial hide after 2s
+setTimeout(() => hud.classList.add('hidden'), 2000);
+</script>
+</body>
+</html>

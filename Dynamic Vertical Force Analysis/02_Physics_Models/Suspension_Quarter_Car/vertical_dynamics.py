@@ -1,291 +1,325 @@
 """
 vertical_dynamics.py
 ====================
-2-DOF (Quarter-car) solver for dynamic vertical tyre loads.
+Quarter-car suspension model for the Shell Eco-Marathon vehicle.
+Computes dynamic vertical tyre forces Fz(t) given a road displacement input z_road(t).
 
-This module resolves the highly non-linear interaction between the road 
-surface (Z_road), the tyre spring/damper, and the suspension (RockShox).
-It is responsible for predicting the high-frequency Force spikes (Fz_dyn) 
-that dictate structural fatigue on the wishbones. 
+Model: 2-DOF linear quarter car
+  ms * z̈s + c*(żs - żu) + ks*(zs - zu) = 0          [sprung mass EOM]
+  mu * z̈u + c*(żu - żs) + ks*(zu - zs) + kt*(zu - zroad) = 0  [unsprung mass EOM]
 
-RockShox parameters are non-linear; particularly the 'bump stop' region.
-The simulation uses `scipy.integrate.solve_ivp` to step the ODE system 
-through time.
+  Dynamic tyre force:  Fz_dynamic = kt * (z_road - zu)  [N]
+  (positive = compression = road pushing up on tyre)
 
-Authors: Antigravity AI
+Suspension Parameters — RockShox Super Deluxe Select+ 205×65mm
+--------------------------------------------------------------
+Stroke       : 65 mm  (eye-to-eye 205 mm)
+Air spring   : DebonAir+ (progressive rate)
+Linearised ks: 28,000 N/m  @ 35% sag, 120 PSI, 80 kg corner sprung mass
+               Derivation: F_sag = 80×9.81 = 785 N
+                           δ_sag = 0.35 × 0.065 = 0.0228 m
+                           ks ≈ F_sag / δ_sag = 785/0.0228 ≈ 34,400 N/m
+                           Derated by ~0.8 for progressivity in lower stroke:
+                           ks ≈ 28,000 N/m  (conservative linear approx)
+Damping c    : 1,500 N·s/m (High-Speed Compression fully open, Low-Speed ~mid)
+               Damping ratio ζ = c / (2 × sqrt(ks × ms)) ≈ 0.28  (underdamped)
+               Typical for off-road/performance suspension.
+
+Tyre stiffness kt = 220,000 N/m  (from Vehicle_Dynamics_V2.py k_ver)
+
+References:
+  Dixon, J.C. (2009) — Tires, Suspension and Handling, SAE.
+  RockShox product page — Super Deluxe Select+ (2023/24 model year).
+  Milliken & Milliken — Race Car Vehicle Dynamics, SAE 1995.
 """
 
 import numpy as np
 from scipy.integrate import solve_ivp
-from scipy.interpolate import interp1d
-import time
+
+
+# ---------------------------------------------------------------------------
+# Default RockShox Super Deluxe Select+ Parameters
+# ---------------------------------------------------------------------------
+ROCKSHOX_PARAMS = {
+    'ks': 28_000.0,     # suspension spring rate [N/m]  (linearised air-spring)
+    'c' :  1_500.0,     # damping coefficient   [N·s/m]
+    'kt': 220_000.0,    # tyre vertical stiffness [N/m]  (from V2)
+    'ms':    80.0,      # sprung mass per rear corner [kg]  (160/2 from V2)
+    'mu':    12.5,      # unsprung mass per rear corner [kg]  (25/2 from V2)
+}
+
 
 class QuarterCarModel:
     """
-    State-space 2-DOF formulation:
-    
-    State vector Y = [z_us, z_s, z_us_dot, z_s_dot]
-        - z_us:      Unsprung mass vertical displacement (Wheel assembly)
-        - z_s:       Sprung mass vertical displacement (Chassis)
-        - z_us_dot:  Unsprung velocity
-        - z_s_dot:   Sprung velocity
-        
-    Equations of motion:
-    1) m_us * z_us_dot_dot = - F_tyre - F_susp
-    2) m_s  * z_s_dot_dot  = F_susp
-    
-    where:
-    F_tyre = k_t * (z_us - z_road) + c_t * (z_us_dot - z_road_dot)
-    F_susp = k_s(del) * (z_s - z_us) + c_s(del_dot) * (z_s_dot - z_us_dot) + bump_stop(del)
+    Quarter-car ODE integrator.
+
+    Usage
+    -----
+    model = QuarterCarModel()
+
+    # Option A — solve entire time history at once (recommended for batch mode):
+    Fz_dyn, z_s, z_u = model.solve_batch(t_array, z_road_array)
+
+    # Option B — step-by-step integration (for real-time loop):
+    model.reset()
+    for i, (t, zr) in enumerate(zip(t_array, z_road_array)):
+        Fz = model.step(t, zr)
     """
 
-    def __init__(self, dt=0.05):
+    def __init__(self, params: dict = None):
+        p = params or ROCKSHOX_PARAMS
+        self.ks = float(p.get('ks', ROCKSHOX_PARAMS['ks']))
+        self.c  = float(p.get('c',  ROCKSHOX_PARAMS['c']))
+        self.kt = float(p.get('kt', ROCKSHOX_PARAMS['kt']))
+        self.ms = float(p.get('ms', ROCKSHOX_PARAMS['ms']))
+        self.mu = float(p.get('mu', ROCKSHOX_PARAMS['mu']))
+
+        # Static equilibrium: both masses at rest, tyres at natural length
+        # State vector: [zs, żs, zu, żu]  (positive = upward displacement)
+        self._g    = 9.81
+        zs0 = -(self.ms * self._g) / self.ks              # sprung mass sag
+        zu0 = zs0 - (self.mu * self._g) / self.kt         # unsprung + tyre sag
+        self._state0 = np.array([zs0, 0.0, zu0, 0.0])
+        self._state  = self._state0.copy()
+        self._t_prev = 0.0
+
+        # Cache z_road interpolation for step-by-step mode
+        self._z_road_interp = None
+
+    # ------------------------------------------------------------------
+    def _ode(self, t: float, y: np.ndarray, z_road_t: float) -> np.ndarray:
         """
-        RockShox Super Deluxe Select+ (205x65) specific settings adapted 
-        for carbon chassis mass ratios.
+        Equations of motion for the 2-DOF quarter car with progressive bump stop.
+
+        State: y = [zs, vs, zu, vu]  (displacement + velocity for sprung/unsprung)
+
+        Standard EOMs:
+          ms*as = -c*(vs - vu) - ks*(zs - zu)
+          mu*au =  c*(vs - vu) + ks*(zs - zu) - kt*(zu - z_road)
+
+        M2 FIX: Progressive bump stop added.
+        When suspension travel |zs-zu| > BUMP_THRESHOLD (85% of 65mm stroke),
+        an additional progressive stiffness ramps in, preventing physically
+        impossible deflections on large road inputs.
         """
-        # Mass [kg]
-        self.m_s  = 80.0       # Chassis corner (approx total 200kg + driver / 4 corners, offset to rear)
-        self.m_us = 12.0       # Upright + rim + brake + tyre + halfaxle
+        zs, dzs, zu, dzu = y
 
-        # Tyre characteristics (Michelin low rolling res)
-        # Highly stiff vertically compared to passenger cars
-        self.k_t = 220000.0    # N/m
-        self.c_t = 150.0       # Ns/m (very low inherent damping)
+        # M2: Progressive bump stop constants
+        STROKE_MAX     = 0.065   # 65 mm full stroke
+        BUMP_THRESHOLD = 0.055   # 85% of stroke = 55 mm activate threshold
+        K_BUMP_MAX     = 10.0 * self.ks   # stiffness at full bound
 
-        # Suspension default base rates (Linearised baseline)
-        self.k_s_base = 28000.0  # N/m (Rockshox air spring dominant rate)
-        self.c_s_base = 1500.0   # Ns/m (Heavily damped for eco-marathon smooth roads)
+        travel = zs - zu
+        if abs(travel) > BUMP_THRESHOLD:
+            excess = abs(travel) - BUMP_THRESHOLD
+            ramp   = min(excess / (STROKE_MAX - BUMP_THRESHOLD), 1.0)
+            F_bump = K_BUMP_MAX * ramp * excess * np.sign(travel)
+        else:
+            F_bump = 0.0
 
-        # Bump stop parameters (polyurethane) - highly non-linear
-        self.clearance_bump = 0.04  # m (suspension travel before bump stop is met)
-        self.clearance_rebound = -0.02 # m
-        self.k_bump_stop = 900000.0 # N/m (rapidly stiffens)
+        ddz_s = ((-self.c * (dzs - dzu) - self.ks * (zs - zu) - F_bump)
+                 / self.ms)
 
-        self.g = 9.81
-        self.dt = dt
+        ddz_u = ((self.c  * (dzs - dzu) + self.ks * (zs - zu) + F_bump
+                   - self.kt * (zu - z_road_t))
+                  / self.mu)
 
-        # Interpolation functions (set during solve)
-        self._z_road_func = None
-        self._v_road_func = None # derivative
-
-    def _f_suspension(self, z_us, z_s, z_us_dot, z_s_dot):
+        return np.array([dzs, ddz_s, dzu, ddz_u])
+    # ------------------------------------------------------------------
+    def solve_batch(self,
+                    t_array: np.ndarray,
+                    z_road_array: np.ndarray,
+                    method: str = 'RK45') -> tuple:
         """
-        Calculates suspension force with non-linear bump stops.
-        Force is positive when pushing MASSES APART (Compression load).
-        """
-        delta_z = z_s - z_us
-        delta_v = z_s_dot - z_us_dot
+        Solve the quarter-car ODE for the entire simulation time history.
 
-        # Base linear spring-damper
-        force = -self.k_s_base * delta_z - self.c_s_base * delta_v
-
-        # Add bump stop forces (Progressive non-linear engagement)
-        if delta_z < -self.clearance_bump:
-            # Heavily compressed (hitting bump stop)
-            x_pen = (-self.clearance_bump) - delta_z
-            # Use cubic ramp up for progressive foam bumpstop
-            force += self.k_bump_stop * (x_pen ** 3) 
-            
-        elif delta_z > -self.clearance_rebound:
-            # Full droop (hitting rebound stop)
-            x_pen = delta_z - (-self.clearance_rebound)
-            # Rebound stop usually stiffer steel ring
-            force -= (self.k_bump_stop * 2.0) * (x_pen ** 3) 
-
-        return force
-
-    def _f_tyre(self, z_us, z_us_dot, t):
-        """
-        Calculates tyre contact patch force interacting with road surface.
-        """
-        z_r = self._z_road_func(t)
-        v_r = self._v_road_func(t)
-
-        delta_z = z_us - z_r
-        delta_v = z_us_dot - v_r
-
-        # Tyre cannot pull the ground (loss of contact check)
-        force = -self.k_t * delta_z - self.c_t * delta_v
-        
-        # If force > 0, means tyre is in tension which is impossible, so it lifts off
-        if force > 0:
-            return 0.0
-            
-        return force
-
-    def _state_derivative(self, t, Y):
-        """
-        ODE formulation for scipy solve_ivp
-        Y = [z_us, z_s, v_us, v_s]
-        """
-        z_us, z_s, v_us, v_s = Y
-
-        # Forces
-        F_t = self._f_tyre(z_us, v_us, t)
-        F_s = self._f_suspension(z_us, z_s, v_us, v_s)
-
-        # Static load offset (gravity)
-        W_s = self.m_s * self.g
-        W_us = self.m_us * self.g
-
-        # Equations of motion
-        a_us = (F_t - F_s - W_us) / self.m_us
-        a_s = (F_s - W_s) / self.m_s
-
-        return [v_us, v_s, a_us, a_s]
-
-    def solve(self, time_array: np.ndarray, road_profile_m: np.ndarray, base_static_load_N: np.ndarray):
-        """
-        Execute the 2-DOF ODE transient solver.
+        This is the RECOMMENDED method — it allows scipy's adaptive stepper
+        to use sub-step accuracy while still returning values at every
+        requested output time.
 
         Parameters
         ----------
-        time_array : np.ndarray
-            1D array of global time [s]
-        road_profile_m : np.ndarray
-            Corresponding z_road vertical displacements [m]
-        base_static_load_N : np.ndarray
-            The macroscopic normal force on this corner [N] calculated by the 6-DOF
-            pitch/roll solver. Used to constantly modulate the m_s target load.
+        t_array      : 1-D array of time stamps [s], monotonically increasing
+        z_road_array : 1-D array of road surface displacement [m], same length
+        method       : ODE solver ('RK45', 'RK23', 'DOP853')
 
         Returns
         -------
-        dict
-            Contains Fz_dynamic[N], Z_suspension_travel[m]
+        Fz_dynamic   : dynamic tyre contact force [N], positive = compression
+        z_sprung     : sprung mass displacement [m]
+        z_unsprung   : unsprung mass displacement [m]
         """
-        print(f"[Quarter-Car] Integrating {len(time_array)} ODE points over {time_array[-1]:.1f}s...")
-        start_time = time.time()
+        from scipy.interpolate import interp1d
 
-        if len(time_array) != len(road_profile_m):
-            raise ValueError("Time and road profile arrays must be identical length")
+        # Build a continuous road profile interpolant
+        z_road_fn = interp1d(t_array, z_road_array,
+                             kind='linear', fill_value='extrapolate')
 
-        t_min, t_max = time_array[0], time_array[-1]
+        def ode_wrapper(t, y):
+            return self._ode(t, y, float(z_road_fn(t)))
 
-        # 1. Provide a Continuous Road Function for the step-solver
-        self._z_road_func = interp1d(time_array, road_profile_m, kind='cubic', fill_value="extrapolate")
-
-        # Create numerical derivative of road (z_road_dot)
-        v_road_array = np.gradient(road_profile_m, time_array)
-        self._v_road_func = interp1d(time_array, v_road_array, kind='cubic', fill_value="extrapolate")
-
-        # 2. Add Warm-up Period (L1 FIX)
-        # Prevents extreme t=0 transient spikes by giving the model a 2-sec flat road to settle.
-        T_WARMUP = 2.0
-        T_TOTAL = t_max + T_WARMUP
-
-        # Shift road functions by T_WARMUP to start true road at t_shifted = 2.0s
-        def shifted_z(t_shift):
-            return self._z_road_func(np.clip(t_shift - T_WARMUP, t_min, t_max))
-        def shifted_v(t_shift):
-            return self._v_road_func(np.clip(t_shift - T_WARMUP, t_min, t_max))
-        
-        self._z_road_func = shifted_z
-        self._v_road_func = shifted_v
-
-        # 3. Simulate continuous static mass update (Slow macro dynamic load from braking/pitch)
-        # We cheat the physics slightly by mapping the 6-DOF load to an equivalent shifting m_s.
-        target_ms_array = base_static_load_N / self.g
-        self._ms_func_original = interp1d(time_array, target_ms_array, kind='linear', fill_value="extrapolate")
-        
-        def shifted_ms(t_shift):
-            return self._ms_func_original(np.clip(t_shift - T_WARMUP, t_min, t_max))
-            
-        def dynamic_derivative(t, Y):
-            self.m_s = shifted_ms(t)  # Update m_s continuously
-            return self._state_derivative(t, Y)
-
-        # 4. Initial conditions (at rest, perfectly compressed for nominal m_s)
-        nom_ms = target_ms_array[0]
-        z_us_0 = (- (nom_ms + self.m_us) * self.g) / self.k_t
-        z_s_0  = z_us_0 - (nom_ms * self.g) / self.k_s_base
-        Y0 = [z_us_0, z_s_0, 0.0, 0.0]
-
-        # 5. Solve via RK45 (Adaptive step)
+        # Solve
         sol = solve_ivp(
-            fun=dynamic_derivative,
-            t_span=(0.0, T_TOTAL),
-            y0=Y0,
-            method='RK45', 
-            t_eval=time_array + T_WARMUP, # Sample exactly exactly back onto the shifted original array
-            rtol=1e-3, # Moderate tol for speed. Fz forces scale hugely so abs error isn't massive
-            atol=1e-5
+            ode_wrapper,
+            t_span=(t_array[0], t_array[-1]),
+            y0=self._state0,
+            method=method,
+            t_eval=t_array,
+            rtol=1e-4,
+            atol=1e-6,
+            max_step=0.05,   # max 50 ms sub-step for accuracy
         )
 
         if not sol.success:
-            print("[Quarter-Car] WARNING: ODE integration failed:", sol.message)
+            raise RuntimeError(f"ODE solver failed: {sol.message}")
 
-        # 6. Post-process to extract Forces
-        print(f"[Quarter-Car] Finished integration in {time.time()-start_time:.2f}s")
-        
-        # Shift road functions BACK for array calculation
-        self._z_road_func = interp1d(time_array, road_profile_m, kind='cubic', fill_value="extrapolate")
-        self._v_road_func = interp1d(time_array, v_road_array, kind='cubic', fill_value="extrapolate")
-        
-        F_tyre_out = np.zeros(len(time_array))
-        z_susp_travel = np.zeros(len(time_array))
+        zs  = sol.y[0]    # sprung mass displacement
+        zu  = sol.y[2]    # unsprung mass displacement
+        zr  = z_road_fn(sol.t)
 
-        # Re-calculate boundary forces over result vector
-        for i, t in enumerate(time_array):
-            z_us = sol.y[0, i]
-            z_s  = sol.y[1, i]
-            v_us = sol.y[2, i]
-            
-            F_tyre_out[i] = abs(self._f_tyre(z_us, v_us, t))  # Magnitude in N
-            z_susp_travel[i] = z_s - z_us
-            
-        return {
-            'Fz_dynamic_N': F_tyre_out,
-            'Z_suspension_travel_m': z_susp_travel
-        }
+        # Dynamic tyre force = tyre stiffness × tyre compression
+        # Fz_static = (ms + mu) × g  (weight on tyre at rest)
+        Fz_static  = (self.ms + self.mu) * self._g
+        Fz_dynamic = self.kt * (zr - zu) + Fz_static
+        # Note: Fz_dynamic > Fz_static when hitting a bump,
+        #              < Fz_static when airborne / in a valley.
+        Fz_dynamic = np.maximum(Fz_dynamic, 0.0)   # tyre can't pull road up
+
+        return Fz_dynamic, zs, zu
+
+    # ------------------------------------------------------------------
+    def step(self, t_now: float, z_road_now: float) -> float:
+        """
+        Single-step integration from previous time to t_now.
+        Uses a fixed-step RK4 internally.
+
+        Suitable for real-time / streaming use.
+        Returns Fz_dynamic [N] at t_now.
+        """
+        dt = t_now - self._t_prev
+        if dt <= 0.0:
+            return self._compute_Fz(self._state, z_road_now)
+
+        # RK4 sub-stepping for stability
+        n_substeps = max(1, int(np.ceil(dt / 0.01)))  # ≤10 ms substeps
+        dt_sub = dt / n_substeps
+
+        y = self._state.copy()
+        # Linearly interpolate z_road within the step
+        z_prev = getattr(self, '_z_road_prev', z_road_now)
+        for i in range(n_substeps):
+            alpha = (i + 0.5) / n_substeps
+            zr = z_prev * (1 - alpha) + z_road_now * alpha
+            y = self._rk4_step(y, dt_sub, zr)
+
+        self._state = y
+        self._t_prev = t_now
+        self._z_road_prev = z_road_now
+
+        return self._compute_Fz(y, z_road_now)
+
+    def _rk4_step(self, y: np.ndarray, dt: float, zr: float) -> np.ndarray:
+        k1 = self._ode(0, y,              zr)
+        k2 = self._ode(0, y + dt/2 * k1, zr)
+        k3 = self._ode(0, y + dt/2 * k2, zr)
+        k4 = self._ode(0, y + dt    * k3, zr)
+        return y + dt / 6.0 * (k1 + 2*k2 + 2*k3 + k4)
+
+    def _compute_Fz(self, y: np.ndarray, z_road: float) -> float:
+        zu = y[2]
+        Fz_static  = (self.ms + self.mu) * self._g
+        Fz_dynamic = self.kt * (z_road - zu) + Fz_static
+        return max(0.0, Fz_dynamic)
+
+    def reset(self):
+        """Reset state to static equilibrium."""
+        self._state  = self._state0.copy()
+        self._t_prev = 0.0
+        if hasattr(self, '_z_road_prev'):
+            del self._z_road_prev
+
+    # ------------------------------------------------------------------
+    @property
+    def natural_freq_sprung(self) -> float:
+        """Natural frequency of sprung mass [Hz]."""
+        return float(np.sqrt(self.ks / self.ms) / (2 * np.pi))
+
+    @property
+    def natural_freq_unsprung(self) -> float:
+        """Natural frequency of unsprung mass [Hz]."""
+        return float(np.sqrt((self.ks + self.kt) / self.mu) / (2 * np.pi))
+
+    @property
+    def damping_ratio(self) -> float:
+        """Damping ratio ζ of the sprung mass."""
+        return float(self.c / (2 * np.sqrt(self.ks * self.ms)))
+
+    def summary(self) -> str:
+        return (
+            f"QuarterCarModel — RockShox Super Deluxe Select+ (205×65mm)\n"
+            f"  ks   = {self.ks:>9,.0f} N/m   (linearised air spring)\n"
+            f"  c    = {self.c:>9,.0f} N·s/m (combined rebound+compression)\n"
+            f"  kt   = {self.kt:>9,.0f} N/m   (tyre vertical stiffness)\n"
+            f"  ms   = {self.ms:>9.1f} kg    (sprung corner mass)\n"
+            f"  mu   = {self.mu:>9.1f} kg    (unsprung corner mass)\n"
+            f"  fn_s = {self.natural_freq_sprung:>9.2f} Hz   (sprung natural freq)\n"
+            f"  fn_u = {self.natural_freq_unsprung:>9.2f} Hz   (unsprung natural freq)\n"
+            f"  ζ    = {self.damping_ratio:>9.3f}      (damping ratio)\n"
+        )
 
 
-# -----------------------------------------------------------------
-# Diagnostic Run
-# -----------------------------------------------------------------
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    # 10 second run
-    t = np.linspace(0, 10, 1000) 
-    
-    # Generate an explicit kerb bump at t=4s (height 5cm, width 0.5s)
-    road = np.zeros_like(t)
-    bump_idx = (t > 3.8) & (t < 4.2)
-    road[bump_idx] = 0.05 * 0.5 * (1 - np.cos(2*np.pi*(t[bump_idx]-3.8)/0.4))
-    
-    # Macro load hovering around 800N (e.g. constant speed)
-    base_load = np.full_like(t, 800.0)
-
-    # Spike brake load at t=8s
-    brake_idx = (t > 7.5) & (t < 9.5)
-    base_load[brake_idx] += 400 * np.sin(np.pi*(t[brake_idx]-7.5)/2.0)
-
+# ---------------------------------------------------------------------------
+# Self-test
+# ---------------------------------------------------------------------------
+if __name__ == '__main__':
     model = QuarterCarModel()
-    res = model.solve(t, road, base_load)
+    print(model.summary())
 
-    # Plot
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
+    # Test: single-period bump at 0.5 s
+    t = np.linspace(0, 2.0, 2000)
+    dt = t[1] - t[0]
 
-    ax1.plot(t, road*1000, 'k', label='Road Z [mm]')
-    ax1.set_ylabel("Disp. [mm]")
-    ax1.legend()
-    ax1.grid()
+    # Step bump at t=0.5s, height=25mm, duration=0.1s
+    z_road = np.zeros_like(t)
+    bump_start = int(0.5 / dt)
+    bump_end   = int(0.6 / dt)
+    bump_x = np.linspace(0, np.pi, bump_end - bump_start)
+    z_road[bump_start:bump_end] = 0.025 * np.sin(bump_x)
 
-    ax2.plot(t, base_load, 'b--', label='Target Mean Fz [N]')
-    ax2.plot(t, res['Fz_dynamic_N'], 'r-', label='Dynamic Actual Fz [N]', alpha=0.8)
-    ax2.set_ylabel("Force [N]")
-    ax2.legend()
-    ax2.grid()
+    Fz_dyn, zs, zu = model.solve_batch(t, z_road)
 
-    ax3.plot(t, res['Z_suspension_travel_m']*1000, 'g', label='Suspension Stroke [mm]')
-    ax3.axhline(model.clearance_bump * -1000, color='r', linestyle='--', label='Bumpstop Limits')
-    ax3.axhline(model.clearance_rebound * -1000, color='r', linestyle='--')
-    ax3.set_ylabel("Stroke [mm]")
-    ax3.set_xlabel("Time [s]")
-    ax3.legend()
-    ax3.grid()
+    static_Fz = (model.ms + model.mu) * 9.81
+    peak_Fz   = Fz_dyn.max()
+    print(f"\nBump test (25 mm versine bump):")
+    print(f"  Static Fz              : {static_Fz:.1f} N")
+    print(f"  Peak dynamic Fz        : {peak_Fz:.1f} N")
+    print(f"  Dynamic amplification  : {peak_Fz/static_Fz:.2f}×")
+    print(f"  Min Fz (after bump)    : {Fz_dyn.min():.1f} N")
+    print(f"  Max sprung deflection  : {(zs - zu).max()*1000:.1f} mm")
 
-    plt.suptitle("Quarter Car 2-DOF Drop & Bump Test")
-    plt.tight_layout()
-    plt.show()
+    try:
+        import matplotlib.pyplot as plt
+        fig, axes = plt.subplots(3, 1, figsize=(12, 8), sharex=True)
+
+        axes[0].plot(t, z_road * 1000, color='saddlebrown', label='z_road [mm]')
+        axes[0].set_ylabel('Road disp. [mm]')
+        axes[0].legend(); axes[0].grid(True, alpha=0.4)
+
+        axes[1].plot(t, zs * 1000, label='Sprung mass zs', color='steelblue')
+        axes[1].plot(t, zu * 1000, label='Unsprung mass zu', color='orange', ls='--')
+        axes[1].set_ylabel('Displacement [mm]')
+        axes[1].legend(); axes[1].grid(True, alpha=0.4)
+
+        axes[2].plot(t, Fz_dyn, label='Fz dynamic [N]', color='crimson')
+        axes[2].axhline(static_Fz, color='k', ls='--', lw=0.8, label='Fz static')
+        axes[2].set_ylabel('Tyre Force [N]')
+        axes[2].set_xlabel('Time [s]')
+        axes[2].legend(); axes[2].grid(True, alpha=0.4)
+
+        plt.suptitle('Quarter-Car Response to 25 mm Bump')
+        plt.tight_layout()
+        plt.savefig(r'd:\ANTIGRAVITY\quarter_car_test.png', dpi=150)
+        print("Plot saved to d:\\ANTIGRAVITY\\quarter_car_test.png")
+        plt.show()
+    except ImportError:
+        print("(matplotlib not available)")
