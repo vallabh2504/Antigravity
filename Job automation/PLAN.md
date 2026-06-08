@@ -17,9 +17,10 @@
 | 4 Review gate | ✅ digest + `approve`/`reject` | `digest.py`, `cli report`/`approve` |
 | 5 Tailor | ✅ curated-per-JD resume + cover letter | `tailor.py`, `cli to-tailor`/`apply-tailor` |
 | 6 Pre-fill | ✅ task builder + OpenClaw-browser runbook + Playwright fallback (stops at submit) | `apply_prefill.py`, `cli to-prefill` |
-| 7 Track/Deliver | ✅ pipeline states, follow-ups, daily report; Gmail/messaging wired via OpenClaw | `db.py`, `digest.py` |
+| 7 Track/Deliver | ✅ states, follow-ups, daily report **+ email artifacts (HTML/plain/short) + SMTP send / agent-channel handoff** | `db.py`, `digest.py`, `notify.py`, `cli deliver` |
+| Orchestration | ✅ `next` inspects DB → prints the exact next command (any agent self-drives) | `cli next` |
+| Dashboard | ✅ FastAPI UI: review queue, approve/reject (writes DB), JD + tailored docs | `dashboard/app.py` |
 | Cron | ⏳ OpenClaw adds it (host must be awake AM) | `SKILL.md > Cron` |
-| Dashboard | ⏳ not yet (M6) | `dashboard/` |
 
 **Validated run** (sample fixture, since this container's egress blocks live portals):
 `ingest 7 → rules drop 1 → score 6 → digest top-6 → approve 2 → tailor 2 → docs_ready`. See

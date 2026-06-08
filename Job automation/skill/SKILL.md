@@ -19,6 +19,12 @@ portals** and **LLM scoring/tailoring**. Run everything from this skill director
 ```bash
 pip install -r requirements.txt        # PyYAML (+ httpx for direct fetch)
 ```
+
+## Not sure what to do? Ask the pipeline
+```bash
+python -m jobauto next     # inspects the DB and prints the exact next command to run
+```
+Run it anytime to self-orchestrate the stages below in order.
 Config: `config.yml` (keywords, locations, delivery), `companies.yml` (portals to watch).
 Candidate context: `../profile.md`, `master_resume.yml` (copy from the .example).
 Secrets (applicant details, Adzuna keys): `secrets.yml` (copy from .example).
@@ -58,10 +64,12 @@ python -m jobauto apply-scores scores.json
 
 ### 4. Deliver digest + human gate
 ```bash
-python -m jobauto report                # writes ../reports/YYYY-MM-DD.md
+python -m jobauto deliver               # report + output/digest_email.html/.txt/.short
 ```
-Deliver per `config.yml > delivery`: email/Gmail (draft or send) and/or messaging
-(Telegram/WhatsApp). The user replies `approve <id> <id>` or `reject <id>`:
+`deliver` builds the artifacts and auto-sends via SMTP if creds are in secrets.yml;
+otherwise YOU send `output/digest_email.html` via your own channel (OpenClaw Gmail/
+Telegram, a Gmail MCP tool). Or open the **dashboard** (`dashboard/app.py`) to review
+visually. The user replies `approve <id> <id>` or `reject <id>` (or clicks in the UI):
 ```bash
 python -m jobauto approve <id> <id>
 python -m jobauto reject <id>

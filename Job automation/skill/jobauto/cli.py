@@ -34,6 +34,7 @@ from . import discover as discovery
 from . import score as scoring
 from . import tailor as tailoring
 from . import digest as digesting
+from . import notify as notifying
 from . import apply_prefill as prefilling
 
 
@@ -170,6 +171,49 @@ def cmd_report(args):
     print(f"report -> {path}")
 
 
+def cmd_deliver(args):
+    db = _db()
+    rep = cfg.load_config().get("report", {})
+    min_score = args.min_score if args.min_score is not None else rep.get("min_score", 50)
+    top_n = rep.get("top_n", 15)
+    digesting.build_report(db, top_n, min_score)            # markdown report in reports/
+    paths = notifying.build_artifacts(db, min_score, top_n)  # html/plain/short in output/
+    print(f"artifacts: {paths['html']}, {paths['txt']}, {paths['short']}")
+    deliv = cfg.load_config().get("delivery", {})
+    gm = deliv.get("gmail", {})
+    if gm.get("enabled"):
+        res = notifying.send_smtp(cfg.load_secrets(), gm.get("to", ""),
+                                  f"Fuel-cell job digest", paths["html"])
+        print(f"gmail/smtp: {res}")
+    print("If not auto-sent, the agent should send digest_email.html via its own channel "
+          "(OpenClaw Gmail/Telegram, Gmail MCP, etc.).")
+
+
+def cmd_next(args):
+    c = _db().counts()
+    g = lambda k: c.get(k, 0)
+    total = sum(c.values())
+    if total == 0:
+        step = ("DISCOVER — claude: `search-plan` then run WebSearch and `ingest`; "
+                "openclaw: `fetch` (or `manifest`->agent fetch->`ingest`).")
+    elif g("discovered") > 0:
+        step = f"SCORE — `to-score`, score the {g('discovered')} jobs, `apply-scores`."
+    elif g("approved") > 0:
+        step = f"TAILOR — `to-tailor`, draft docs for {g('approved')} approved, `apply-tailor`."
+    elif g("docs_ready") > 0:
+        step = f"PRE-FILL — `to-prefill`, browser-fill {g('docs_ready')} (stop at submit), `set-state prefilled`."
+    elif g("prefilled") > 0:
+        step = f"HUMAN — review & SUBMIT {g('prefilled')} pre-filled apps, then `set-state applied <id>`."
+    elif g("scored") > 0:
+        step = f"REVIEW — `deliver` the digest; user picks via `approve <id>` / `reject <id>`."
+    elif g("applied") > 0:
+        step = f"FOLLOW-UP — {g('applied')} applied; nudge after ~7 days, advance states."
+    else:
+        step = "Pipeline idle — run discovery to refresh."
+    print(f"pipeline: {json.dumps(c)}")
+    print(f"next: {step}")
+
+
 def cmd_stats(args):
     print(json.dumps(_db().counts(), indent=2))
 
@@ -206,6 +250,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("report"); sp.add_argument("--top-n", type=int, default=15)
     sp.add_argument("--min-score", type=int, default=50); sp.set_defaults(func=cmd_report)
+
+    sp = sub.add_parser("deliver"); sp.add_argument("--min-score", type=int, default=None)
+    sp.set_defaults(func=cmd_deliver)
+    sub.add_parser("next").set_defaults(func=cmd_next)
 
     sub.add_parser("stats").set_defaults(func=cmd_stats)
     return p
