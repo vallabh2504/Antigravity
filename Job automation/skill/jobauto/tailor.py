@@ -12,6 +12,35 @@ from .config import output_dir
 from .db import DB
 
 
+def build_apply_tasks(db: DB, profile: str, master_resume: str, top_n: int = 3) -> dict[str, Any]:
+    """Scorer -> application-writer handoff: the TOP-N scored jobs only."""
+    scored = [j for j in db.all()
+              if j.get("score") is not None and j["state"] not in ("rejected",)]
+    top = sorted(scored, key=lambda j: j.get("score") or 0, reverse=True)[:top_n]
+    jobs = [{
+        "id": j["id"], "company": j["company"], "title": j["title"],
+        "location": j["location"], "url": j["url"],
+        "full_jd": j["jd_text"], "fit_notes": j.get("score_json", {}),
+        "score": j.get("score"),
+    } for j in top]
+    return {
+        "handoff": "scorer -> application-writer sub-agent",
+        "use_skills": ["resume-writer", "cover-letter-writer"],
+        "instructions": (
+            "You are the application-writer sub-agent. For EACH of these top-3 jobs, read "
+            "full_jd + profile + master_resume + the two SKILL.md files, then write a curated, "
+            "human-quality resume and cover letter (Markdown AND styled HTML from the skill "
+            "templates). Ground everything in real experience; no fabrication; no AI boilerplate. "
+            "Return a JSON list of {id, resume_markdown, resume_html, cover_letter_markdown, "
+            "cover_letter_html, why_fit:[...]} as output/applications.json, then run "
+            "`python -m jobauto apply-tailor output/applications.json`."
+        ),
+        "profile": profile,
+        "master_resume": master_resume,
+        "jobs": jobs,
+    }
+
+
 def build_tailor_tasks(db: DB, profile: str, master_resume: str,
                        states=("approved",)) -> dict[str, Any]:
     jobs = []
@@ -51,9 +80,12 @@ def apply_tailor(db: DB, docs: list[dict]) -> int:
             continue
         jdir = out / jid
         jdir.mkdir(parents=True, exist_ok=True)
-        slug = f"{job['company']}_{job['title']}".replace("/", "-")[:60]
         (jdir / "resume.md").write_text(d.get("resume_markdown", ""), encoding="utf-8")
         (jdir / "cover_letter.md").write_text(d.get("cover_letter_markdown", ""), encoding="utf-8")
+        if d.get("resume_html"):
+            (jdir / "resume.html").write_text(d["resume_html"], encoding="utf-8")
+        if d.get("cover_letter_html"):
+            (jdir / "cover_letter.html").write_text(d["cover_letter_html"], encoding="utf-8")
         why = d.get("why_fit", [])
         (jdir / "why_fit.md").write_text(
             "# Why this fits\n\n" + "\n".join(f"- {w}" for w in why), encoding="utf-8")

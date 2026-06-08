@@ -138,6 +138,17 @@ def cmd_apply_scores(args):
     print(f"applied {n} scores")
 
 
+def cmd_to_apply(args):
+    task = tailoring.build_apply_tasks(_db(), cfg.load_profile(),
+                                       cfg.load_master_resume(), args.top)
+    p = _write_json("to_apply.json", task)
+    print(f"HANDOFF scorer -> application-writer: top {len(task['jobs'])} jobs -> {p}")
+    for j in task["jobs"]:
+        print(f"  {j['score']}  {j['company']} — {j['title']}")
+    print("Spawn the application-writer sub-agent on this package (uses resume-writer +")
+    print("cover-letter-writer skills), then: python -m jobauto apply-tailor output/applications.json")
+
+
 def cmd_to_tailor(args):
     task = tailoring.build_tailor_tasks(_db(), cfg.load_profile(), cfg.load_master_resume())
     p = _write_json("to_tailor.json", task)
@@ -198,14 +209,17 @@ def cmd_next(args):
                 "openclaw: `fetch` (or `manifest`->agent fetch->`ingest`).")
     elif g("discovered") > 0:
         step = f"SCORE — `to-score`, score the {g('discovered')} jobs, `apply-scores`."
-    elif g("approved") > 0:
-        step = f"TAILOR — `to-tailor`, draft docs for {g('approved')} approved, `apply-tailor`."
+    elif g("scored") > 0 and g("docs_ready") == 0:
+        step = ("WRITE TOP-3 — `to-apply` (scorer->application-writer handoff), spawn the "
+                "application-writer sub-agent (resume-writer + cover-letter-writer skills), "
+                "`apply-tailor output/applications.json`; then `deliver` the digest.")
     elif g("docs_ready") > 0:
-        step = f"PRE-FILL — `to-prefill`, browser-fill {g('docs_ready')} (stop at submit), `set-state prefilled`."
+        step = (f"REVIEW & PRE-FILL — `deliver` digest; user `approve`/`reject`; then "
+                f"`to-prefill` the {g('docs_ready')} drafted apps (browser fill, stop at submit).")
+    elif g("approved") > 0:
+        step = f"PRE-FILL — `to-prefill` {g('approved')} approved (stop at submit), `set-state prefilled`."
     elif g("prefilled") > 0:
         step = f"HUMAN — review & SUBMIT {g('prefilled')} pre-filled apps, then `set-state applied <id>`."
-    elif g("scored") > 0:
-        step = f"REVIEW — `deliver` the digest; user picks via `approve <id>` / `reject <id>`."
     elif g("applied") > 0:
         step = f"FOLLOW-UP — {g('applied')} applied; nudge after ~7 days, advance states."
     else:
@@ -237,6 +251,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("apply-scores"); sp.add_argument("file"); sp.set_defaults(func=cmd_apply_scores)
 
+    sp = sub.add_parser("to-apply"); sp.add_argument("--top", type=int, default=3)
+    sp.set_defaults(func=cmd_to_apply)
     sub.add_parser("to-tailor").set_defaults(func=cmd_to_tailor)
     sp = sub.add_parser("apply-tailor"); sp.add_argument("file"); sp.set_defaults(func=cmd_apply_tailor)
 

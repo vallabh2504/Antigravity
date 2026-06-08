@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- Resume template. The application-writer fills {{...}} with curated, real content.
+     Single column = ATS-safe; styled = recruiter-friendly; @media print = clean A4 PDF. -->
+<html lang="en"><head><meta charset="utf-8">
+<title>{{name}} — Resume</title>
+<style>
+  :root{ --accent:#0b6e4f; --ink:#1a1a1a; --muted:#5b6470; --line:#e3e6ea; }
+  *{box-sizing:border-box} body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);max-width:800px;margin:24px auto;padding:0 28px;line-height:1.45;font-size:14px}
+  h1{font-size:26px;margin:0;letter-spacing:.2px}
+  .role{color:var(--accent);font-weight:600;margin:2px 0 6px}
+  .contact{color:var(--muted);font-size:13px}
+  .contact a{color:var(--muted);text-decoration:none}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);
+    border-bottom:2px solid var(--line);padding-bottom:3px;margin:18px 0 8px}
+  .summary{margin:10px 0 4px}
+  .skills{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
+  .skills span{background:#f1f5f3;border:1px solid var(--line);border-radius:6px;padding:2px 9px;font-size:12.5px}
+  .job{margin:0 0 10px} .job .top{display:flex;justify-content:space-between;font-weight:600}
+  .job .org{color:var(--muted);font-weight:500} .job ul{margin:4px 0 0;padding-left:18px}
+  .job li{margin:2px 0}
+  .edu .top{display:flex;justify-content:space-between}
+  @media print{ body{margin:0;max-width:none;font-size:12px} h2{margin-top:12px} a{color:var(--ink)} }
+</style></head><body>
+  <header>
+    <h1>{{name}}</h1>
+    <div class="role">{{target_role}}</div>
+    <div class="contact">{{location}} · {{email}} · {{links}}</div>
+  </header>
+
+  <h2>Summary</h2>
+  <p class="summary">{{summary}}</p>
+
+  <h2>Key Skills</h2>
+  <div class="skills">{{skill_chips}}</div>
+
+  <h2>Experience</h2>
+  {{experience_blocks}}
+
+  <h2>Education</h2>
+  <div class="edu">{{education_blocks}}</div>
+
+  {{extras_section}}
+</body></html>
