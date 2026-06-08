@@ -1,220 +1,206 @@
-# Job Automation — Build Plan (v1)
+# Job Automation — Build Plan (v2, OpenClaw-native)
 
-> Status: **Plan / awaiting approval + Openclaw confirmation.**
+> Status: **Plan / awaiting approval.**
 > Last updated: 2026-06-08.
-> Scope decided with the user: **Full 7-stage pipeline incl. form pre-fill**, runs **every morning**,
-> delivers via **email/Gmail digest + Markdown report in repo + web dashboard**, LLM scoring via the
-> user's **Openclaw agent (ChatGPT OAuth)** if compatible.
+> Scope (decided with user): **Full 7-stage pipeline incl. form pre-fill**, runs **every morning**,
+> delivers via **email/Gmail digest + Markdown report in repo + web dashboard**, LLM via the user's
+> **OpenClaw** ChatGPT OAuth.
 
 ---
 
-## 0. Important: the "Openclaw" integration (need to confirm)
+## 0. What changed: this is now an OpenClaw *skill*, not a standalone app
 
-The user wants this to run on their existing **Openclaw** setup and reuse its **ChatGPT OAuth** for LLM
-calls. I don't have verified knowledge of a tool by that exact name, so the design treats Openclaw as a
-**pluggable provider** behind two interfaces. The system works as long as Openclaw can supply:
+[OpenClaw](https://github.com/openclaw/openclaw) (Peter Steinberger's local, open-source AI assistant —
+formerly Clawde/Moltbot) already provides a scheduler, an LLM, a browser, email, and messaging. So we do
+**not** rebuild any of that. The job automation is implemented as a **native OpenClaw skill** plus a few
+helper Python scripts, triggered by an OpenClaw **cron job**.
 
-| Need | What it must expose | If yes | If no (fallback) |
-|------|--------------------|--------|------------------|
-| **Scheduling** | A daily cron / timed trigger that can run a script | Openclaw triggers `daily_run` | **GitHub Actions cron** (`.github/workflows/daily.yml`) |
-| **LLM access** | An HTTP endpoint for chat completions (ideally OpenAI-compatible) using its ChatGPT OAuth | `LLMClient` points at Openclaw's endpoint | Anthropic API key, or rules-only mode |
-| **Runtime** | Ability to run **Python 3.11+** and **Playwright** (headless Chromium) for stage 4 pre-fill | Run everything on Openclaw | GitHub Actions runner / small VPS |
-| **Secrets** | Somewhere to store credentials (SMTP, API keys, profile) | Use Openclaw's secret store | GitHub Actions secrets / `.env` (gitignored) |
+| Stage need | OpenClaw primitive we use | What we DON'T build |
+|---|---|---|
+| Daily morning trigger | **Cron jobs** | ~~GitHub Actions / custom cron~~ |
+| Orchestration / reasoning | A **skill**: `~/.openclaw/workspace/skills/job-automation/SKILL.md` | ~~bespoke orchestrator~~ |
+| Run fetchers / scripts | **`bash` / `process`** tools | ~~job runner~~ |
+| Stage 6 form pre-fill | Built-in **browser tool** (+ Playwright fallback) | ~~separate browser stack~~ |
+| Stage 3 & 5 LLM (scoring, tailoring) | **`agent.model`** = your ChatGPT OAuth | ~~API key / LLM client~~ |
+| Stage 7 delivery | **Gmail (Pub/Sub)** + messaging channels (Telegram/WhatsApp) | ~~SMTP server~~ |
+| Memory / tracking | OpenClaw workspace memory + local **SQLite** | — |
+| Secrets/config | `~/.openclaw/openclaw.json` + skill config + gitignored `secrets.yml` | ~~secret manager~~ |
 
-> **Questions for the user are in §11.** Until these are answered, scheduler + LLM are stubbed behind
-> interfaces so nothing about the core pipeline depends on the final choice.
+**Relevant OpenClaw facts (from its repo/docs):**
+- Skills live at `~/.openclaw/workspace/skills/<skill>/SKILL.md` (Markdown-defined, like Claude Code skills);
+  tools include `bash`, `process`, `read`, `write`, `edit`, plus first-class **browser**, **canvas**, nodes,
+  sessions.
+- Automations: **Cron jobs** and **Webhooks**. Email via **Gmail Pub/Sub**.
+- LLM via OAuth subscriptions incl. **OpenAI (ChatGPT/Codex)**, set as `agent.model = "<provider>/<model-id>"`
+  in `~/.openclaw/openclaw.json`.
+- Session context files: `AGENTS.md`, `SOUL.md`, `TOOLS.md`.
+
+> **Fallback (only if needed):** if you'd rather not run it inside OpenClaw, a `.github/workflows/daily.yml`
+> cron + an LLM key reproduces the same pipeline. OpenClaw is the primary target.
+
+> **Security note:** OpenClaw runs with broad permissions (email, browser, shell). This skill stays within
+> that model but is scoped: it only *reads* job sources, *drafts* docs, and *pre-fills* forms — it never
+> auto-submits, never handles your passwords, and writes only inside its own skill/workspace dirs.
 
 ---
 
 ## 1. Goals & non-goals
 
-**Goal:** Every morning, automatically discover fresh fuel-cell roles & PhD positions (aviation > rail >
-heavy vehicles; Stuttgart → Germany → Europe), rank them against `profile.md`, draft tailored docs,
-**pre-fill** application forms up to the submit button, track everything, and deliver a digest the user
-reviews over coffee.
+**Goal:** Every morning OpenClaw automatically discovers fresh fuel-cell roles & PhD positions
+(aviation > rail > heavy vehicles; Stuttgart → Germany → Europe), ranks them against `profile.md`, drafts
+tailored docs, **pre-fills** application forms up to the submit button, tracks everything, and sends you a
+digest to review over coffee.
 
 **Non-goals (deliberate):**
-- **No auto-submitting** applications. The system pre-fills and stops at the submit button — a human
-  clicks send. (ToS, quality, and anti-bot reasons. See §8.)
+- **No auto-submitting.** Pre-fill stops at the submit button; a human clicks send (ToS, quality, anti-bot).
 - **No mass-blasting.** Win = better targeting + faster tailoring, not 500 spray applications.
-- **No "scrape the entire internet" literally.** That's neither legal nor reliable. We get broad
-  coverage via official ATS APIs + job-board APIs + RSS + a *polite, targeted* set of company career
-  pages. See §4.
+- **No "scrape the entire internet" literally.** Broad coverage via official ATS APIs + job-board/PhD APIs +
+  RSS + polite targeted fetches. **No LinkedIn/Indeed scraping** — use their email alerts (OpenClaw reads Gmail).
 
 ---
 
-## 2. The 7 stages → modules
+## 2. The 7 stages → how each runs in OpenClaw
 
 ```
-1 Discover ──► 2 Normalize/Dedupe ──► 3 Score/Rank ──► 4 Review queue (HUMAN) ──┐
-                                                                                 │ approved
-                          ┌──────────────────────────┬───────────────────────────┤
-                          ▼                           ▼                           ▼
-                   5 Tailor docs              6 Pre-fill forms             7 Track + follow-up
-                   (resume/cover)             (Playwright, stop           (DB + reminders +
-                                               at submit)                  digest delivery)
+CRON (every morning) ──► SKILL: job-automation
+  1 Discover ─► 2 Normalize/Dedupe ─► 3 Score/Rank ─► 4 Review (HUMAN via digest) ─┐
+                                                                                    │ you approve
+                              ┌──────────────────────┬─────────────────────────────┤  (reply in chat)
+                              ▼                       ▼                             ▼
+                       5 Tailor docs          6 Pre-fill (browser)          7 Track + deliver
+                       (agent.model)          stop at submit                (SQLite + Gmail/Telegram + report)
 ```
 
-| # | Stage | Module | What it does |
-|---|-------|--------|--------------|
-| 1 | Discovery | `sources/` | One adapter per source. Pulls raw postings. |
-| 2 | Normalize | `normalize.py` | Parse → common schema, dedupe by content hash. |
-| 3 | Score/Rank | `score.py` + `llm.py` | Hard rules filter, then LLM fit score (0–100 + rationale) vs `profile.md`. |
-| 4 | Review | dashboard + digest | Human approves/rejects. **The gate.** |
-| 5 | Tailor | `tailor.py` | LLM drafts resume bullet emphasis + cover letter per approved job. |
-| 6 | Pre-fill | `apply/prefill.py` | Playwright opens the application, fills known fields, **pauses at submit**. |
-| 7 | Track | `db.py` + `notify.py` | Pipeline DB, follow-up reminders, builds the daily digest. |
+| # | Stage | Implemented as | Detail |
+|---|-------|----------------|--------|
+| 1 | Discover | `scripts/discover.py` via `bash` tool | Source adapters → raw postings (see §3). |
+| 2 | Normalize | `scripts/normalize.py` | Parse → schema, dedupe by content hash, upsert SQLite. |
+| 3 | Score/Rank | SKILL.md prompt + `agent.model` | Rules filter, then OpenClaw's LLM scores fit 0–100 + rationale vs `profile.md`. |
+| 4 | Review | **digest + your reply** | OpenClaw messages you the shortlist; you approve/reject by replying (Telegram/WhatsApp/email/chat). |
+| 5 | Tailor | SKILL.md + `agent.model` | LLM drafts tailored resume bullets + cover letter for approved jobs. |
+| 6 | Pre-fill | **browser tool** (Playwright fallback) | Opens application, fills fields, screenshots, **pauses at submit**. |
+| 7 | Track | `scripts/db.py` + OpenClaw Gmail/messaging | Pipeline states, follow-up reminders, builds + sends digest, commits report. |
+
+OpenClaw's **agent** is the orchestrator: the cron fires → it reads `SKILL.md` → runs the scripts via
+`bash`/`process` → uses its own model for stages 3 & 5 → uses browser for stage 6 → sends digest via Gmail/
+messaging. The Python scripts are deterministic plumbing; the LLM reasoning is OpenClaw's job.
 
 ---
 
-## 3. Discovery sources (stage 1) — coverage strategy
+## 3. Discovery sources (stage 1)
 
-**Tier A — Official ATS APIs (clean, ToS-friendly, primary):** per-company JSON boards.
-- Greenhouse: `boards-api.greenhouse.io/v1/boards/<company>/jobs`
-- Lever: `api.lever.co/v0/postings/<company>`
-- Ashby, Workable, SmartRecruiters, Personio (big in DE), Join.com.
-- We maintain a **`companies.yml`** watchlist (H2FLY, cellcentric, Daimler Truck, Bosch, Airbus, MTU,
-  Alstom, Siemens Mobility, ZeroAvia, Ballard, Cummins/Accelera, Freudenberg, Symbio, …).
+**Tier A — Official ATS APIs (primary, ToS-clean):** per-company JSON boards.
+- Greenhouse `boards-api.greenhouse.io/v1/boards/<co>/jobs`, Lever `api.lever.co/v0/postings/<co>`,
+  Ashby, Workable, SmartRecruiters, **Personio** (big in DE), Join.com. Watchlist in **`companies.yml`**
+  (H2FLY, cellcentric, Daimler Truck, Bosch, Airbus, MTU, Alstom, Siemens Mobility, ZeroAvia, Ballard,
+  Cummins/Accelera, Freudenberg, Symbio…).
 
-**Tier B — Job-board / aggregator APIs & feeds (breadth):**
-- **Adzuna API** (Germany), **Arbeitnow API**, **Jobicy**, **RemoteOK**, **WeWorkRemotely RSS**.
-- **EURAXESS** + university portals for **PhD positions** (DLR, Fraunhofer ISE/ICT, KIT, Uni Stuttgart,
-  RWTH, FZ Jülich), **academics.com**, **stellenwerk**.
-- **Bundesagentur für Arbeit** (German federal jobs API) for DE breadth.
+**Tier B — Job-board / PhD APIs & feeds (breadth):** Adzuna (DE), Arbeitnow, Jobicy, RemoteOK,
+WeWorkRemotely RSS, **Bundesagentur für Arbeit** API; **EURAXESS**, academics.com, stellenwerk, plus DLR /
+Fraunhofer / KIT / Uni Stuttgart / RWTH / FZ Jülich portals for **PhDs**.
 
-**Tier C — Targeted page fetch (last resort, polite):** for a few key career pages with no API, a gentle
-scheduled fetch with caching + backoff. **No LinkedIn/Indeed scraping** (ToS + anti-bot). For those, rely
-on their *email alerts* forwarded into the inbox the system already reads.
+**Tier C — Polite targeted fetch / Gmail alerts:** a few key career pages via gentle cached fetch; for
+LinkedIn/Indeed, set up their email alerts → OpenClaw's Gmail reader ingests them. No scraping of anti-bot sites.
 
-Each source is an adapter implementing:
-```python
-class Source(Protocol):
-    name: str
-    def fetch(self, queries: list[Query]) -> list[RawPosting]: ...
-```
-Adding a source = adding one file. Sources are enabled/disabled in `config.yml`.
+Each source = one adapter file in `scripts/sources/` implementing `fetch(queries) -> list[RawPosting]`.
+Enable/disable in `config.yml`.
 
 ---
 
-## 4. Scoring & ranking (stages 2–3)
-
-1. **Hard rules** (cheap, drop obvious misses): keyword match (fuel cell / hydrogen / FCEV / PEM / stack /
-   BoP …), sector tags (aviation/rail/heavy), location in {Stuttgart, DE, EU}, role type (job vs PhD).
-2. **Soft LLM score** via `LLMClient` (Openclaw/ChatGPT → fallback Anthropic): feeds the posting + a
-   compact form of `profile.md`, returns JSON `{score: 0-100, reasons: [...], german_required: bool,
-   visa_friendly_guess: bool, tier: A/B/C}`. **Cached by job hash** so we never re-score the same posting.
-3. **German-level handling:** A2–B1 → roles needing B2+ are *flagged*, not discarded (per profile).
+## 4. Scoring (stage 3) & German handling
+1. **Hard rules:** fuel-cell/H2 keywords, sector tags, location ∈ {Stuttgart, DE, EU}, job-vs-PhD.
+2. **LLM score (OpenClaw `agent.model`):** posting + compact `profile.md` → JSON `{score, reasons[],
+   german_required, visa_friendly_guess, sector, tier}`. **Cached by job hash.**
+3. **German A2–B1:** roles needing B2+ are *flagged*, not dropped (per profile).
 
 ---
 
 ## 5. Tailoring (stage 5)
-
-- `master_resume.yml` (structured) + `cover_letter_base.md` live in the repo (gitignored if you prefer).
-- For each **approved** top-N job, the LLM produces: (a) reordered/highlighted resume bullets, (b) a
-  tailored cover-letter draft, (c) a 3-line "why me / why them." Saved to `output/<job_id>/`.
-- **Human edits & owns** the final document. Nothing is sent automatically.
+- `master_resume.yml` + `cover_letter_base.md` in the skill dir (PII in gitignored `secrets.yml`).
+- Per approved top-N job, OpenClaw drafts: highlighted resume bullets, a tailored cover letter, a 3-line
+  "why me / why them." Saved to `output/<job_id>/`. **You edit & own the final.**
 
 ---
 
-## 6. Pre-fill / application assist (stage 6)
-
-- **Playwright** (headless or headful) opens the application URL, detects the ATS (Greenhouse/Lever/Ashby
-  have predictable forms), and fills name, email, phone, links, resume upload, and common questions from
-  `profile.md` + tailored docs.
-- **Hard stop at the submit button.** It screenshots the filled form, saves session state, and the digest
-  links you straight to it to review & click send yourself.
-- Realistic coverage: smooth on standard ATSes (~Tier A), partial/skip on custom portals. Logged honestly
-  per job ("pre-filled" / "manual — custom portal").
-- **Risk note:** even pre-fill automation can trip anti-bot on some sites; adapters run gently, with human
-  fallback. We never defeat CAPTCHAs or auth walls.
+## 6. Pre-fill (stage 6)
+- OpenClaw's **browser tool** opens the application URL, detects the ATS, fills name/email/phone/links/
+  resume + common questions from `profile.md` + tailored docs, screenshots, and **stops at submit**.
+- Standard ATSes (Tier A) pre-fill smoothly; custom portals are logged as "manual." Never defeats CAPTCHAs
+  or auth walls. Playwright is a fallback only if the built-in browser can't handle a form.
 
 ---
 
 ## 7. Tracking & delivery (stage 7)
-
-- **DB:** SQLite (`jobs.db`) with states `discovered → scored → approved/rejected → docs_ready →
-  prefilled → applied → screen → onsite → offer → closed`. Committed? No — DB is gitignored; reports are
-  committed.
-- **Follow-up reminders:** e.g. nudge 7 days after `applied`.
-- **Delivery (all three, per user):**
-  1. **Email/Gmail digest** — ranked shortlist each morning (top matches, scores, links, pre-fill status).
-  2. **Markdown report in repo** — `Job automation/reports/YYYY-MM-DD.md`, committed daily (version-controlled history).
-  3. **Web dashboard** — a small FastAPI (or Next.js) app showing the pipeline & ranked jobs, deployable to Vercel; reads `jobs.db`/JSON.
+- **SQLite** `jobs.db` (gitignored): states `discovered → scored → approved/rejected → docs_ready →
+  prefilled → applied → screen → onsite → offer → closed`; follow-up reminders (e.g. nudge 7 days post-apply).
+- **Delivery (all three):**
+  1. **Gmail digest** (OpenClaw) — ranked shortlist each morning: top matches, scores, links, pre-fill status.
+  2. *(bonus)* **Messaging digest** — same to **Telegram/WhatsApp** so you can approve by reply.
+  3. **Markdown report** committed to `Job automation/reports/YYYY-MM-DD.md` (version-controlled history).
+  4. **Web dashboard** — small FastAPI/Next.js app over `jobs.db`, deployable to Vercel (optional).
 
 ---
 
-## 8. Proposed repo layout
+## 8. Repo layout (the skill lives here; symlink/sync into OpenClaw workspace)
 
 ```
 Job automation/
-├── README.md                 # overview (done)
-├── DISCUSSION.md             # design discussion (done)
-├── profile.md                # candidate profile (done)
-├── PLAN.md                   # this file
-├── config.yml                # enabled sources, queries, thresholds, schedule
-├── companies.yml             # ATS watchlist
-├── pyproject.toml            # deps (httpx, pydantic, playwright, jinja2, fastapi…)
-├── src/jobauto/
-│   ├── run.py                # `daily_run` entrypoint orchestrating all 7 stages
-│   ├── models.py             # RawPosting, Job, Score (pydantic)
-│   ├── sources/              # one adapter per source (greenhouse.py, lever.py, adzuna.py, euraxess.py…)
-│   ├── normalize.py          # parse + dedupe
-│   ├── llm.py                # LLMClient: Openclaw → Anthropic → rules-only
-│   ├── score.py              # rules + LLM scoring
-│   ├── tailor.py             # resume/cover drafting
-│   ├── apply/prefill.py      # Playwright pre-fill
-│   ├── db.py                 # SQLite pipeline
-│   └── notify.py             # email + markdown report builders
-├── dashboard/                # web UI (FastAPI/Next.js)
-├── reports/                  # YYYY-MM-DD.md (committed daily)
-├── output/                   # tailored docs, screenshots (gitignored)
-└── .github/workflows/daily.yml  # cron fallback if not using Openclaw
+├── README.md  DISCUSSION.md  profile.md  PLAN.md      # (done)
+├── skill/                         # → symlinked to ~/.openclaw/workspace/skills/job-automation/
+│   ├── SKILL.md                   # the OpenClaw skill (orchestration + LLM prompts)
+│   ├── config.yml                 # enabled sources, queries, thresholds, schedule, delivery targets
+│   ├── companies.yml              # ATS watchlist
+│   ├── secrets.example.yml        # template (real secrets.yml is gitignored)
+│   └── scripts/
+│       ├── discover.py            # stage 1 (calls sources/*)
+│       ├── sources/               # greenhouse.py, lever.py, adzuna.py, euraxess.py, …
+│       ├── normalize.py           # stage 2
+│       ├── db.py                  # SQLite pipeline (stage 7 storage)
+│       ├── digest.py              # builds digest + writes daily report
+│       └── prefill.py             # Playwright fallback for stage 6
+├── dashboard/                     # optional web UI (stage 4/7)
+├── reports/                       # YYYY-MM-DD.md committed daily
+└── output/                        # tailored docs + screenshots (gitignored)
 ```
+The repo is the source of truth; the user symlinks `skill/` into `~/.openclaw/workspace/skills/` (or points
+OpenClaw at this git checkout). An OpenClaw **cron job** calls the skill each morning.
 
 ---
 
 ## 9. Tech stack
-- **Python 3.11+**, `httpx` (async fetch), `pydantic` (models), `PyYAML`, `jinja2` (report/email templates),
-  `playwright` (pre-fill), `sqlite3`, `fastapi`+`uvicorn` (dashboard).
-- **LLM:** OpenAI-compatible client pointed at Openclaw's ChatGPT endpoint (fallback Anthropic SDK / rules).
-- **Email:** SMTP (or the session's Gmail integration to drop a draft/message).
+- **OpenClaw** (scheduler, LLM via ChatGPT OAuth, browser, Gmail, messaging).
+- **Python 3.11+** helper scripts: `httpx`, `pydantic`, `PyYAML`, `jinja2`, `sqlite3`; `playwright` only as
+  browser fallback; `fastapi`+`uvicorn` for the optional dashboard.
 
 ---
 
-## 10. Build milestones (incremental — each ships something usable)
-
-- **M1 — Skeleton + discovery (Tier A + Adzuna + EURAXESS):** fetch → normalize → dedupe → SQLite. Output a
-  plain Markdown report. *(Useful day 1: real fresh listings, deduped.)*
-- **M2 — Scoring:** rules filter + LLM fit scores via `LLMClient`. Ranked report. Email digest.
-- **M3 — Daily automation:** wire `daily_run` to Openclaw schedule (or GitHub Actions cron) + secrets.
-- **M4 — Tailoring:** master resume/cover + per-job drafts for top matches.
-- **M5 — Pre-fill:** Playwright adapters for Greenhouse/Lever/Ashby, stop-at-submit + screenshots.
+## 10. Build milestones (each ships something usable)
+- **M1 — Skill skeleton + discovery:** `SKILL.md` + `discover.py` (Greenhouse/Lever + Adzuna + EURAXESS) →
+  normalize → dedupe → SQLite → plain Markdown report. *(Day-1 value: real fresh, deduped listings.)*
+- **M2 — Scoring & digest:** rules + OpenClaw LLM fit scores; ranked digest delivered via Gmail/Telegram.
+- **M3 — Cron:** register the OpenClaw cron job; verify a real morning run end-to-end.
+- **M4 — Tailoring:** master resume/cover + per-job drafts for approved matches.
+- **M5 — Pre-fill:** OpenClaw browser flows for Greenhouse/Lever/Ashby; stop-at-submit + screenshots.
 - **M6 — Dashboard:** FastAPI/Next.js UI, optional Vercel deploy.
 - **M7 — Follow-ups & polish:** reminders, more sources, tuning.
 
 ---
 
-## 11. Open questions (blocking the build)
-
-**About Openclaw (decisive for scheduler + LLM + runtime):**
-1. What *is* Openclaw here — a self-hosted agent? Can you share a docs link or one line on what it runs?
-2. Can it **run on a daily schedule/cron** and execute a **Python script** (+ install Playwright)?
-3. Does its **ChatGPT OAuth** expose an **HTTP endpoint** I can call for chat completions (and is it
-   OpenAI-API-compatible)? If not, I'll use it differently or fall back to an Anthropic key.
-4. Does it have a **secret store** for SMTP creds / API keys?
-   *(If any answer is "no", we use the GitHub Actions cron + secrets fallback — equally fine.)*
-
-**About delivery & data:**
-5. **Email:** which address for the digest (default: your Gmail), and should it be a *sent email* or a
-   *Gmail draft* you review?
-6. **Dashboard:** OK to deploy to **Vercel** (public URL with light auth), or keep it local-only?
-7. **Resume:** can you drop your current **CV (PDF) + a plain-text version** into the folder so tailoring
-   and pre-fill have real content? (PII like phone/address can stay in a gitignored `secrets.yml`.)
-8. **Visa line for cover letters / filters:** your permit status + EU Blue Card eligibility (still open in `profile.md`).
+## 11. Open questions (to start the build)
+1. **OpenClaw version/host:** which OS/machine runs it, and is it always-on in the mornings? (Cron only
+   fires if the host is awake.)
+2. **OpenClaw model:** what is `agent.model` set to (which ChatGPT model)? Confirms scoring/tailoring quality.
+3. **Delivery channel for approvals:** Gmail only, or also **Telegram/WhatsApp** (lets you approve by reply)?
+4. **Resume:** drop your current **CV (PDF + plain text)** into `skill/` so tailoring/pre-fill use real content.
+5. **Dashboard:** OK to deploy to **Vercel** (light auth), or keep local-only?
+6. **Visa line** for cover letters/filters: permit status + EU Blue Card eligibility (still open in `profile.md`).
+7. **Workspace wiring:** can you symlink `skill/` into `~/.openclaw/workspace/skills/`, or should I add a
+   tiny installer script that does it + registers the cron job?
 
 ---
 
-## 12. My recommendation
-Approve **M1–M3 first** (discovery + ranking + daily email/report) so you get value within the first build,
-then layer M4–M6 (tailoring, pre-fill, dashboard). I'll start M1 the moment you confirm the Openclaw
-answers in §11 (or tell me to use the GitHub Actions fallback).
+## 12. Recommendation
+Build **M1–M3 first** (discovery + scoring + a real daily OpenClaw cron digest) so you immediately get a
+morning shortlist of fresh fuel-cell roles, then layer M4–M6 (tailoring, pre-fill, dashboard). I can start
+M1 now — it needs no secrets, just your go-ahead. I'll wire the OpenClaw-specific bits (cron, model, Gmail)
+once you confirm §11.
