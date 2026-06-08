@@ -5,12 +5,28 @@ The Python package `jobauto` is deterministic plumbing; the **agent** (OpenClaw,
 Claude on-demand) does portal fetching and LLM scoring/tailoring. See **SKILL.md** for
 the agent runbook.
 
-## Run it manually right now (no cron, agent-triggered)
-From this directory:
+## Two backends, one pipeline
+Discovery differs by runtime; everything after ingest is identical.
+
+| Backend | Where | How it finds jobs |
+|---------|-------|-------------------|
+| **claude**   | Claude Code / restricted sandbox | `search-plan` → agent runs **WebSearch** → `ingest` |
+| **openclaw** | your machine (no egress limit)   | `fetch` (ATS+aggregator APIs) or `manifest`→agent-fetch→`ingest` |
+
+### Run with CLAUDE (this container — WebSearch only)
+```bash
+pip install -r requirements.txt
+python -m jobauto search-plan --limit 20   # -> output/search_plan.json (queries)
+#   <agent runs each query with WebSearch, writes search_results.json>
+python -m jobauto ingest search_results.json
+# ...then score/report/tailor below. (Egress here blocks job APIs, so `fetch` won't work.)
+```
+
+### Run with OPENCLAW (full live extraction)
 ```bash
 pip install -r requirements.txt
 
-# 1-2 discover  (direct fetch where network allows)
+# 1-2 discover  (direct fetch — ATS + aggregator APIs)
 python -m jobauto fetch
 #   ...or agent-fetch backend:
 python -m jobauto manifest          # the requests to make

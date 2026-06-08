@@ -25,10 +25,21 @@
 `ingest 7 → rules drop 1 → score 6 → digest top-6 → approve 2 → tailor 2 → docs_ready`. See
 `reports/2026-06-08.md`. On OpenClaw (unblocked) `cli fetch` pulls the real postings.
 
-## How it runs now vs. on OpenClaw
-- **Now (this container / on demand):** you ask → the agent runs the `cli` steps, fetching via web/browser
-  tools (egress to job APIs is blocked here, so it uses the `manifest`→fetch→`ingest` backend) and doing the
-  LLM scoring/tailoring itself. No secrets needed.
+## Dual-mode: two discovery backends, one shared pipeline
+The normalize → score → review → tailor → prefill → report pipeline is identical; only
+*how postings are discovered* differs by runtime:
+
+| Backend | Runtime | Discovery | Fidelity | Commands |
+|---------|---------|-----------|----------|----------|
+| **`claude`** | this container / Claude Code | **WebSearch** only (egress allowlist blocks job APIs + WebFetch) | best-effort sampling, partial JD from snippets | `search-plan` → run WebSearch → `ingest` |
+| **`openclaw`** | user's machine | full ATS + aggregator **APIs** + **browser** | complete, full JD, scalable | `fetch` (or `manifest`→agent-fetch→`ingest`) |
+
+- **Verified live (claude backend):** ran real WebSearches → ingested real postings (MAHLE Stuttgart
+  PEM-FC PhD, FZ Jülich, HI-ERN, Gamma Technologies) → scored → digest. See `reports/2026-06-08.md`.
+- **Why no scraper here:** this sandbox 403s *all* outbound HTTP except github/pypi/anthropic (confirmed:
+  even example.com/wikipedia fail), so httpx/Playwright/Scrapy can't reach the web. WebSearch (an agent
+  tool routed through Anthropic, not container egress) is the only open-web channel — hence the `claude`
+  backend is WebSearch-driven. On OpenClaw there is no such limit, so it uses the full API/browser backend.
 - **On OpenClaw (after handoff):** `bash skill/install.sh` symlinks it in; OpenClaw's model does scoring/
   tailoring via your ChatGPT OAuth, its browser does pre-fill, Gmail/Telegram deliver the digest, and a
   cron fires it each morning.

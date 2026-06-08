@@ -29,6 +29,7 @@ import yaml
 from .sources import build_recipes
 from .sources.fetch import fetch_all, manifest as build_manifest
 from .sources.aggregators import build_aggregator_recipes
+from .sources.websearch import build_search_plan
 from . import discover as discovery
 from . import score as scoring
 from . import tailor as tailoring
@@ -67,6 +68,20 @@ def cmd_fetch(args):
     raws = fetch_all(_all_recipes())
     res = do_ingest(_db(), raws)
     print(f"fetched {len(raws)} postings -> new={res['new']} dup={res['dup']}")
+
+
+def cmd_search_plan(args):
+    plan = build_search_plan(cfg.load_companies(), cfg.load_config())
+    qs = plan["queries"]
+    if args.limit:
+        qs = qs[:args.limit]
+        plan["queries"] = qs
+    p = _write_json("search_plan.json", plan)
+    print(f"{len(qs)} WebSearch queries (claude backend) -> {p}")
+    for q in qs[:12]:
+        print(f"  [{q['kind']}] {q['query']}")
+    if len(qs) > 12:
+        print(f"  ... +{len(qs) - 12} more")
 
 
 def cmd_discover_sources(args):
@@ -165,6 +180,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("manifest").set_defaults(func=cmd_manifest)
     sub.add_parser("fetch").set_defaults(func=cmd_fetch)
+    sp = sub.add_parser("search-plan"); sp.add_argument("--limit", type=int, default=0)
+    sp.set_defaults(func=cmd_search_plan)
     sub.add_parser("discover-sources").set_defaults(func=cmd_discover_sources)
     sp = sub.add_parser("add-companies"); sp.add_argument("file")
     sp.set_defaults(func=cmd_add_companies)
