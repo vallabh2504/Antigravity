@@ -1,0 +1,55 @@
+# Pipeline configuration.
+
+# Stage 1 — discovery breadth: also query these aggregator/PhD APIs (agent backend
+# fetches them; httpx backend hits them directly).
+aggregators:
+  adzuna: { enabled: true, country: de, what: "fuel cell hydrogen", where: "Stuttgart" }
+  arbeitnow: { enabled: true, query: "fuel cell hydrogen" }
+  euraxess: { enabled: true, query: "fuel cell hydrogen", country: Germany }
+  bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff" }
+
+# Stage 3 — hard rules (cheap prefilter before LLM scoring)
+include_keywords:
+  - fuel cell
+  - fuel-cell
+  - hydrogen
+  - wasserstoff
+  - brennstoffzelle
+  - FCEV
+  - PEM
+  - electrolyzer
+  - hydrogen storage
+  - stack
+  - balance of plant
+exclude_keywords:
+  - sales representative
+  - internship   # remove if you also want working-student/intern roles
+  - praktikum
+
+# Geography preference (Stuttgart > Germany > Europe). Empty location = kept.
+locations:
+  - stuttgart
+  - baden-württemberg
+  - germany
+  - deutschland
+  - münchen
+  - munich
+  - europe
+  - remote
+
+# Stage 4/7 — reporting
+report:
+  top_n: 15
+  min_score: 50        # only surface jobs scoring >= this in the digest
+
+# Stage 7 — delivery (used by OpenClaw; in-container we just write the report file)
+delivery:
+  gmail: { enabled: true, to: "saibharadhwajreddy@gmail.com", mode: draft }  # draft | send
+  messaging: { enabled: false, channel: telegram }   # set true once OpenClaw channel is wired
+  commit_report: true   # commit reports/YYYY-MM-DD.md to git each run
+
+# Candidate quick-facts the agent may use in cover letters (non-secret)
+candidate:
+  visa_status: "International student in Germany (verify Blue Card / job-seeker timeline)"
+  earliest_start: "see profile.md (~6-12 months)"
+  german_level: "A2-B1"

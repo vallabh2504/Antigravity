@@ -1,0 +1,48 @@
+# Master resume — the superset of everything you've done. The tailor stage selects
+# and re-emphasizes from here per job (it never invents experience).
+# Replace with your real data, save as master_resume.yml, drop your CV PDF path in secrets.yml.
+
+name: "<your name>"
+headline: "Fuel cell systems engineer — aviation / rail / heavy vehicles"
+contact:
+  email: "saibharadhwajreddy@gmail.com"
+  location: "Aachen / Stuttgart, Germany"
+
+education:
+  - degree: "M.Sc. Automotive Engineering"
+    school: "RWTH Aachen, Germany"
+    grade: "1.7 (in progress)"
+    notes: "Thesis: fuel cell system control (starting soon, at DLR)"
+  - degree: "B.Tech Mechanical Engineering"
+    school: "JNTUH, Hyderabad, India"
+    grade: "CGPA 9.05"
+
+experience:
+  - role: "Werkstudent — Fuel Cell Systems"
+    org: "DLR"
+    bullets:
+      - "Developing the complete fuel cell system for an aircraft application"
+      - "Upcoming Master's thesis on fuel cell system control"
+  - role: "Intern — FCEV Energy Management"
+    org: "Robert Bosch, Renningen"
+    bullets:
+      - "Worked on the Energy Management System (EMS) of an FCEV for a medium van"
+      - "Co-authored a research paper (pending publication)"
+  - role: "Mechanical Team Lead"
+    org: "Ecogenium (RWTH student club) — Shell Eco-marathon"
+    bullets:
+      - "Built a hydrogen fuel-cell competition car over ~2 years"
+      - "Carbon-fibre ANSYS ACP simulation; suspension kinematics"
+      - "Carbon-fibre chassis & shell manufacturing; metal 3D printing"
+      - "Hands-on fuel cell system control"
+  - role: "Industrial Design Intern"
+    org: "Techolution (robotics)"
+    bullets:
+      - "Owned all mechanical engineering for the 'Doorbot' robot"
+      - "CAD, 3D printing, additive & iterative manufacturing, FEM, DFM, DFAM"
+
+skills:
+  fuel_cells: ["system development", "EMS / controls", "PEM stacks", "balance of plant", "hydrogen storage"]
+  simulation: ["FEM", "ANSYS ACP (composites)", "suspension kinematics"]
+  design_mfg: ["CAD", "DFM", "DFAM", "additive manufacturing", "metal 3D printing", "carbon fibre"]
+  languages: ["English (fluent)", "German (A2-B1)", "Telugu/Hindi"]

@@ -1,10 +1,36 @@
-# Job Automation — Build Plan (v2, OpenClaw-native)
+# Job Automation — Build Plan (v3, built & runnable)
 
-> Status: **Plan / awaiting approval.**
+> Status: **v1 BUILT and validated end-to-end in-container.** Agent-triggered (no cron yet) —
+> hand the `skill/` folder to OpenClaw, which adds the morning cron.
 > Last updated: 2026-06-08.
-> Scope (decided with user): **Full 7-stage pipeline incl. form pre-fill**, runs **every morning**,
-> delivers via **email/Gmail digest + Markdown report in repo + web dashboard**, LLM via the user's
-> **OpenClaw** ChatGPT OAuth.
+> Scope (decided with user): **Full 7-stage pipeline incl. form pre-fill**, runs **every morning** (cron
+> added by OpenClaw), delivers via **email/Gmail digest + Markdown report in repo + web dashboard**, LLM
+> via the user's **OpenClaw** ChatGPT OAuth.
+
+## Build status (what exists in `skill/`)
+| Stage | Status | Where |
+|-------|--------|-------|
+| 1 Discover | ✅ portal recipes (Greenhouse/Lever/Ashby/SmartRecruiters/Workday/custom) + agent-fetch + httpx backends | `jobauto/sources/`, `cli manifest`/`fetch` |
+| 2 Normalize/Dedupe | ✅ HTML-strip, content-hash dedupe, SQLite store | `normalize.py`, `db.py` |
+| 3 Score/Rank | ✅ rules prefilter + LLM-scoring exchange (agent scores) | `score.py`, `cli to-score`/`apply-scores` |
+| 4 Review gate | ✅ digest + `approve`/`reject` | `digest.py`, `cli report`/`approve` |
+| 5 Tailor | ✅ curated-per-JD resume + cover letter | `tailor.py`, `cli to-tailor`/`apply-tailor` |
+| 6 Pre-fill | ✅ task builder + OpenClaw-browser runbook + Playwright fallback (stops at submit) | `apply_prefill.py`, `cli to-prefill` |
+| 7 Track/Deliver | ✅ pipeline states, follow-ups, daily report; Gmail/messaging wired via OpenClaw | `db.py`, `digest.py` |
+| Cron | ⏳ OpenClaw adds it (host must be awake AM) | `SKILL.md > Cron` |
+| Dashboard | ⏳ not yet (M6) | `dashboard/` |
+
+**Validated run** (sample fixture, since this container's egress blocks live portals):
+`ingest 7 → rules drop 1 → score 6 → digest top-6 → approve 2 → tailor 2 → docs_ready`. See
+`reports/2026-06-08.md`. On OpenClaw (unblocked) `cli fetch` pulls the real postings.
+
+## How it runs now vs. on OpenClaw
+- **Now (this container / on demand):** you ask → the agent runs the `cli` steps, fetching via web/browser
+  tools (egress to job APIs is blocked here, so it uses the `manifest`→fetch→`ingest` backend) and doing the
+  LLM scoring/tailoring itself. No secrets needed.
+- **On OpenClaw (after handoff):** `bash skill/install.sh` symlinks it in; OpenClaw's model does scoring/
+  tailoring via your ChatGPT OAuth, its browser does pre-fill, Gmail/Telegram deliver the digest, and a
+  cron fires it each morning.
 
 ---
 

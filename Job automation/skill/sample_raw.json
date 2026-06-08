@@ -1,0 +1,65 @@
+[
+  {
+    "source": "custom:DLR",
+    "company": "DLR",
+    "title": "Fuel Cell System Engineer (f/m/x) – Aircraft Powertrain",
+    "location": "Stuttgart, Germany",
+    "url": "https://www.dlr.de/en/careers/job-offers/example-fc-aircraft",
+    "jd_text": "The DLR Institute of Engineering Thermodynamics develops fuel cell systems for greener aviation. You will design and integrate PEM fuel cell systems and balance-of-plant components for an aircraft powertrain, run system simulations, and support test-bench commissioning. Required: M.Sc. in mechanical/automotive/aerospace engineering, hands-on fuel cell system experience, CAD, system modelling. English working language; German is a plus.",
+    "posted_at": "2026-06-05"
+  },
+  {
+    "source": "custom:cellcentric",
+    "company": "cellcentric",
+    "title": "Systems Engineer Fuel Cell Stack (m/f/d)",
+    "location": "Kirchheim/Teck-Nabern, Germany",
+    "url": "https://www.cellcentric.net/career/example-stack-systems",
+    "jd_text": "cellcentric (Daimler Truck & Volvo JV) develops fuel cell systems for heavy-duty trucks. Responsibilities: stack-level system engineering, balance-of-plant integration, requirements and validation for next-gen fuel cell systems. Required: degree in mechanical/automotive engineering, fuel cell or powertrain experience, MATLAB/Simulink. German B2 preferred.",
+    "posted_at": "2026-06-06"
+  },
+  {
+    "source": "smartrecruiters:Bosch",
+    "company": "Bosch",
+    "title": "Development Engineer Fuel Cell Power Module (m/f/d)",
+    "location": "Stuttgart-Feuerbach, Germany",
+    "url": "https://jobs.smartrecruiters.com/BoschGroup/example-fc-power-module",
+    "jd_text": "Mobility Solutions: develop fuel cell power modules for commercial vehicles. Tasks: component and system design, DFM/DFMEA, test planning, supplier coordination. Required: engineering degree, fuel cell / electrochemistry knowledge, CAD, design for manufacturing. German and English.",
+    "posted_at": "2026-06-04"
+  },
+  {
+    "source": "custom:H2FLY",
+    "company": "H2FLY",
+    "title": "Fuel Cell Systems Engineer (m/f/d)",
+    "location": "Stuttgart, Germany",
+    "url": "https://www.h2fly.de/careers/example-fc-systems",
+    "jd_text": "H2FLY builds hydrogen-electric aviation powertrains. You will develop and test fuel cell systems and balance-of-plant for flight, support integration and ground/flight testing. Required: M.Sc. engineering, fuel cell system experience, hydrogen handling, test-bench work. English working language.",
+    "posted_at": "2026-06-07"
+  },
+  {
+    "source": "workday:Airbus",
+    "company": "Airbus",
+    "title": "Hydrogen Fuel Cell Propulsion Engineer",
+    "location": "Hamburg, Germany",
+    "url": "https://ag.wd3.myworkdayjobs.com/Airbus/example-h2-propulsion",
+    "jd_text": "ZEROe programme: contribute to hydrogen fuel cell propulsion architecture for future aircraft. Tasks: system architecture, sizing, integration trade studies. Required: aerospace/mechanical engineering degree, fuel cell or propulsion systems background. English; German optional.",
+    "posted_at": "2026-05-30"
+  },
+  {
+    "source": "custom:University of Stuttgart",
+    "company": "University of Stuttgart",
+    "title": "PhD Position (Wissenschaftlicher Mitarbeiter) – Fuel Cell System Control",
+    "location": "Stuttgart, Germany",
+    "url": "https://www.uni-stuttgart.de/en/university/jobs/example-phd-fc-control",
+    "jd_text": "PhD position on model-based control of PEM fuel cell systems for mobility applications. You will develop control strategies, build system models, and validate on test benches, leading to a doctoral degree. Required: M.Sc. in engineering, control/modelling skills, fuel cell interest. German desirable, English accepted.",
+    "posted_at": "2026-06-03"
+  },
+  {
+    "source": "lever:Ballard Power",
+    "company": "Ballard Power",
+    "title": "Senior Sales Representative – Marine",
+    "location": "Hobro, Denmark",
+    "url": "https://jobs.lever.co/ballard/example-sales-marine",
+    "jd_text": "Drive sales of fuel cell modules into the marine segment. Manage customer relationships, negotiate contracts, hit revenue targets. Required: 8+ years technical sales, marine industry network.",
+    "posted_at": "2026-05-28"
+  }
+]

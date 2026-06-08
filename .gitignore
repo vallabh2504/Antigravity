@@ -1,2 +1,8 @@
 __pycache__/
 *.pyc
+
+# Job automation — local state & secrets (never commit)
+Job automation/output/
+Job automation/skill/secrets.yml
+Job automation/skill/master_resume.yml
+.venv/

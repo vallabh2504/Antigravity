@@ -1,0 +1,129 @@
+# Watchlist of target employers and their application portals.
+#
+# portal: greenhouse | lever | ashby | smartrecruiters | workday | custom
+# token:  the portal identifier
+#   greenhouse/lever/ashby -> board token (e.g. greenhouse "airbus")
+#   smartrecruiters        -> company id (Bosch = "BoschGroup")
+#   workday                -> "tenant|site|host"  (e.g. "siemens|siemens|jobs.siemens.com")
+#   custom                 -> leave token empty, set careers_url (agent fetches/searches it)
+# careers_url: human/search URL (used by the agent backend + for custom portals)
+# sectors: hints for ranking (aviation | rail | heavy | rail+heavy ...)
+#
+# NOTE: tokens below are best-guess starting points and MUST be verified on first run
+#       (portals change). The agent confirms each company's live portal during fetch.
+
+companies:
+  # ---- Fuel cell / hydrogen for AVIATION ----
+  - name: DLR
+    portal: custom
+    careers_url: "https://www.dlr.de/en/careers/job-offers"
+    sectors: [aviation]
+    query: "fuel cell"
+  - name: Airbus
+    portal: workday
+    token: "airbus|Airbus|ag.wd3.myworkdayjobs.com"
+    careers_url: "https://www.airbus.com/en/careers"
+    sectors: [aviation]
+    query: "fuel cell hydrogen"
+  - name: H2FLY
+    portal: custom
+    careers_url: "https://www.h2fly.de/careers/"
+    sectors: [aviation]
+  - name: MTU Aero Engines
+    portal: custom
+    careers_url: "https://www.mtu.de/careers/jobs/"
+    sectors: [aviation]
+  - name: ZeroAvia
+    portal: greenhouse
+    token: "zeroavia"
+    sectors: [aviation]
+
+  # ---- Fuel cell / hydrogen for RAIL ----
+  - name: Alstom
+    portal: workday
+    token: "alstom|Alstom_Careers|alstom.wd3.myworkdayjobs.com"
+    careers_url: "https://www.alstom.com/careers"
+    sectors: [rail]
+    query: "hydrogen fuel cell"
+  - name: Siemens Mobility
+    portal: workday
+    token: "siemens|siemens|jobs.siemens.com"
+    careers_url: "https://jobs.siemens.com/careers"
+    sectors: [rail]
+    query: "fuel cell hydrogen"
+  - name: Stadler
+    portal: custom
+    careers_url: "https://www.stadlerrail.com/en/about-us/jobs/"
+    sectors: [rail]
+
+  # ---- Fuel cell / hydrogen for HEAVY / COMMERCIAL VEHICLES ----
+  - name: cellcentric
+    portal: custom
+    careers_url: "https://www.cellcentric.net/career/"
+    sectors: [heavy]
+  - name: Daimler Truck
+    portal: workday
+    token: "daimlertruck|DaimlerTruck|daimlertruck.wd3.myworkdayjobs.com"
+    careers_url: "https://careers.daimlertruck.com/"
+    sectors: [heavy]
+    query: "fuel cell hydrogen"
+  - name: Bosch
+    portal: smartrecruiters
+    token: "BoschGroup"
+    careers_url: "https://www.bosch.com/careers/"
+    sectors: [heavy, aviation, rail]
+    query: "fuel cell"
+  - name: BMW
+    portal: workday
+    token: "bmwgroup|BMWGroup|bmwgroup.wd3.myworkdayjobs.com"
+    careers_url: "https://www.bmwgroup.jobs/"
+    sectors: [heavy]
+    query: "fuel cell hydrogen"
+  - name: Volvo Group
+    portal: workday
+    token: "volvo|volvo|jobs.volvogroup.com"
+    careers_url: "https://www.volvogroup.com/en/careers.html"
+    sectors: [heavy]
+    query: "fuel cell"
+  - name: Quantron
+    portal: custom
+    careers_url: "https://www.quantron.net/en/career/"
+    sectors: [heavy]
+
+  # ---- Tier-1 / fuel cell systems & stacks ----
+  - name: Freudenberg
+    portal: custom
+    careers_url: "https://www.freudenberg.com/careers"
+    sectors: [heavy, rail, aviation]
+    query: "fuel cell"
+  - name: Cummins Accelera
+    portal: workday
+    token: "cummins|External|cummins.wd5.myworkdayjobs.com"
+    careers_url: "https://www.accelerazero.com/careers"
+    sectors: [heavy]
+    query: "fuel cell hydrogen"
+  - name: Ballard Power
+    portal: lever
+    token: "ballard"
+    sectors: [heavy, rail, aviation]
+  - name: Symbio
+    portal: custom
+    careers_url: "https://www.symbio.one/en/careers/"
+    sectors: [heavy]
+
+  # ---- PhD avenues (research institutes) ----
+  - name: Fraunhofer ISE
+    portal: custom
+    careers_url: "https://www.ise.fraunhofer.de/en/career.html"
+    sectors: [aviation, rail, heavy]
+    query: "fuel cell PhD wissenschaftliche"
+  - name: KIT
+    portal: custom
+    careers_url: "https://www.kit.edu/karriere.php"
+    sectors: [aviation, rail, heavy]
+    query: "fuel cell PhD"
+  - name: University of Stuttgart
+    portal: custom
+    careers_url: "https://www.uni-stuttgart.de/en/university/jobs/"
+    sectors: [aviation, heavy]
+    query: "fuel cell hydrogen wissenschaftlicher Mitarbeiter"
