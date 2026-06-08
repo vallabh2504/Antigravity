@@ -10,7 +10,8 @@
 ## Build status (what exists in `skill/`)
 | Stage | Status | Where |
 |-------|--------|-------|
-| 1 Discover | ✅ portal recipes (Greenhouse/Lever/Ashby/SmartRecruiters/Workday/custom) + agent-fetch + httpx backends | `jobauto/sources/`, `cli manifest`/`fetch` |
+| **0 Source discovery** | ✅ ATS auto-discovery (187 search-operator dorks) + aggregator APIs + auto-append to companies.yml | `discover.py`, `sources/aggregators.py`, `cli discover-sources`/`add-companies` |
+| 1 Discover | ✅ 60-company seed across EU + portal recipes (Greenhouse/Lever/Ashby/SmartRecruiters/Workday/custom) + agent-fetch + httpx backends | `jobauto/sources/`, `cli manifest`/`fetch` |
 | 2 Normalize/Dedupe | ✅ HTML-strip, content-hash dedupe, SQLite store | `normalize.py`, `db.py` |
 | 3 Score/Rank | ✅ rules prefilter + LLM-scoring exchange (agent scores) | `score.py`, `cli to-score`/`apply-scores` |
 | 4 Review gate | ✅ digest + `approve`/`reject` | `digest.py`, `cli report`/`approve` |
@@ -112,6 +113,25 @@ OpenClaw's **agent** is the orchestrator: the cron fires → it reads `SKILL.md`
 messaging. The Python scripts are deterministic plumbing; the LLM reasoning is OpenClaw's job.
 
 ---
+
+## 2b. Discovery engine — how we cover all of Europe (not a hand-typed list)
+
+Three layers, so coverage grows automatically instead of depending on names I happen to know:
+
+1. **Aggregator APIs (one query → thousands of EU employers):** Adzuna (free keys),
+   Arbeitnow (no auth, DE-heavy), Bundesagentur/Jobsuche (public key), EURAXESS (EU-wide
+   PhD/research). Wired in `sources/aggregators.py`; included in `manifest`/`fetch`.
+2. **ATS auto-discovery (`cli discover-sources`):** emits ~187 search-operator queries like
+   `site:boards.greenhouse.io "fuel cell"`, `site:jobs.lever.co "hydrogen"`,
+   `site:*.myworkdayjobs.com "Brennstoffzelle"`, across Greenhouse/Lever/Ashby/SmartRecruiters/
+   Personio/Recruitee/Teamtailor/Workday. The agent runs them, `discover.url_to_company()`
+   maps each hit → a companies.yml entry, and `cli add-companies` auto-appends (idempotent).
+3. **Curated seed (60 companies):** a strong starting universe across aviation/rail/heavy/
+   stack-suppliers/research, so day-1 coverage is real while discovery widens it over time.
+
+> **Honesty:** live extraction runs on OpenClaw (this dev container's egress blocks job APIs).
+> `portal: custom` + `careers_url` entries are unverified ATS tokens by design — the agent
+> resolves the real ATS/token on first live run; tokens marked best-guess must be confirmed.
 
 ## 3. Discovery sources (stage 1)
 

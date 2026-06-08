@@ -24,8 +24,12 @@ from . import config as cfg
 from .db import DB
 from .models import RawPosting
 from .normalize import ingest as do_ingest
+import yaml
+
 from .sources import build_recipes
 from .sources.fetch import fetch_all, manifest as build_manifest
+from .sources.aggregators import build_aggregator_recipes
+from . import discover as discovery
 from . import score as scoring
 from . import tailor as tailoring
 from . import digest as digesting
@@ -46,20 +50,52 @@ def _read_json(path: str):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+def _all_recipes():
+    return (build_recipes(cfg.load_companies())
+            + build_aggregator_recipes(cfg.load_config(), cfg.load_secrets()))
+
+
 def cmd_manifest(args):
-    recipes = build_recipes(cfg.load_companies())
-    man = build_manifest(recipes)
+    man = build_manifest(_all_recipes())
     p = _write_json("manifest.json", man)
-    print(f"{len(man)} source requests -> {p}")
+    print(f"{len(man)} source requests ({len(cfg.load_companies())} companies + aggregators) -> {p}")
     for m in man:
         print(f"  [{m['portal']}] {m['company']}: {m['method']} {m['url']}")
 
 
 def cmd_fetch(args):
-    recipes = build_recipes(cfg.load_companies())
-    raws = fetch_all(recipes)
+    raws = fetch_all(_all_recipes())
     res = do_ingest(_db(), raws)
     print(f"fetched {len(raws)} postings -> new={res['new']} dup={res['dup']}")
+
+
+def cmd_discover_sources(args):
+    task = discovery.build_discovery_queries(
+        cfg.load_config().get("include_keywords", []),
+        cfg.load_config().get("locations", []))
+    p = _write_json("discover_queries.json", task)
+    print(f"{len(task['queries'])} discovery searches -> {p}")
+    print("Run these with web tools, map ATS URLs via discover.url_to_company,")
+    print("then: python -m jobauto add-companies new_companies.json")
+
+
+def cmd_add_companies(args):
+    new = _read_json(args.file)
+    path = cfg.SKILL_DIR / "companies.yml"
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {"companies": []}
+    existing = data.get("companies", [])
+    have = {(c.get("name", "").lower(), c.get("token", "")) for c in existing}
+    added = 0
+    for c in new:
+        key = (c.get("name", "").lower(), c.get("token", ""))
+        if key in have or not c.get("name"):
+            continue
+        existing.append(c)
+        have.add(key)
+        added += 1
+    data["companies"] = existing
+    path.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    print(f"added {added} new companies -> {path} (total {len(existing)})")
 
 
 def cmd_ingest(args):
@@ -129,6 +165,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("manifest").set_defaults(func=cmd_manifest)
     sub.add_parser("fetch").set_defaults(func=cmd_fetch)
+    sub.add_parser("discover-sources").set_defaults(func=cmd_discover_sources)
+    sp = sub.add_parser("add-companies"); sp.add_argument("file")
+    sp.set_defaults(func=cmd_add_companies)
 
     sp = sub.add_parser("ingest"); sp.add_argument("file"); sp.set_defaults(func=cmd_ingest)
 

@@ -3,10 +3,11 @@
 # Stage 1 — discovery breadth: also query these aggregator/PhD APIs (agent backend
 # fetches them; httpx backend hits them directly).
 aggregators:
-  adzuna: { enabled: true, country: de, what: "fuel cell hydrogen", where: "Stuttgart" }
-  arbeitnow: { enabled: true, query: "fuel cell hydrogen" }
-  euraxess: { enabled: true, query: "fuel cell hydrogen", country: Germany }
-  bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff" }
+  # One query each -> thousands of EU employers. Adzuna needs free keys (secrets.yml).
+  adzuna: { enabled: true, country: de, what: "fuel cell hydrogen", where: "" }
+  arbeitnow: { enabled: true, query: "fuel cell hydrogen" }          # no auth, DE-heavy
+  bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff", where: "" }  # public key
+  euraxess: { enabled: true, query: "fuel cell hydrogen" }           # EU-wide PhD/research, HTML
 
 # Stage 3 — hard rules (cheap prefilter before LLM scoring)
 include_keywords:
