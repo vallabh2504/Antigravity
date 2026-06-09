@@ -160,16 +160,61 @@ def _job_card(j: dict, rank: int | None = None, actions: bool = True) -> str:
       </div></div>"""
 
 
+def _next_banner(counts: dict) -> str:
+    g = lambda k: counts.get(k, 0)
+    if sum(counts.values()) == 0:
+        msg = "Run discovery → scoring (CLI: <code>search-plan</code> / <code>fetch</code>)."
+    elif g("discovered"):
+        msg = f"<b>{g('discovered')}</b> new jobs to score — CLI: <code>to-score</code> → <code>apply-scores</code>."
+    elif g("scored") and not g("docs_ready"):
+        msg = "Write the top-3 applications — CLI: <code>to-apply</code> → application-writer → <code>apply-tailor</code>."
+    elif g("docs_ready"):
+        msg = f"<b>{g('docs_ready')}</b> drafted — review below, approve, then pre-fill (stops at submit)."
+    elif g("prefilled"):
+        msg = f"<b>{g('prefilled')}</b> pre-filled — review &amp; submit, then mark applied."
+    else:
+        msg = "Pipeline idle."
+    return (f'<div class="panel" style="border-left:4px solid var(--accent);margin:0 0 16px">'
+            f'<b style="color:var(--accent)">Next:</b> {msg}</div>')
+
+
+def _filter_bar(q: str, min_score: int, sector: str, phd: bool) -> str:
+    sectors = ["", "aviation", "rail", "heavy", "other"]
+    opts = "".join(f'<option value="{s}"{" selected" if s==sector else ""}>{s or "all sectors"}</option>' for s in sectors)
+    return f"""<form method="get" action="/" class="panel" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 16px">
+      <input name="q" value="{html.escape(q)}" placeholder="search company / title"
+        style="flex:1;min-width:180px;padding:8px 10px;border:1px solid #d6dde6;border-radius:8px;font-size:14px">
+      <label style="font-size:13px;color:#475569">min score
+        <input name="min_score" type="number" value="{min_score}" min="0" max="100" style="width:64px;padding:7px;border:1px solid #d6dde6;border-radius:8px"></label>
+      <select name="sector" style="padding:8px;border:1px solid #d6dde6;border-radius:8px">{opts}</select>
+      <label style="font-size:13px;color:#475569"><input type="checkbox" name="phd" value="1"{" checked" if phd else ""}> PhD only</label>
+      <button class="docbtn" type="submit">Filter</button>
+      <a href="/" style="font-size:13px">reset</a>
+    </form>"""
+
+
 @app.get("/", response_class=HTMLResponse)
-def index():
+def index(q: str = "", min_score: int = 0, sector: str = "", phd: str = ""):
     db = _db()
     counts = db.counts()
+    phd_only = phd in ("1", "true", "on")
     jobs = [j for j in db.all() if j.get("score") is not None and j["state"] in ("scored", "approved", "docs_ready")]
+    ql = q.lower().strip()
+    def keep(j):
+        sj = j.get("score_json") or {}
+        if ql and ql not in (j["company"] + " " + j["title"]).lower(): return False
+        if (j.get("score") or 0) < min_score: return False
+        if sector and sj.get("sector") != sector: return False
+        if phd_only and not sj.get("is_phd"): return False
+        return True
+    jobs = [j for j in jobs if keep(j)]
     jobs.sort(key=lambda j: j.get("score") or 0, reverse=True)
     cards = "".join(_job_card(j, rank=i) for i, j in enumerate(jobs, 1)) or \
-        '<div class="empty">No scored jobs yet. Run discovery + scoring, then refresh.</div>'
-    body = _stat_cards(counts) + _tabs("/") + "<h2>Review queue</h2>" + cards
-    return _page("Job Automation", body, "Review queue · approve to advance toward application")
+        '<div class="empty">No jobs match the filters.</div>'
+    body = (_stat_cards(counts) + _tabs("/") + _next_banner(counts)
+            + _filter_bar(q, min_score, sector, phd_only)
+            + f"<h2>Review queue · {len(jobs)} shown</h2>" + cards)
+    return _page("Job Automation", body, "Review queue · filter, review, approve")
 
 
 @app.get("/all", response_class=HTMLResponse)
@@ -209,12 +254,22 @@ def job_detail(job_id: str):
           <pre class="jd" style="max-height:none">{whytxt}</pre></div>"""
     else:
         right = '<div class="panel"><h3>Tailored documents</h3><p style="color:#64748b">Not generated yet (top-3 only).</p></div>'
+    preview = ""
+    if _has_docs(job_id):
+        preview = f"""<h2 style="margin-top:22px">Document preview</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div><div style="font-weight:600;margin-bottom:6px">Résumé</div>
+            <iframe src="/doc/{job_id}/resume.html" style="width:100%;height:920px;border:1px solid #e6eaef;border-radius:12px;background:#fff"></iframe></div>
+          <div><div style="font-weight:600;margin-bottom:6px">Cover letter</div>
+            <iframe src="/doc/{job_id}/cover_letter.html" style="width:100%;height:920px;border:1px solid #e6eaef;border-radius:12px;background:#fff"></iframe></div>
+        </div>"""
     body = f"""<a class="back" href="/">← back to queue</a>
       {_job_card(j)}
       <div class="detail">
         <div class="panel"><h3>Job description</h3><pre class="jd">{jd}</pre></div>
         {right}
-      </div>"""
+      </div>
+      {preview}"""
     return _page(j["title"], body, f"{j['company']} · {j.get('location') or ''}")
 
 

@@ -15,20 +15,27 @@ candidate `profile.md`, and their `master_resume` (the superset of everything th
 
 ## Iron rules
 - **Never fabricate.** Only use experience present in the master resume / profile. You may
-  re-order, re-emphasize, and re-word — not invent titles, dates, employers, or skills.
+  re-order, re-emphasize, expand with real detail, and re-word — not invent titles, dates,
+  employers, or skills.
 - **Mirror the JD's language.** If the JD says "balance-of-plant", use "balance-of-plant"
-  (not "BoP") where the candidate genuinely has it. Match their real terms to the JD's terms.
-- **One page.** Cut anything not relevant to THIS role.
-- **Quantify** wherever the source data allows (years, %, counts, scope).
+  where the candidate genuinely has it. Map their real terms to the JD's terms.
+- **Be substantial, not thin.** Target a **full, rich one page (spilling to ~1.5 pages is
+  fine)**. Each relevant role gets **3-5 detailed bullets** with specifics — methods, tools,
+  scope, outcomes. Empty whitespace reads as a weak candidate; depth reads as senior.
+- **Quantify** wherever the source allows (years, %, counts, scope, team size).
+- **Curate hard per JD.** The Profile and the top 2 roles must visibly answer THIS posting.
 
 ## Structure (in this order)
-1. **Header** — name · target role title (echo the JD title) · location · email · LinkedIn/GitHub.
-2. **Summary** — 2 lines max. The candidate framed as the answer to THIS JD (sector + core skill).
-3. **Key skills** — a compact, scannable list, ordered by relevance to the JD; ATS keywords.
-4. **Experience** — most-relevant first. Each entry: Role — Org — dates, then 2-4 bullets.
-   Bullets start with a strong verb, show impact, and map to a JD requirement.
-5. **Education** — degree, institution, grade, relevant thesis/coursework.
-6. **Extras** (only if relevant) — publications, languages (with CEFR level), leadership.
+1. **Header** — name (large) · target role title echoing the JD · location · email · LinkedIn/GitHub.
+2. **Profile** — 3-4 lines, explicitly framing the candidate as the answer to THIS role at THIS
+   company (name the company/sector and the single strongest proof).
+3. **Core competencies** — grouped, scannable (e.g. "Fuel-cell systems · Simulation · Manufacturing"),
+   ordered by JD relevance; rich with ATS keywords.
+4. **Professional experience** — most-relevant first. Each: Role — Org — Location — dates, then
+   **3-5 detailed bullets** mapping to JD requirements (verb → method/tool → result).
+5. **Education** — degree, institution, grade, thesis, and 2-3 relevant modules/topics.
+6. **Publications / Selected projects** — if relevant to the JD.
+7. **Languages** (CEFR) **& Additional** — leadership, awards, memberships.
 
 ## Bullet formula
 `<Action verb> <what you did with which method/tool> → <result/impact>`
