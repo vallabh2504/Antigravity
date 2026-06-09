@@ -38,6 +38,7 @@ from . import notify as notifying
 from . import apply_prefill as prefilling
 from . import topdf as topdf_mod
 from . import static_dashboard as staticdash
+from . import check_sources as checksrc
 
 
 def _db() -> DB:
@@ -215,6 +216,19 @@ def cmd_pdf(args):
               "HTML and Save as PDF (it is already A4 print-styled), or run on OpenClaw's browser.")
 
 
+def cmd_check_sources(args):
+    print("Checking every company token + aggregator endpoint (needs real network)...\n")
+    r = checksrc.run(timeout=args.timeout)
+    rows = sorted(r["results"], key=lambda x: (x.get("ok") is True, x["portal"]))
+    for x in rows:
+        mark = "✓" if x.get("ok") else "✗"
+        print(f"  {mark} [{x['portal']:<16}] {x['name']:<26} {x['status']}")
+    print(f"\n{r['ok']}/{r['total']} sources OK. Details -> {r['path']}")
+    if r["ok"] == 0:
+        print("All failed: if you are in a locked-down sandbox this is expected (no egress). "
+              "Run this on OpenClaw or your machine for real results.")
+
+
 def cmd_dashboard(args):
     from pathlib import Path
     out = Path(args.out) if args.out else None
@@ -294,6 +308,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("pdf"); sp.add_argument("ids", nargs="*"); sp.set_defaults(func=cmd_pdf)
     sp = sub.add_parser("dashboard"); sp.add_argument("--out", default=None)
     sp.set_defaults(func=cmd_dashboard)
+    sp = sub.add_parser("check-sources"); sp.add_argument("--timeout", type=float, default=15.0)
+    sp.set_defaults(func=cmd_check_sources)
     sub.add_parser("next").set_defaults(func=cmd_next)
 
     sub.add_parser("stats").set_defaults(func=cmd_stats)
