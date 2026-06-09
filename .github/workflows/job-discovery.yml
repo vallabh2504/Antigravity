@@ -1,0 +1,63 @@
+name: Daily Job Discovery
+
+# Runs where there IS real internet (GitHub-hosted runner), unlike the Claude Code
+# sandbox. Fetches fresh fuel-cell postings from the company ATS APIs (+ keyless
+# aggregators), keeps only the last `max_age_days`, validates that every apply link is
+# live, then commits a report + a self-contained static dashboard you can open from the
+# repo. LLM scoring/tailoring is done later by the agent (Claude/OpenClaw) on this data.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"      # 06:00 UTC daily
+  workflow_dispatch: {}        # allow manual "Run workflow"
+
+permissions:
+  contents: write              # to commit the report + dashboard back
+
+concurrency:
+  group: job-discovery
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "Job automation/skill"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify source tokens (reachability + validity)
+        run: python -m jobauto check-sources || true
+
+      - name: Fetch fresh postings (ATS APIs + keyless aggregators)
+        run: python -m jobauto fetch || true
+
+      - name: Drop dead / expired links
+        run: python -m jobauto validate-links --reject-dead || true
+
+      - name: Build report + static dashboard
+        run: |
+          python -m jobauto report || true
+          python -m jobauto dashboard --out "../dashboard/dashboard.html" || true
+          cp ../output/source_check.json ../dashboard/source_check.json 2>/dev/null || true
+
+      - name: Commit results back to the repo
+        working-directory: ${{ github.workspace }}
+        run: |
+          git config user.name  "job-automation-bot"
+          git config user.email "job-automation-bot@users.noreply.github.com"
+          git add "Job automation/reports" "Job automation/dashboard/dashboard.html" "Job automation/dashboard/source_check.json" || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Daily job discovery: $(date -u +%F)"
+            git push
+          fi

@@ -20,17 +20,21 @@ from .db import DB
 def _job_payload(db: DB) -> list[dict]:
     out = []
     for j in db.all():
-        if j.get("score") is None:
+        # include unscored DISCOVERED jobs too, so a discovery-only run (no LLM, e.g.
+        # GitHub Actions) still shows fresh, link-validated postings. Scoring enriches later.
+        if j["state"] == "rejected":
             continue
         d = output_dir() / j["id"]
         def _read(name):
             p = d / name
             return p.read_text(encoding="utf-8") if p.exists() else ""
+        from .util import age_days
         out.append({
             "id": j["id"], "company": j["company"], "title": j["title"],
             "location": j.get("location", ""), "url": j.get("url", ""),
             "score": j.get("score"), "state": j["state"],
             "score_json": j.get("score_json") or {},
+            "posted_at": j.get("posted_at", ""), "age_days": age_days(j.get("posted_at", "")),
             "jd": (j.get("jd_text") or "")[:8000],
             "resume_html": _read("resume.html"),
             "cover_html": _read("cover_letter.html"),
@@ -148,9 +152,12 @@ function card(j){
   if(sj.is_phd)tags+='<span class="tag phd">PhD</span>';
   if(sj.german_required)tags+=`<span class="tag de">German ${esc(sj.german_required)}</span>`;
   if(sj.tier)tags+=`<span class="tag">tier ${esc(sj.tier)}</span>`;
+  if(j.age_days!=null)tags+=`<span class="tag" style="background:#dcfce7;color:#166534">${j.age_days<=0?'today':j.age_days+'d ago'}</span>`;
+  else tags+='<span class="tag" style="background:#fef9c3;color:#854d0e">date?</span>';
+  if(sj.link_ok===false)tags+='<span class="tag" style="background:#fee2e2;color:#991b1b">⚠ link dead</span>';
   const reasons=(sj.reasons||[]).slice(0,4).map(r=>`<li>${esc(r)}</li>`).join('');
   const docs=(j.resume_html||j.cover_html)?`<button class="blue" onclick="openJob('${j.id}')">View docs &amp; JD</button>`:`<button class="ghost" onclick="openJob('${j.id}')">View JD</button>`;
-  return `<div class="job"><div class="badge" style="background:${scoreColor(j.score)}">${j.score??'?'}</div>
+  return `<div class="job"><div class="badge" style="background:${scoreColor(j.score)}">${j.score??'—'}</div>
    <div class="jobmain"><h3>${esc(j.title)}</h3>
    <div class="co">${esc(j.company)} · ${esc(j.location||'n/a')} <span class="pill" style="background:#64748b">${j.state}</span></div>
    <div class="tags">${tags}</div><ul class="reasons">${reasons}</ul>
