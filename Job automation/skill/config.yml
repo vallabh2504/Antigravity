@@ -1,10 +1,16 @@
 # Pipeline configuration.
 
-# Stage 1 — discovery breadth: also query these aggregator/PhD APIs (agent backend
-# fetches them; httpx backend hits them directly).
+# FRESHNESS: only surface postings posted within this many days (the "last 3 days"
+# requirement). Sources are queried with this window; the digest also filters by it.
+max_age_days: 3
+
+# Stage 1 — discovery breadth: aggregator/PhD APIs that return a POSTED DATE and a
+# canonical APPLY LINK (so links work and we can filter to the last N days).
 aggregators:
-  # One query each -> thousands of EU employers. Adzuna needs free keys (secrets.yml).
-  adzuna: { enabled: true, country: de, what: "fuel cell hydrogen", where: "" }
+  # JSearch = Google for Jobs (LinkedIn/Indeed/company sites). BEST for fresh, dated,
+  # working links. Needs a free RapidAPI key in secrets.yml (rapidapi_key).
+  jsearch: { enabled: false, query: "fuel cell hydrogen engineer", country: de }
+  adzuna: { enabled: true, country: de, what: "fuel cell hydrogen", where: "" }   # free keys
   arbeitnow: { enabled: true, query: "fuel cell hydrogen" }          # no auth, DE-heavy
   bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff", where: "" }  # public key
   euraxess: { enabled: true, query: "fuel cell hydrogen" }           # EU-wide PhD/research, HTML

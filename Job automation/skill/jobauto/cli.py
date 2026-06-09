@@ -39,6 +39,7 @@ from . import apply_prefill as prefilling
 from . import topdf as topdf_mod
 from . import static_dashboard as staticdash
 from . import check_sources as checksrc
+from . import validate_links as linkval
 
 
 def _db() -> DB:
@@ -181,8 +182,10 @@ def cmd_set_state(args):
 
 
 def cmd_report(args):
-    path, _ = digesting.build_report(_db(), args.top_n, args.min_score)
-    print(f"report -> {path}")
+    cfgd = cfg.load_config()
+    age = None if args.all_ages else int(cfgd.get("max_age_days", 3))
+    path, _ = digesting.build_report(_db(), args.top_n, args.min_score, max_age_days=age)
+    print(f"report -> {path}" + (f"  (last {age} days)" if age else "  (all ages)"))
 
 
 def cmd_deliver(args):
@@ -190,7 +193,8 @@ def cmd_deliver(args):
     rep = cfg.load_config().get("report", {})
     min_score = args.min_score if args.min_score is not None else rep.get("min_score", 50)
     top_n = rep.get("top_n", 15)
-    digesting.build_report(db, top_n, min_score)            # markdown report in reports/
+    age = int(cfg.load_config().get("max_age_days", 3))
+    digesting.build_report(db, top_n, min_score, max_age_days=age)   # markdown report (last N days)
     paths = notifying.build_artifacts(db, min_score, top_n)  # html/plain/short in output/
     print(f"artifacts: {paths['html']}, {paths['txt']}, {paths['short']}")
     deliv = cfg.load_config().get("delivery", {})
@@ -227,6 +231,17 @@ def cmd_check_sources(args):
     if r["ok"] == 0:
         print("All failed: if you are in a locked-down sandbox this is expected (no egress). "
               "Run this on OpenClaw or your machine for real results.")
+
+
+def cmd_validate_links(args):
+    print("Validating apply URLs are live (needs real network)...\n")
+    r = linkval.check(_db(), reject_dead=args.reject_dead, timeout=args.timeout)
+    for x in r["results"]:
+        print(f"  {'✓' if x['ok'] else '✗'} {x['status']:<10} {x['company'][:24]:<24} {x['url'][:60]}")
+    print(f"\n{r['checked']} checked, {r['dead']} dead/expired"
+          + (" (auto-rejected)" if r['rejected_dead'] else ""))
+    if r["checked"] and r["dead"] == r["checked"]:
+        print("All unreachable: expected in a locked-down sandbox; run on OpenClaw / your machine.")
 
 
 def cmd_dashboard(args):
@@ -300,7 +315,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("set-state"); sp.add_argument("state"); sp.add_argument("ids", nargs="+")
     sp.set_defaults(func=cmd_set_state)
 
-    sp = sub.add_parser("report"); sp.add_argument("--top-n", type=int, default=15)
+    sp = sub.add_parser("report"); sp.add_argument("--all-ages", action="store_true")
+    sp.add_argument("--top-n", type=int, default=15)
     sp.add_argument("--min-score", type=int, default=50); sp.set_defaults(func=cmd_report)
 
     sp = sub.add_parser("deliver"); sp.add_argument("--min-score", type=int, default=None)
@@ -310,6 +326,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(func=cmd_dashboard)
     sp = sub.add_parser("check-sources"); sp.add_argument("--timeout", type=float, default=15.0)
     sp.set_defaults(func=cmd_check_sources)
+    sp = sub.add_parser("validate-links"); sp.add_argument("--timeout", type=float, default=12.0)
+    sp.add_argument("--reject-dead", action="store_true"); sp.set_defaults(func=cmd_validate_links)
     sub.add_parser("next").set_defaults(func=cmd_next)
 
     sub.add_parser("stats").set_defaults(func=cmd_stats)

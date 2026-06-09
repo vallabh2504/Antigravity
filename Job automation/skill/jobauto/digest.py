@@ -18,6 +18,14 @@ def _fmt_job(j: dict, idx: int) -> str:
         tags.append(f"DE:{sj['german_required']}")
     if sj.get("tier"):
         tags.append(f"tier {sj['tier']}")
+    from .util import age_days
+    a = age_days(j.get("posted_at", ""))
+    if a is not None:
+        tags.append("today" if a <= 0 else f"{a}d ago")
+    else:
+        tags.append("date?")
+    if sj.get("link_ok") is False:
+        tags.append("⚠ link dead")
     tagstr = "  ·  ".join(tags)
     reasons = sj.get("reasons") or []
     lines = [
@@ -32,10 +40,23 @@ def _fmt_job(j: dict, idx: int) -> str:
     return "\n".join(lines)
 
 
-def build_report(db: DB, top_n: int = 15, min_score: int = 50) -> tuple[str, str]:
-    """Return (report_path, markdown). Writes reports/YYYY-MM-DD.md."""
+def build_report(db: DB, top_n: int = 15, min_score: int = 50,
+                 max_age_days: int | None = None) -> tuple[str, str]:
+    """Return (report_path, markdown). Writes reports/YYYY-MM-DD.md.
+
+    If max_age_days is set, only postings posted within that window (or with an unknown
+    date, which are flagged) are shown — the "last N days" requirement.
+    """
+    from .util import age_days
     today = date.today().isoformat()
     scored = [j for j in db.all() if j.get("score") is not None and j["state"] not in ("rejected",)]
+
+    def _fresh(j):
+        if max_age_days is None:
+            return True
+        a = age_days(j.get("posted_at", ""))
+        return a is None or a <= max_age_days   # keep unknown-date, but they get flagged
+    scored = [j for j in scored if _fresh(j)]
     ranked = sorted(scored, key=lambda j: j.get("score") or 0, reverse=True)
     shortlist = [j for j in ranked if (j.get("score") or 0) >= min_score][:top_n]
     counts = db.counts()
