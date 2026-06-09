@@ -23,8 +23,8 @@ companies:
   sectors:
   - aviation
 - name: ZeroAvia
-  portal: greenhouse
-  token: zeroavia
+  portal: custom            # verified 2026-06: no public Greenhouse board; custom portal
+  careers_url: https://careers.zeroavia.com/search-jobs/
   sectors:
   - aviation
 - name: Alstom
@@ -102,8 +102,8 @@ companies:
   - heavy
   query: fuel cell hydrogen
 - name: Ballard Power
-  portal: lever
-  token: ballard
+  portal: custom            # verified 2026-06: no public Lever board; custom portal
+  careers_url: https://www.ballard.com/careers/
   sectors:
   - heavy
   - rail
