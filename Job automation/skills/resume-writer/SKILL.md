@@ -32,21 +32,24 @@ and quantified results. Run the house-style self-check before returning.
 - **Curate hard per JD.** The Profile and the top 2 roles must visibly answer THIS posting.
 
 ## Structure (in this order)
-1. **Header** — name (large) · target role title echoing the JD · location · email · LinkedIn/GitHub.
-2. **Profile** — 3-4 lines, explicitly framing the candidate as the answer to THIS role at THIS
-   company (name the company/sector and the single strongest proof).
-3. **Core competencies** — grouped, scannable (e.g. "Fuel-cell systems · Simulation · Manufacturing"),
-   ordered by JD relevance; rich with ATS keywords.
-4. **Professional experience** — most-relevant first. Each: Role — Org — Location — dates, then
-   **3-5 detailed bullets** mapping to JD requirements (verb → method/tool → result).
-5. **Education** — degree, institution, grade, thesis, and 2-3 relevant modules/topics.
-6. **Publications / Selected projects** — if relevant to the JD.
-7. **Languages** (CEFR) **& Additional** — leadership, awards, memberships.
+1. **Header**: name (large), target role title echoing the JD, location, email, LinkedIn.
+2. **Summary**: 3-4 lines, explicitly framing the candidate as the answer to THIS role at THIS
+   company (name the company/sector and the single strongest proof). His pattern: "A highly
+   motivated Automotive Engineering Master's student…" with a company-specific last line.
+3. **Professional experience**: most-relevant first. Each: Role, Org, Location, dates, then
+   3-5 detailed bullets with bold thematic lead-ins (verb, method/tool, result).
+4. **Skills**: comes AFTER experience. Group by category (e.g. "Fuel-cell & controls",
+   "Simulation", "Manufacturing") and render each group as a row of rounded **chips**, NOT a
+   plain bullet list. Ordered by JD relevance; rich with ATS keywords.
+5. **Education**: degree, institution, grade, thesis, 2-3 relevant modules.
+6. **Publications / Selected projects**: if relevant to the JD.
+7. **Languages**: its OWN heading (CEFR levels). Additional (leadership/awards) optional.
 
 ## Bullet formula
-`<Action verb> <what you did with which method/tool> → <result/impact>`
-e.g. "Developed the complete PEM fuel-cell system for an aircraft demonstrator at DLR,
-integrating balance-of-plant and supporting test-bench commissioning."
+`<Action verb> <what you did with which method/tool>, <result/impact>`
+e.g. "Engineered a MATLAB operating strategy for Strong Fuel Cell Hybrid EVs that safeguards
+fuel-cell degradation by managing dynamic loads, thermal stress and SOC swing."
+(No em-dashes anywhere; see house-style.)
 
 ## ATS hygiene
 - Single column, standard section headings, no text inside images/tables/icons.
