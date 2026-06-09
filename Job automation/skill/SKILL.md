@@ -83,6 +83,7 @@ Draft per-posting `resume_markdown`, `cover_letter_markdown`, `why_fit` into `do
 (curate to each JD; never invent experience), then:
 ```bash
 python -m jobauto apply-tailor docs.json   # saves to output/<id>/, state -> docs_ready
+python -m jobauto pdf                       # render resume.html/cover_letter.html -> upload-ready PDFs
 ```
 
 ### 6. Pre-fill (never submit)

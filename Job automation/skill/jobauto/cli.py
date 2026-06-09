@@ -36,6 +36,7 @@ from . import tailor as tailoring
 from . import digest as digesting
 from . import notify as notifying
 from . import apply_prefill as prefilling
+from . import topdf as topdf_mod
 
 
 def _db() -> DB:
@@ -200,6 +201,19 @@ def cmd_deliver(args):
           "(OpenClaw Gmail/Telegram, Gmail MCP, etc.).")
 
 
+def cmd_pdf(args):
+    results = topdf_mod.export_all(_db(), args.ids or None)
+    made = sum(len(r["pdfs"]) for r in results)
+    skipped = sum(len(r["skipped"]) for r in results)
+    for r in results:
+        for p in r["pdfs"]:
+            print(f"  pdf: {p}")
+    print(f"exported {made} PDFs across {len(results)} jobs.")
+    if skipped:
+        print(f"{skipped} not converted (no PDF engine here). Install weasyprint, or open the "
+              "HTML and Save as PDF (it is already A4 print-styled), or run on OpenClaw's browser.")
+
+
 def cmd_next(args):
     c = _db().counts()
     g = lambda k: c.get(k, 0)
@@ -269,6 +283,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sp = sub.add_parser("deliver"); sp.add_argument("--min-score", type=int, default=None)
     sp.set_defaults(func=cmd_deliver)
+    sp = sub.add_parser("pdf"); sp.add_argument("ids", nargs="*"); sp.set_defaults(func=cmd_pdf)
     sub.add_parser("next").set_defaults(func=cmd_next)
 
     sub.add_parser("stats").set_defaults(func=cmd_stats)
