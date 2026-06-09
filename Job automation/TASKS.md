@@ -2,16 +2,18 @@
 
 Living backlog. Top section = active/agreed; below = the candidate improvements we're discussing.
 
+## 🟢 Done
+- [x] **Static, server-less dashboard** — `python -m jobauto dashboard` builds a single
+      self-contained `output/dashboard.html` (data + CSS + JS + tailored-doc previews all
+      inlined). Opens by double-click, works in the cloud with no server. Approvals build the
+      exact CLI commands with a copy button. (`jobauto/static_dashboard.py`.) The FastAPI app
+      remains as the "local power user" live option.
+
 ## 🔴 Active
-- [ ] **Dashboard does not work in the cloud/GitHub web session.** The current dashboard is a
-      FastAPI server (`dashboard/app.py`) that needs a running localhost process + writable
-      `output/jobs.db`. In the ephemeral cloud container there is no persistent server and the
-      DB/output is gitignored, so it can't serve. **Proposed fix:** replace (or add) a
-      **self-contained static dashboard** — a single `dashboard.html` generated from a
-      `jobs.json` export of the DB, with all data inlined and approve/reject handled via
-      `mailto:`/copy-command or a tiny localStorage queue. It opens by double-click, commits to
-      the repo, and works anywhere with no server. Keep the FastAPI app as the "local power user"
-      option. (Decision pending.)
+- [ ] **Cross-check that every aggregator endpoint + companies.yml portal token is reachable**
+      so the Python `fetch` actually works. Build `jobauto check-sources` (HTTP HEAD/GET each
+      URL, report status). NOTE: this sandbox blocks outbound HTTP, so the checker must run on
+      OpenClaw / the user's machine for real results.
 
 ## 🟡 Candidate improvements (discuss / prioritise)
 **Correctness & data**

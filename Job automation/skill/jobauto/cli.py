@@ -37,6 +37,7 @@ from . import digest as digesting
 from . import notify as notifying
 from . import apply_prefill as prefilling
 from . import topdf as topdf_mod
+from . import static_dashboard as staticdash
 
 
 def _db() -> DB:
@@ -214,6 +215,13 @@ def cmd_pdf(args):
               "HTML and Save as PDF (it is already A4 print-styled), or run on OpenClaw's browser.")
 
 
+def cmd_dashboard(args):
+    from pathlib import Path
+    out = Path(args.out) if args.out else None
+    p = staticdash.write_static(_db(), out)
+    print(f"static dashboard -> {p}  (open in any browser; no server needed)")
+
+
 def cmd_next(args):
     c = _db().counts()
     g = lambda k: c.get(k, 0)
@@ -284,6 +292,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("deliver"); sp.add_argument("--min-score", type=int, default=None)
     sp.set_defaults(func=cmd_deliver)
     sp = sub.add_parser("pdf"); sp.add_argument("ids", nargs="*"); sp.set_defaults(func=cmd_pdf)
+    sp = sub.add_parser("dashboard"); sp.add_argument("--out", default=None)
+    sp.set_defaults(func=cmd_dashboard)
     sub.add_parser("next").set_defaults(func=cmd_next)
 
     sub.add_parser("stats").set_defaults(func=cmd_stats)
