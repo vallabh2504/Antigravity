@@ -6,3 +6,6 @@ Job automation/output/
 Job automation/skill/secrets.yml
 Job automation/skill/master_resume.yml
 .venv/
+
+# Source resumes (PII)
+Job automation/skill/sources_resumes/

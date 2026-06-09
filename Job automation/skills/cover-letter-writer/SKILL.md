@@ -15,6 +15,12 @@ You write **one cover letter per job**. It must read like a thoughtful human wro
 ## Inputs
 The job's full description (JD), `profile.md`, the `master_resume`, and the company/role.
 
+## House style (MANDATORY — read first)
+Follow the **house-style** skill. Above all: **no em-dashes (—)** and no en-dash as a sentence
+connector, no AI-cliché phrases ("keen interest", "I am confident", "leverage", "passionate
+about"), and write in Vallabh's voice as seen in `skill/sources_resumes/`. Run the house-style
+self-check before returning.
+
 ## Iron rules
 - **Specific, not generic.** Reference the actual role, team, product/programme, and 1-2
   concrete things about the company. Tie each claim to real candidate experience.
