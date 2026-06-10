@@ -10,19 +10,20 @@ Living backlog. Top section = active/agreed; below = the candidate improvements 
       remains as the "local power user" live option.
 
 ## 🔴 Active
-- [x] Built `jobauto check-sources` (pings every token + aggregator endpoint, parses the
-      response to confirm real jobs return). Sandbox blocks egress, so RUN IT ON OPENCLAW /
-      YOUR MACHINE for real results.
-- [x] Spot-verified the structured-API tokens via web search: **Bosch SmartRecruiters
-      `BoschGroup` = correct ✓**; **ZeroAvia (was greenhouse) and Ballard (was lever) were
-      WRONG → fixed to custom portals.**
-- [ ] **Still UNVERIFIED (need the live `check-sources` run):** the 9 Workday tokens (Airbus,
-      Alstom, Siemens Mobility, Daimler Truck, BMW, Volvo, Cummins, Rolls-Royce, Honeywell) and
-      the 1 Greenhouse token (Intelligent Energy). Workday tenant/site paths can't be confirmed
-      from search snippets; the live checker will validate or flag each. Likely several are wrong
-      and should drop to `custom` (agent-fetched) if their CXS endpoint 404s.
-- [ ] Aggregator keys: Adzuna needs a free `app_id`/`app_key` in `secrets.yml`; Arbeitnow,
-      Bundesagentur (public key), EURAXESS need no key. `check-sources` will confirm once online.
+- [x] **GitHub Actions discovery workflow built** (`.github/workflows/job-discovery.yml`):
+      daily cron + manual dispatch → `check-sources` → `fetch` (ATS APIs + keyless
+      aggregators) → `validate-links --reject-dead` → `report` + static `dashboard.html`,
+      committed back to the repo. Runs where there IS internet (GH runner), unlike the sandbox.
+- [x] Freshness everywhere (`max_age_days: 3`), `validate-links`, posted-date + dead-link
+      badges, JSearch/Adzuna/Bundesagentur date params, static dashboard shows unscored jobs.
+- [ ] **BLOCKER — the workflow only runs once it's on the DEFAULT branch.** GitHub registers
+      `workflow_dispatch`/`schedule` workflows from the default branch only; ours is on
+      `claude/job-automation-folder-xXImq`, so `list_workflows` = 0 and dispatch 404s. Needs the
+      user's OK to **merge / open a PR to the default branch**. Once there: the cron runs daily,
+      AND the first run finally verifies the live ATS tokens + commits real fresh jobs.
+- [ ] After it runs: read `check-sources` output, fix/convert any failing Workday tokens to
+      `custom`, and (recommended) enable the keyless **Bundesagentur** source for real coverage
+      of the German targets (most of them are NOT on Greenhouse/Lever, so ATS-only yield is thin).
 
 ## 🟡 Candidate improvements (discuss / prioritise)
 **Correctness & data**
