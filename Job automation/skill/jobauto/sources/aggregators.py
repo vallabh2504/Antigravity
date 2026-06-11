@@ -58,12 +58,17 @@ def build_aggregator_recipes(cfg: dict[str, Any], secrets: dict[str, Any]) -> li
 
     b = agg.get("bundesagentur", {})
     if b.get("enabled"):
+        # Exact shape of the known-working mobile-app call (api_example.py): the /app/jobs
+        # path, angebotsart+pav params, and the app User-Agent (the API rejects default clients).
         was = b.get("query", "Brennstoffzelle Wasserstoff").replace(" ", "%20")
-        wo = b.get("where", "").replace(" ", "%20")
+        wo = b.get("where", "").strip()
+        loc = f"&wo={wo.replace(' ', '%20')}&umkreis=50" if wo else ""
         out.append(Recipe("Bundesagentur", "agg_bundesagentur",
-            f"https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs"
-            f"?was={was}&wo={wo}&veroeffentlichtseit={days}&page=1&size=50",
-            headers={"X-API-Key": "jobboerse-jobsuche"}))
+            f"https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs"
+            f"?angebotsart=1&pav=false&size=50&page=1&was={was}"
+            f"&veroeffentlichtseit={days}{loc}",
+            headers={"X-API-Key": "jobboerse-jobsuche",
+                     "User-Agent": "Jobsuche/2.9.2 (de.arbeitsagentur.jobboerse; build:1077; iOS 15.1.0) Alamofire/5.4.4"}))
 
     e = agg.get("euraxess", {})
     if e.get("enabled"):
