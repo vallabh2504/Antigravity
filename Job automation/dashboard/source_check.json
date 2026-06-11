@@ -1,0 +1,589 @@
+{
+  "summary": {
+    "total": 64,
+    "ok": 28
+  },
+  "results": [
+    {
+      "name": "DLR",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.dlr.de/en/careers/job-offers",
+      "status": "ERR (ConnectTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "timed out"
+    },
+    {
+      "name": "Airbus",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://ag.wd3.myworkdayjobs.com/wday/cxs/airbus/Airbus/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "H2FLY",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.h2fly.de/careers/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "MTU Aero Engines",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.mtu.de/careers/jobs/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "ZeroAvia",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://careers.zeroavia.com/search-jobs/",
+      "status": "HTTP 202",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Alstom",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://alstom.wd3.myworkdayjobs.com/wday/cxs/alstom/Alstom_Careers/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Siemens Mobility",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://jobs.siemens.com/wday/cxs/siemens/siemens/jobs",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Stadler",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.stadlerrail.com/en/about-us/jobs/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "cellcentric",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.cellcentric.net/career/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Daimler Truck",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://daimlertruck.wd3.myworkdayjobs.com/wday/cxs/daimlertruck/DaimlerTruck/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Bosch",
+      "portal": "smartrecruiters",
+      "method": "GET",
+      "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100",
+      "status": "OK (100 jobs)",
+      "ok": true,
+      "jobs": 100
+    },
+    {
+      "name": "BMW",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://bmwgroup.wd3.myworkdayjobs.com/wday/cxs/bmwgroup/BMWGroup/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Volvo Group",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://jobs.volvogroup.com/wday/cxs/volvo/volvo/jobs",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Quantron",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.quantron.net/en/career/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Freudenberg",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.freudenberg.com/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Cummins Accelera",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://cummins.wd5.myworkdayjobs.com/wday/cxs/cummins/External/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Ballard Power",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.ballard.com/careers/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Symbio",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.symbio.one/en/careers/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Fraunhofer ISE",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.ise.fraunhofer.de/en/career.html",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "KIT",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.kit.edu/karriere.php",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "University of Stuttgart",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.uni-stuttgart.de/en/university/jobs/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Universal Hydrogen",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://hydrogen.aero/careers/",
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer cer"
+    },
+    {
+      "name": "APUS Group",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://apus-aero.de/career/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Deutsche Aircraft",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.deutscheaircraft.com/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Rolls-Royce",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://rolls-royce.wd103.myworkdayjobs.com/wday/cxs/rollsroyce/RcollsRoyceCareers/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "GKN Aerospace",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.gknaerospace.com/careers/",
+      "status": "AUTH 403 (blocked / needs key)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Honeywell Aerospace",
+      "portal": "workday",
+      "method": "POST",
+      "url": "https://honeywell.wd1.myworkdayjobs.com/wday/cxs/honeywell/1/jobs",
+      "status": "HTTP 422",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Pipistrel",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.pipistrel-aircraft.com/about-us/careers/",
+      "status": "AUTH 403 (blocked / needs key)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "CAF",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.caf.net/en/talento/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Talgo",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.talgo.com/en/careers",
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer cer"
+    },
+    {
+      "name": "Hitachi Rail",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.hitachirail.com/careers/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "MAN Truck & Bus",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.man.eu/de/de/karriere.html",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Scania",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.scania.com/group/en/home/careers.html",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "IVECO",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.iveco.com/en-us/careers",
+      "status": "HTTP 502",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Hyundai Motor Europe",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.hyundai.com/eu/en/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Nikola",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.nikolamotor.com/careers",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Hyzon Motors",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.hyzonfuelcell.com/careers",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Clean Logistics / Fyrnetics",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.cleanlogistics.de/karriere/",
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[Errno 104] Connection reset by peer"
+    },
+    {
+      "name": "Liebherr",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.liebherr.com/en/int/career.html",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "EKPO Fuel Cell Technologies",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.ekpo-fuelcell.com/en/career",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "ElringKlinger",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.elringklinger.de/en/career",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Schaeffler",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.schaeffler.com/en/careers/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Proton Motor Fuel Cell",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.proton-motor.de/en/career/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "PowerCell Sweden",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://powercellgroup.com/career/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Sunfire",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.sunfire.de/en/career",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "HD Hyundai / Hydrogenious",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://hydrogenious.net/career/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Plastic Omnium New Energies",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.plasticomnium.com/en/careers/",
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[Errno -5] No address associated with hostname"
+    },
+    {
+      "name": "AVL List",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.avl.com/career",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "FEV Group",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.fev.com/en/career.html",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Nel Hydrogen",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://nelhydrogen.com/careers/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Plug Power",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.plugpower.com/careers/",
+      "status": "AUTH 403 (blocked / needs key)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Fraunhofer ICT",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.ict.fraunhofer.de/en/jobs.html",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "ZSW Baden-Württemberg",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.zsw-bw.de/en/career.html",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Forschungszentrum Jülich",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.fz-juelich.de/en/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "ZBT Duisburg",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.zbt.de/en/career/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "RWTH Aachen",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.rwth-aachen.de/go/id/dmga/",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "TU Munich",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://portal.mytum.de/jobs",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Empa Switzerland",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.empa.ch/web/empa/open-positions",
+      "status": "AUTH 403 (blocked / needs key)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Paul Scherrer Institute",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.psi.ch/en/hr/job-opportunities",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "VTT Finland",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.vttresearch.com/en/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    },
+    {
+      "name": "Intelligent Energy",
+      "portal": "greenhouse",
+      "method": "GET",
+      "url": "https://boards-api.greenhouse.io/v1/boards/intelligentenergy/jobs?content=true",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "Arbeitnow",
+      "portal": "agg_arbeitnow",
+      "method": "GET",
+      "url": "https://www.arbeitnow.com/api/job-board-api",
+      "status": "OK (12 jobs)",
+      "ok": true,
+      "jobs": 12
+    },
+    {
+      "name": "Bundesagentur",
+      "portal": "agg_bundesagentur",
+      "method": "GET",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?was=Brennstoffzelle%20Wasserstoff&wo=&veroeffentlichtseit=3&page=1&size=50",
+      "status": "HTTP 400",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "EURAXESS",
+      "portal": "agg_euraxess",
+      "method": "GET",
+      "url": "https://euraxess.ec.europa.eu/jobs/search?keywords=fuel+cell+hydrogen",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
+    }
+  ]
+}
