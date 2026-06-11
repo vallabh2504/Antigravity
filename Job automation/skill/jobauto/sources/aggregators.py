@@ -61,7 +61,7 @@ def build_aggregator_recipes(cfg: dict[str, Any], secrets: dict[str, Any]) -> li
         was = b.get("query", "Brennstoffzelle Wasserstoff").replace(" ", "%20")
         wo = b.get("where", "").replace(" ", "%20")
         out.append(Recipe("Bundesagentur", "agg_bundesagentur",
-            f"https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs"
+            f"https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs"
             f"?was={was}&wo={wo}&veroeffentlichtseit={days}&page=1&size=50",
             headers={"X-API-Key": "jobboerse-jobsuche"}))
 

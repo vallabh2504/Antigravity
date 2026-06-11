@@ -56,8 +56,11 @@ def build_recipes(companies: list[dict[str, Any]]) -> list[Recipe]:
                 sectors=sectors))
         elif portal == "smartrecruiters":
             # Bosch et al. List has no full JD -> detail fetch per posting.
+            # Server-side keyword filter via `q` so we get fuel-cell roles, not all 100 postings.
+            q = c.get("query", "").replace(" ", "%20")
+            qparam = f"&q={q}" if q else ""
             out.append(Recipe(name, portal,
-                f"https://api.smartrecruiters.com/v1/companies/{tok}/postings?limit=100",
+                f"https://api.smartrecruiters.com/v1/companies/{tok}/postings?limit=100{qparam}",
                 sectors=sectors, needs_detail=True,
                 detail_url_tmpl="https://api.smartrecruiters.com/v1/companies/" + tok + "/postings/{id}"))
         elif portal == "workday":

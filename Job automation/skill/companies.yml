@@ -6,12 +6,12 @@ companies:
   - aviation
   query: fuel cell
 - name: Airbus
-  portal: workday
-  token: airbus|Airbus|ag.wd3.myworkdayjobs.com
+  portal: custom
   careers_url: https://www.airbus.com/en/careers
   sectors:
   - aviation
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: H2FLY
   portal: custom
   careers_url: https://www.h2fly.de/careers/
@@ -23,24 +23,24 @@ companies:
   sectors:
   - aviation
 - name: ZeroAvia
-  portal: custom            # verified 2026-06: no public Greenhouse board; custom portal
+  portal: custom
   careers_url: https://careers.zeroavia.com/search-jobs/
   sectors:
   - aviation
 - name: Alstom
-  portal: workday
-  token: alstom|Alstom_Careers|alstom.wd3.myworkdayjobs.com
+  portal: custom
   careers_url: https://www.alstom.com/careers
   sectors:
   - rail
   query: hydrogen fuel cell
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Siemens Mobility
-  portal: workday
-  token: siemens|siemens|jobs.siemens.com
+  portal: custom
   careers_url: https://jobs.siemens.com/careers
   sectors:
   - rail
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Stadler
   portal: custom
   careers_url: https://www.stadlerrail.com/en/about-us/jobs/
@@ -52,12 +52,12 @@ companies:
   sectors:
   - heavy
 - name: Daimler Truck
-  portal: workday
-  token: daimlertruck|DaimlerTruck|daimlertruck.wd3.myworkdayjobs.com
+  portal: custom
   careers_url: https://careers.daimlertruck.com/
   sectors:
   - heavy
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Bosch
   portal: smartrecruiters
   token: BoschGroup
@@ -68,19 +68,19 @@ companies:
   - rail
   query: fuel cell
 - name: BMW
-  portal: workday
-  token: bmwgroup|BMWGroup|bmwgroup.wd3.myworkdayjobs.com
+  portal: custom
   careers_url: https://www.bmwgroup.jobs/
   sectors:
   - heavy
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Volvo Group
-  portal: workday
-  token: volvo|volvo|jobs.volvogroup.com
+  portal: custom
   careers_url: https://www.volvogroup.com/en/careers.html
   sectors:
   - heavy
   query: fuel cell
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Quantron
   portal: custom
   careers_url: https://www.quantron.net/en/career/
@@ -95,14 +95,14 @@ companies:
   - aviation
   query: fuel cell
 - name: Cummins Accelera
-  portal: workday
-  token: cummins|External|cummins.wd5.myworkdayjobs.com
+  portal: custom
   careers_url: https://www.accelerazero.com/careers
   sectors:
   - heavy
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Ballard Power
-  portal: custom            # verified 2026-06: no public Lever board; custom portal
+  portal: custom
   careers_url: https://www.ballard.com/careers/
   sectors:
   - heavy
@@ -152,12 +152,12 @@ companies:
   sectors:
   - aviation
 - name: Rolls-Royce
-  portal: workday
-  token: rollsroyce|RcollsRoyceCareers|rolls-royce.wd103.myworkdayjobs.com
+  portal: custom
   careers_url: https://careers.rolls-royce.com/
   sectors:
   - aviation
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: GKN Aerospace
   portal: custom
   careers_url: https://www.gknaerospace.com/careers/
@@ -165,12 +165,12 @@ companies:
   - aviation
   query: hydrogen fuel cell H2GEAR
 - name: Honeywell Aerospace
-  portal: workday
-  token: honeywell|1|honeywell.wd1.myworkdayjobs.com
+  portal: custom
   careers_url: https://careers.honeywell.com/
   sectors:
   - aviation
   query: fuel cell hydrogen
+  note: workday CXS token failed live check; agent-fetch careers_url
 - name: Pipistrel
   portal: custom
   careers_url: https://www.pipistrel-aircraft.com/about-us/careers/
