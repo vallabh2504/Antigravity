@@ -1,6 +1,6 @@
 {
   "summary": {
-    "total": 65,
+    "total": 64,
     "ok": 36
   },
   "results": [
@@ -9,9 +9,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.dlr.de/en/careers/job-offers",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ConnectTimeout)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "timed out"
     },
     {
       "name": "Airbus",
@@ -559,15 +560,6 @@
       "jobs": null
     },
     {
-      "name": "JSearch",
-      "portal": "agg_jsearch",
-      "method": "GET",
-      "url": "https://jsearch.p.rapidapi.com/search?query=fuel%20cell%20OR%20hydrogen%20engineer%20Germany&date_posted=week&page=1&num_pages=1&country=de",
-      "status": "AUTH 401 (blocked / needs key)",
-      "ok": false,
-      "jobs": null
-    },
-    {
       "name": "Arbeitnow",
       "portal": "agg_arbeitnow",
       "method": "GET",
@@ -580,10 +572,10 @@
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
-      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=50&page=1&was=Brennstoffzelle%20Wasserstoff&veroeffentlichtseit=30",
-      "status": "OK (1 jobs)",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=50&page=1&was=Brennstoffzelle%20Wasserstoff&veroeffentlichtseit=3",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 1
+      "jobs": 0
     },
     {
       "name": "EURAXESS",
