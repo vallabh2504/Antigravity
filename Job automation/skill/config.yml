@@ -9,7 +9,7 @@ max_age_days: 3
 aggregators:
   # JSearch = Google for Jobs (LinkedIn/Indeed/company sites). BEST for fresh, dated,
   # working links. Needs a free RapidAPI key in secrets.yml (rapidapi_key).
-  jsearch: { enabled: false, query: "fuel cell hydrogen engineer", country: de }   # needs RapidAPI key
+  jsearch: { enabled: true, query: "fuel cell OR hydrogen engineer Germany", country: de }   # RapidAPI key via RAPIDAPI_KEY secret
   adzuna: { enabled: false, country: de, what: "fuel cell hydrogen", where: "" }   # needs free keys
   arbeitnow: { enabled: true, query: "fuel cell hydrogen" }          # no auth, DE-heavy
   bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff", where: "" }  # public key

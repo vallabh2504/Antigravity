@@ -21,6 +21,10 @@ concurrency:
 jobs:
   discover:
     runs-on: ubuntu-latest
+    env:
+      # Add this in GitHub: Settings -> Secrets and variables -> Actions -> New repository
+      # secret named RAPIDAPI_KEY (your free JSearch key). Without it, JSearch is skipped.
+      RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
     defaults:
       run:
         working-directory: "Job automation/skill"

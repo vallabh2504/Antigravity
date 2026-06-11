@@ -15,6 +15,7 @@ Source notes (freshness + link quality):
 """
 from __future__ import annotations
 
+import os
 from typing import Any
 
 from ..models import RawPosting
@@ -30,7 +31,8 @@ def build_aggregator_recipes(cfg: dict[str, Any], secrets: dict[str, Any]) -> li
     # --- JSearch (Google for Jobs) — primary freshness source -----------------
     j = agg.get("jsearch", {})
     if j.get("enabled"):
-        key = secrets.get("rapidapi_key", "")
+        # key from secrets.yml (local) OR the RAPIDAPI_KEY env var (GitHub Actions secret)
+        key = secrets.get("rapidapi_key", "") or os.environ.get("RAPIDAPI_KEY", "")
         q = j.get("query", "fuel cell hydrogen engineer").replace(" ", "%20")
         country = j.get("country", "de")
         dp = {1: "today", 3: "3days", 7: "week"}.get(days, "week")
