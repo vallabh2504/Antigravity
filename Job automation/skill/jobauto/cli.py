@@ -29,6 +29,7 @@ import yaml
 from .sources import build_recipes
 from .sources.fetch import fetch_all, manifest as build_manifest
 from .sources.aggregators import build_aggregator_recipes
+from .sources.jobspy_source import fetch_jobspy
 from .sources.websearch import build_search_plan
 from . import discover as discovery
 from . import score as scoring
@@ -92,8 +93,11 @@ def _prefilter(raws, cfgd):
 
 
 def cmd_fetch(args):
+    cfgd = cfg.load_config()
     raws = fetch_all(_all_recipes())
-    kept, dkw, dage = _prefilter(raws, cfg.load_config())
+    # JobSpy (LinkedIn/Indeed/Google/Glassdoor, no key) = volume/freshness backbone.
+    raws += fetch_jobspy(cfgd, int(cfgd.get("max_age_days", 3)))
+    kept, dkw, dage = _prefilter(raws, cfgd)
     res = do_ingest(_db(), kept)
     print(f"fetched {len(raws)} -> relevant {len(kept)} (dropped {dkw} off-keyword, "
           f"{dage} too old) -> new={res['new']} dup={res['dup']}")

@@ -4,12 +4,29 @@
 # requirement). Sources are queried with this window; the digest also filters by it.
 max_age_days: 3
 
-# Stage 1 — discovery breadth: aggregator/PhD APIs that return a POSTED DATE and a
+# Stage 1a — JobSpy: the open-source, NO-KEY volume/freshness backbone. Scrapes
+# LinkedIn/Indeed/Google for Jobs/Glassdoor directly (replaces the paid JSearch route).
+# Each search_term x location is one scrape; hours_old is derived from max_age_days.
+jobspy:
+  enabled: true
+  sites: [indeed, linkedin, google, glassdoor]
+  search_terms:
+    - "fuel cell engineer"
+    - "hydrogen engineer"
+    - "Brennstoffzelle"
+    - "Wasserstoff Ingenieur"
+  locations:
+    - "Stuttgart, Germany"
+    - "Germany"
+  results_wanted: 40
+  country_indeed: Germany
+
+# Stage 1b — discovery breadth: aggregator/PhD APIs that return a POSTED DATE and a
 # canonical APPLY LINK (so links work and we can filter to the last N days).
 aggregators:
-  # JSearch = Google for Jobs (LinkedIn/Indeed/company sites). BEST for fresh, dated,
-  # working links. Needs a free RapidAPI key in secrets.yml (rapidapi_key).
-  jsearch: { enabled: true, query: "fuel cell OR hydrogen engineer Germany", country: de }   # RapidAPI key via RAPIDAPI_KEY secret
+  # JSearch (paid RapidAPI) — DROPPED in favour of JobSpy. Left disabled in case you
+  # ever want to re-enable it (set the RAPIDAPI_KEY secret + enabled: true).
+  jsearch: { enabled: false, query: "fuel cell OR hydrogen engineer Germany", country: de }
   adzuna: { enabled: false, country: de, what: "fuel cell hydrogen", where: "" }   # needs free keys
   arbeitnow: { enabled: true, query: "fuel cell hydrogen" }          # no auth, DE-heavy
   bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff", where: "" }  # public key

@@ -15,7 +15,11 @@ from . import Recipe, parse
 
 def _client():
     import httpx  # lazy: only needed on the httpx backend
-    return httpx.Client(timeout=20, headers={"User-Agent": "jobauto/0.1 (+personal job search)"})
+    # follow_redirects: many careers pages 301/302/308 to a trailing-slash variant; without
+    # this every one of them fails. Browser-like UA: some hosts 403 a bare client.
+    return httpx.Client(timeout=20, follow_redirects=True, headers={
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
 
 
 def fetch_recipe(recipe: Recipe) -> list[RawPosting]:
