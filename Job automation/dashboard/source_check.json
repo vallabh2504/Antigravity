@@ -1,7 +1,7 @@
 {
   "summary": {
-    "total": 64,
-    "ok": 36
+    "total": 65,
+    "ok": 35
   },
   "results": [
     {
@@ -382,9 +382,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.schaeffler.com/en/careers/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[Errno -2] Name or service not known"
     },
     {
       "name": "Proton Motor Fuel Cell",
@@ -555,6 +556,15 @@
       "method": "GET",
       "url": "https://boards-api.greenhouse.io/v1/boards/intelligentenergy/jobs?content=true",
       "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
+      "jobs": null
+    },
+    {
+      "name": "JSearch",
+      "portal": "agg_jsearch",
+      "method": "GET",
+      "url": "https://jsearch.p.rapidapi.com/search?query=fuel%20cell%20OR%20hydrogen%20engineer%20Germany&date_posted=3days&page=1&num_pages=1&country=de",
+      "status": "AUTH 401 (blocked / needs key)",
       "ok": false,
       "jobs": null
     },
