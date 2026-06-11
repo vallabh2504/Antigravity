@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 64,
-    "ok": 28
+    "ok": 35
   },
   "results": [
     {
@@ -9,18 +9,17 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.dlr.de/en/careers/job-offers",
-      "status": "ERR (ConnectTimeout)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "timed out"
+      "jobs": null
     },
     {
       "name": "Airbus",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://ag.wd3.myworkdayjobs.com/wday/cxs/airbus/Airbus/jobs",
-      "status": "HTTP 422",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.airbus.com/en/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -52,20 +51,20 @@
     },
     {
       "name": "Alstom",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://alstom.wd3.myworkdayjobs.com/wday/cxs/alstom/Alstom_Careers/jobs",
-      "status": "HTTP 422",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.alstom.com/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
       "name": "Siemens Mobility",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://jobs.siemens.com/wday/cxs/siemens/siemens/jobs",
-      "status": "NOTFOUND 404 (bad token?)",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://jobs.siemens.com/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -88,36 +87,37 @@
     },
     {
       "name": "Daimler Truck",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://daimlertruck.wd3.myworkdayjobs.com/wday/cxs/daimlertruck/DaimlerTruck/jobs",
-      "status": "HTTP 422",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://careers.daimlertruck.com/",
+      "status": "ERR (ConnectError)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "[Errno -2] Name or service not known"
     },
     {
       "name": "Bosch",
       "portal": "smartrecruiters",
       "method": "GET",
-      "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100",
-      "status": "OK (100 jobs)",
+      "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
+      "status": "OK (42 jobs)",
       "ok": true,
-      "jobs": 100
+      "jobs": 42
     },
     {
       "name": "BMW",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://bmwgroup.wd3.myworkdayjobs.com/wday/cxs/bmwgroup/BMWGroup/jobs",
-      "status": "HTTP 422",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.bmwgroup.jobs/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
       "name": "Volvo Group",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://jobs.volvogroup.com/wday/cxs/volvo/volvo/jobs",
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.volvogroup.com/en/careers.html",
       "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
       "jobs": null
@@ -142,11 +142,11 @@
     },
     {
       "name": "Cummins Accelera",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://cummins.wd5.myworkdayjobs.com/wday/cxs/cummins/External/jobs",
-      "status": "HTTP 422",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://www.accelerazero.com/careers",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -224,11 +224,11 @@
     },
     {
       "name": "Rolls-Royce",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://rolls-royce.wd103.myworkdayjobs.com/wday/cxs/rollsroyce/RcollsRoyceCareers/jobs",
-      "status": "HTTP 422",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://careers.rolls-royce.com/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -242,11 +242,11 @@
     },
     {
       "name": "Honeywell Aerospace",
-      "portal": "workday",
-      "method": "POST",
-      "url": "https://honeywell.wd1.myworkdayjobs.com/wday/cxs/honeywell/1/jobs",
-      "status": "HTTP 422",
-      "ok": false,
+      "portal": "custom",
+      "method": "GET",
+      "url": "https://careers.honeywell.com/",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -563,15 +563,15 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (12 jobs)",
+      "status": "OK (7 jobs)",
       "ok": true,
-      "jobs": 12
+      "jobs": 7
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
-      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?was=Brennstoffzelle%20Wasserstoff&wo=&veroeffentlichtseit=3&page=1&size=50",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs?was=Brennstoffzelle%20Wasserstoff&wo=&veroeffentlichtseit=3&page=1&size=50",
       "status": "HTTP 400",
       "ok": false,
       "jobs": null
