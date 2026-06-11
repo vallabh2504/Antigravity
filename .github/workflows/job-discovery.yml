@@ -9,7 +9,12 @@ name: Daily Job Discovery
 on:
   schedule:
     - cron: "0 6 * * *"      # 06:00 UTC daily
-  workflow_dispatch: {}        # allow manual "Run workflow"
+  workflow_dispatch:           # allow manual "Run workflow"
+    inputs:
+      max_age_days:
+        description: "Freshness window in days (blank = use config.yml default of 3)"
+        required: false
+        default: ""
 
 permissions:
   contents: write              # to commit the report + dashboard back
@@ -25,6 +30,8 @@ jobs:
       # Add this in GitHub: Settings -> Secrets and variables -> Actions -> New repository
       # secret named RAPIDAPI_KEY (your free JSearch key). Without it, JSearch is skipped.
       RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+      # Diagnostic override for the freshness window; blank on the daily cron.
+      JOBAUTO_MAX_AGE_DAYS: ${{ github.event.inputs.max_age_days }}
     defaults:
       run:
         working-directory: "Job automation/skill"

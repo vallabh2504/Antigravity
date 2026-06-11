@@ -19,7 +19,13 @@ def _load_yaml(path: Path) -> dict[str, Any]:
 
 
 def load_config() -> dict[str, Any]:
-    return _load_yaml(SKILL_DIR / "config.yml")
+    cfg = _load_yaml(SKILL_DIR / "config.yml")
+    # Optional override for the freshness window (used for diagnostic runs via the
+    # workflow's `max_age_days` input) so we never have to churn the "3 days" default.
+    override = os.environ.get("JOBAUTO_MAX_AGE_DAYS", "").strip()
+    if override.isdigit():
+        cfg["max_age_days"] = int(override)
+    return cfg
 
 
 def load_companies() -> list[dict[str, Any]]:
