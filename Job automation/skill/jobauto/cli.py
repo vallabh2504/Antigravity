@@ -69,10 +69,34 @@ def cmd_manifest(args):
         print(f"  [{m['portal']}] {m['company']}: {m['method']} {m['url']}")
 
 
+def _prefilter(raws, cfgd):
+    """Keyword + freshness relevance filter applied at ingest, so non-fuel-cell or
+    stale postings never reach the DB/dashboard even without LLM scoring."""
+    from .util import age_days
+    inc = [k.lower() for k in cfgd.get("include_keywords", [])]
+    exc = [k.lower() for k in cfgd.get("exclude_keywords", [])]
+    maxage = cfgd.get("max_age_days")
+    kept, drop_kw, drop_age = [], 0, 0
+    for r in raws:
+        text = f"{r.title} {r.jd_text}".lower()
+        if inc and not any(k in text for k in inc):
+            drop_kw += 1; continue
+        if any(k in text for k in exc):
+            drop_kw += 1; continue
+        if maxage is not None:
+            a = age_days(r.posted_at)
+            if a is not None and a > maxage:
+                drop_age += 1; continue
+        kept.append(r)
+    return kept, drop_kw, drop_age
+
+
 def cmd_fetch(args):
     raws = fetch_all(_all_recipes())
-    res = do_ingest(_db(), raws)
-    print(f"fetched {len(raws)} postings -> new={res['new']} dup={res['dup']}")
+    kept, dkw, dage = _prefilter(raws, cfg.load_config())
+    res = do_ingest(_db(), kept)
+    print(f"fetched {len(raws)} -> relevant {len(kept)} (dropped {dkw} off-keyword, "
+          f"{dage} too old) -> new={res['new']} dup={res['dup']}")
 
 
 def cmd_search_plan(args):
@@ -127,8 +151,10 @@ def cmd_ingest(args):
         jd_text=d.get("jd_text", ""), posted_at=d.get("posted_at", ""),
         extra=d.get("extra", {}),
     ) for d in data]
-    res = do_ingest(_db(), raws)
-    print(f"ingested {len(raws)} -> new={res['new']} dup={res['dup']}")
+    kept, dkw, dage = _prefilter(raws, cfg.load_config())
+    res = do_ingest(_db(), kept)
+    print(f"ingested {len(raws)} -> relevant {len(kept)} (dropped {dkw} off-keyword, "
+          f"{dage} too old) -> new={res['new']} dup={res['dup']}")
 
 
 def cmd_to_score(args):
