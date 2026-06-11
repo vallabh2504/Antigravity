@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 64,
-    "ok": 35
+    "ok": 36
   },
   "results": [
     {
@@ -571,10 +571,10 @@
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
-      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/jobs?was=Brennstoffzelle%20Wasserstoff&wo=&veroeffentlichtseit=3&page=1&size=50",
-      "status": "HTTP 400",
-      "ok": false,
-      "jobs": null
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=50&page=1&was=Brennstoffzelle%20Wasserstoff&veroeffentlichtseit=3",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": 0
     },
     {
       "name": "EURAXESS",
