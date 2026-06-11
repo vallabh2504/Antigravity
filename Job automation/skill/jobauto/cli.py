@@ -266,12 +266,13 @@ def cmd_check_sources(args):
 def cmd_validate_links(args):
     print("Validating apply URLs are live (needs real network)...\n")
     r = linkval.check(_db(), reject_dead=args.reject_dead, timeout=args.timeout)
+    mark = {"live": "✓", "gone": "✗", "unverified": "?", "no-url": "-"}
     for x in r["results"]:
-        print(f"  {'✓' if x['ok'] else '✗'} {x['status']:<10} {x['company'][:24]:<24} {x['url'][:60]}")
-    print(f"\n{r['checked']} checked, {r['dead']} dead/expired"
-          + (" (auto-rejected)" if r['rejected_dead'] else ""))
-    if r["checked"] and r["dead"] == r["checked"]:
-        print("All unreachable: expected in a locked-down sandbox; run on OpenClaw / your machine.")
+        print(f"  {mark.get(x['link_state'], '?')} {x['status']:<10} "
+              f"{x['company'][:24]:<24} {x['url'][:60]}")
+    print(f"\n{r['checked']} checked, {r['dead']} gone/expired"
+          + (" (auto-rejected)" if r['rejected_dead'] else "")
+          + f", {r.get('blocked', 0)} unverified (bot-blocked, kept)")
 
 
 def cmd_dashboard(args):

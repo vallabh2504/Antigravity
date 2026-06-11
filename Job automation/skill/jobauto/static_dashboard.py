@@ -154,7 +154,9 @@ function card(j){
   if(sj.tier)tags+=`<span class="tag">tier ${esc(sj.tier)}</span>`;
   if(j.age_days!=null)tags+=`<span class="tag" style="background:#dcfce7;color:#166534">${j.age_days<=0?'today':j.age_days+'d ago'}</span>`;
   else tags+='<span class="tag" style="background:#fef9c3;color:#854d0e">date?</span>';
-  if(sj.link_ok===false)tags+='<span class="tag" style="background:#fee2e2;color:#991b1b">⚠ link dead</span>';
+  if(sj.link_state==='live')tags+='<span class="tag" style="background:#dcfce7;color:#166534">✓ link live</span>';
+  else if(sj.link_state==='gone')tags+='<span class="tag" style="background:#fee2e2;color:#991b1b">⚠ link dead</span>';
+  else if(sj.link_state==='unverified')tags+='<span class="tag" style="background:#fef9c3;color:#854d0e">link unverified</span>';
   const reasons=(sj.reasons||[]).slice(0,4).map(r=>`<li>${esc(r)}</li>`).join('');
   const docs=(j.resume_html||j.cover_html)?`<button class="blue" onclick="openJob('${j.id}')">View docs &amp; JD</button>`:`<button class="ghost" onclick="openJob('${j.id}')">View JD</button>`;
   return `<div class="job"><div class="badge" style="background:${scoreColor(j.score)}">${j.score??'—'}</div>

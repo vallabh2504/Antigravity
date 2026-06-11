@@ -24,8 +24,10 @@ def _fmt_job(j: dict, idx: int) -> str:
         tags.append("today" if a <= 0 else f"{a}d ago")
     else:
         tags.append("date?")
-    if sj.get("link_ok") is False:
+    if sj.get("link_state") == "gone":
         tags.append("⚠ link dead")
+    elif sj.get("link_state") == "unverified":
+        tags.append("link unverified")
     tagstr = "  ·  ".join(tags)
     reasons = sj.get("reasons") or []
     lines = [

@@ -16,33 +16,55 @@ def _client(timeout: float):
                         headers={"User-Agent": "Mozilla/5.0 jobauto-linkcheck"})
 
 
-def check(db: DB, states: tuple[str, ...] = ("scored", "approved", "docs_ready"),
+# Status codes that mean the posting is genuinely GONE (safe to auto-reject).
+_GONE = {404, 410}
+# Anti-bot / auth walls from a datacenter IP (LinkedIn 999, Indeed/Glassdoor 403, rate
+# limits). The job is almost certainly live in a browser, so we KEEP it and just flag it
+# "unverified" rather than falsely calling it dead.
+_BLOCKED = {401, 403, 429, 999}
+
+
+def check(db: DB, states: tuple[str, ...] = ("discovered", "scored", "approved", "docs_ready"),
           timeout: float = 12.0, reject_dead: bool = False) -> dict:
     jobs = [j for st in states for j in db.by_state(st)]
     results = []
-    dead = 0
+    dead = blocked = 0
     with _client(timeout) as client:
         for j in jobs:
             url = j.get("url") or ""
-            status, ok = "no-url", False
+            code: int | None = None
+            status, link_state = "no-url", "no-url"
             if url:
                 try:
                     r = client.head(url)
                     if r.status_code >= 400 or r.status_code == 405:
                         r = client.get(url)  # some servers reject HEAD
-                    status, ok = str(r.status_code), (200 <= r.status_code < 400)
+                    code = r.status_code
+                    status = str(code)
                 except Exception as e:
                     status = f"ERR {type(e).__name__}"
+            # classify: live / gone / unverified(blocked)
+            if code is not None and 200 <= code < 400:
+                link_state = "live"
+            elif code in _GONE:
+                link_state = "gone"
+            elif code in _BLOCKED:
+                link_state = "unverified"
+            elif url:
+                link_state = "unverified"   # network error / odd code: don't call it dead
             # persist link status into score_json
             sj = j.get("score_json") or {}
-            sj["link_ok"] = ok
+            sj["link_ok"] = (link_state == "live")
+            sj["link_state"] = link_state
             sj["link_status"] = status
             db.set_score(j["id"], j.get("score") or 0, sj)
-            if not ok:
+            if link_state == "gone":
                 dead += 1
                 if reject_dead:
                     db.set_state(j["id"], "rejected")
+            elif link_state == "unverified":
+                blocked += 1
             results.append({"id": j["id"], "company": j["company"],
-                            "status": status, "ok": ok, "url": url})
-    return {"checked": len(results), "dead": dead, "results": results,
-            "rejected_dead": reject_dead}
+                            "status": status, "link_state": link_state, "url": url})
+    return {"checked": len(results), "dead": dead, "blocked": blocked,
+            "results": results, "rejected_dead": reject_dead}
