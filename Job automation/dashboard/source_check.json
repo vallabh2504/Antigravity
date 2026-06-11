@@ -9,10 +9,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.dlr.de/en/careers/job-offers",
-      "status": "ERR (ConnectTimeout)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "timed out"
+      "jobs": null
     },
     {
       "name": "Airbus",
