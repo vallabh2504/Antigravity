@@ -42,9 +42,12 @@ include_keywords:
   - FCEV
   - PEM
   - electrolyzer
+  - elektrolyse
   - hydrogen storage
-  - stack
+  - fuel cell stack   # not bare "stack" — that matches "tech stack" in unrelated SW roles
   - balance of plant
+  - SOFC
+  - SOEC
 exclude_keywords:
   - sales representative
   - internship   # remove if you also want working-student/intern roles
