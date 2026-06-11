@@ -9,21 +9,24 @@ Living backlog. Top section = active/agreed; below = the candidate improvements 
       exact CLI commands with a copy button. (`jobauto/static_dashboard.py`.) The FastAPI app
       remains as the "local power user" live option.
 
-## 🔴 Active
-- [x] **GitHub Actions discovery workflow built** (`.github/workflows/job-discovery.yml`):
-      daily cron + manual dispatch → `check-sources` → `fetch` (ATS APIs + keyless
-      aggregators) → `validate-links --reject-dead` → `report` + static `dashboard.html`,
-      committed back to the repo. Runs where there IS internet (GH runner), unlike the sandbox.
-- [x] Freshness everywhere (`max_age_days: 3`), `validate-links`, posted-date + dead-link
-      badges, JSearch/Adzuna/Bundesagentur date params, static dashboard shows unscored jobs.
-- [ ] **BLOCKER — the workflow only runs once it's on the DEFAULT branch.** GitHub registers
-      `workflow_dispatch`/`schedule` workflows from the default branch only; ours is on
-      `claude/job-automation-folder-xXImq`, so `list_workflows` = 0 and dispatch 404s. Needs the
-      user's OK to **merge / open a PR to the default branch**. Once there: the cron runs daily,
-      AND the first run finally verifies the live ATS tokens + commits real fresh jobs.
-- [ ] After it runs: read `check-sources` output, fix/convert any failing Workday tokens to
-      `custom`, and (recommended) enable the keyless **Bundesagentur** source for real coverage
-      of the German targets (most of them are NOT on Greenhouse/Lever, so ATS-only yield is thin).
+## 🟢 Done (verified on the live GitHub-runner network)
+- [x] **Discovery runs end-to-end on GitHub Actions** (merged to `main`, ran 3 times). Commits
+      `dashboard.html` + `reports/<date>.md` + `source_check.json` back to the repo.
+- [x] **Bosch (SmartRecruiters): 42 real fuel-cell jobs**, fresh + link-validated (keyword
+      filter `q=fuel cell` works; was 100 generic before).
+- [x] **Arbeitnow: 7 jobs.** Workday tokens were all broken (422/404) → converted to `custom`.
+- [x] **Bundesagentur HTTP 400 → 200** fixed (`/app/jobs` path + angebotsart/pav + mobile
+      User-Agent). Returned 0 for the niche 3-day query — needs query tuning (below).
+
+## 🔴 Active — remaining German-market coverage gap
+- [ ] **Bundesagentur returns 200 but 0 jobs** for "Brennstoffzelle Wasserstoff" in a 3-day
+      window. Try a broader single keyword ("Brennstoffzelle" OR "Wasserstoff"), widen the
+      window, and confirm the response key (`stellenangebote`). This is the source that should
+      surface Siemens/BMW/Daimler/MAHLE postings.
+- [ ] **26 custom careers pages return 200 but yield nothing to pure Python** (DLR, Airbus,
+      cellcentric, Fraunhofer…). They need the agent/browser backend to parse, OR coverage via
+      Bundesagentur/JSearch. Decide: agent-parse customs, or add JSearch/Adzuna keys for
+      whole-market coverage.
 
 ## 🟡 Candidate improvements (discuss / prioritise)
 **Correctness & data**
