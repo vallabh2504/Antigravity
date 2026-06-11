@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 65,
-    "ok": 35
+    "ok": 36
   },
   "results": [
     {
@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (42 jobs)",
+      "status": "OK (41 jobs)",
       "ok": true,
-      "jobs": 42
+      "jobs": 41
     },
     {
       "name": "BMW",
@@ -382,10 +382,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.schaeffler.com/en/careers/",
-      "status": "ERR (ConnectError)",
-      "ok": false,
-      "jobs": null,
-      "note": "[Errno -2] Name or service not known"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "Proton Motor Fuel Cell",
@@ -563,7 +562,7 @@
       "name": "JSearch",
       "portal": "agg_jsearch",
       "method": "GET",
-      "url": "https://jsearch.p.rapidapi.com/search?query=fuel%20cell%20OR%20hydrogen%20engineer%20Germany&date_posted=3days&page=1&num_pages=1&country=de",
+      "url": "https://jsearch.p.rapidapi.com/search?query=fuel%20cell%20OR%20hydrogen%20engineer%20Germany&date_posted=week&page=1&num_pages=1&country=de",
       "status": "AUTH 401 (blocked / needs key)",
       "ok": false,
       "jobs": null
@@ -573,18 +572,18 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (7 jobs)",
+      "status": "OK (13 jobs)",
       "ok": true,
-      "jobs": 7
+      "jobs": 13
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
-      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=50&page=1&was=Brennstoffzelle%20Wasserstoff&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=50&page=1&was=Brennstoffzelle%20Wasserstoff&veroeffentlichtseit=30",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 1
     },
     {
       "name": "EURAXESS",
