@@ -509,9 +509,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.rwth-aachen.de/go/id/dmga/",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ConnectError)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "[Errno 101] Network is unreachable"
     },
     {
       "name": "TU Munich",
@@ -563,9 +564,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (13 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 13
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
