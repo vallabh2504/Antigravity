@@ -348,7 +348,7 @@
       "status": "ERR (ConnectError)",
       "ok": false,
       "jobs": null,
-      "note": "[Errno 104] Connection reset by peer"
+      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate"
     },
     {
       "name": "Liebherr",
@@ -509,10 +509,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.rwth-aachen.de/go/id/dmga/",
-      "status": "ERR (ConnectError)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "[Errno 101] Network is unreachable"
+      "jobs": null
     },
     {
       "name": "TU Munich",
