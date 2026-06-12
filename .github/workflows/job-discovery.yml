@@ -51,8 +51,11 @@ jobs:
       - name: Fetch fresh postings (ATS APIs + keyless aggregators)
         run: python -m jobauto fetch || true
 
-      - name: Drop dead / expired links
+      - name: Drop dead / expired links (+ verify real posting dates)
         run: python -m jobauto validate-links --reject-dead || true
+
+      - name: Tag new-vs-seen postings (persistent across runs)
+        run: python -m jobauto mark-seen || true
 
       - name: Build report + raw discovery dashboard
         run: |
@@ -69,7 +72,7 @@ jobs:
         run: |
           git config user.name  "job-automation-bot"
           git config user.email "job-automation-bot@users.noreply.github.com"
-          git add "Job automation/reports" "Job automation/dashboard/auto_latest.html" "Job automation/dashboard/latest_jobs.json" "Job automation/dashboard/source_check.json" || true
+          git add "Job automation/reports" "Job automation/dashboard/auto_latest.html" "Job automation/dashboard/latest_jobs.json" "Job automation/dashboard/seen.json" "Job automation/dashboard/source_check.json" || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else

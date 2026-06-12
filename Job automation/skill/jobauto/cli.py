@@ -32,6 +32,7 @@ from .sources.aggregators import build_aggregator_recipes
 from .sources.jobspy_source import fetch_jobspy
 from .sources.websearch import build_search_plan
 from . import discover as discovery
+from . import dedup
 from . import score as scoring
 from . import tailor as tailoring
 from . import digest as digesting
@@ -101,12 +102,13 @@ def _prefilter(raws, cfgd):
 def cmd_fetch(args):
     cfgd = cfg.load_config()
     raws = fetch_all(_all_recipes())
-    # JobSpy (LinkedIn/Indeed/Google/Glassdoor, no key) = volume/freshness backbone.
+    # JobSpy (Indeed/Google, no key) = volume/freshness backbone.
     raws += fetch_jobspy(cfgd, int(cfgd.get("max_age_days", 3)))
     kept, dkw, dage = _prefilter(raws, cfgd)
+    kept, ddup = dedup.collapse(kept)   # collapse same role across sources
     res = do_ingest(_db(), kept)
     print(f"fetched {len(raws)} -> relevant {len(kept)} (dropped {dkw} off-keyword, "
-          f"{dage} too old) -> new={res['new']} dup={res['dup']}")
+          f"{dage} too old, {ddup} duplicate) -> new={res['new']} dup={res['dup']}")
 
 
 def cmd_search_plan(args):
@@ -162,9 +164,10 @@ def cmd_ingest(args):
         extra=d.get("extra", {}),
     ) for d in data]
     kept, dkw, dage = _prefilter(raws, cfg.load_config())
+    kept, ddup = dedup.collapse(kept)
     res = do_ingest(_db(), kept)
     print(f"ingested {len(raws)} -> relevant {len(kept)} (dropped {dkw} off-keyword, "
-          f"{dage} too old) -> new={res['new']} dup={res['dup']}")
+          f"{dage} too old, {ddup} duplicate) -> new={res['new']} dup={res['dup']}")
 
 
 def cmd_to_score(args):
@@ -307,11 +310,32 @@ def cmd_dump_jobs(args):
             "location": j.get("location", ""), "url": j.get("url", ""),
             "age_days": age_days(j.get("posted_at", "")),
             "link_state": sj.get("link_state"),
+            "is_new": sj.get("is_new", False),
+            "first_seen": sj.get("first_seen", ""),
             "jd": (j.get("jd_text") or "")[:8000],
         })
     out = Path(args.out) if args.out else (cfg.output_dir() / "latest_jobs.json")
     out.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"dumped {len(rows)} jobs -> {out}")
+
+
+def cmd_mark_seen(args):
+    """Tag each live job as NEW (first time seen across runs) or seen, using a committed
+    seen-store so 'new since yesterday' survives the ephemeral runner DB."""
+    from pathlib import Path
+    db = _db()
+    jobs = [j for st in ("discovered", "scored", "approved", "docs_ready") for j in db.by_state(st)]
+    seen_path = Path(args.store) if args.store else (cfg.REPO_DIR / "dashboard" / "seen.json")
+    seen = dedup.load_seen(seen_path)
+    new_keys, seen = dedup.mark_new(jobs, seen)
+    for j in jobs:
+        k = dedup.key(j.get("company", ""), j.get("title", ""))
+        sj = j.get("score_json") or {}
+        sj["is_new"] = (k in new_keys)
+        sj["first_seen"] = seen.get(k, "")
+        db.set_score(j["id"], j.get("score") or 0, sj)
+    dedup.save_seen(seen_path, seen)
+    print(f"{len(jobs)} jobs, {len(new_keys)} new since last run -> {seen_path}")
 
 
 def cmd_render(args):
@@ -405,6 +429,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(func=cmd_dump_jobs)
     sp = sub.add_parser("render", help="rebuild editable HTML/PDF from an application's Markdown")
     sp.add_argument("slug", nargs="?", default=None); sp.set_defaults(func=cmd_render)
+    sp = sub.add_parser("mark-seen", help="tag jobs new-vs-seen via committed seen-store")
+    sp.add_argument("--store", default=None); sp.set_defaults(func=cmd_mark_seen)
     sp = sub.add_parser("check-sources"); sp.add_argument("--timeout", type=float, default=15.0)
     sp.set_defaults(func=cmd_check_sources)
     sp = sub.add_parser("validate-links"); sp.add_argument("--timeout", type=float, default=12.0)

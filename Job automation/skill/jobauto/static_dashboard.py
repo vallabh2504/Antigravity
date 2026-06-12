@@ -192,6 +192,7 @@ iframe{width:100%;height:70vh;border:1px solid var(--line);border-radius:10px;ba
    <option>heavy</option><option>stationary</option><option>research</option><option>other</option></select>
   <div class="seg" id="quick">
    <button data-f="all" class="active">All</button>
+   <button data-f="new">New today</button>
    <button data-f="strong">Strong</button>
    <button data-f="tailored">Tailored</button>
    <button data-f="thesis">Thesis/Werkstudent</button>
@@ -246,6 +247,7 @@ function linkTag(sj){
 }
 function matchesQuick(j){
  const sj=j.score_json||{};
+ if(quick==='new')return !!sj.is_new;
  if(quick==='strong')return (j.score||0)>=75;
  if(quick==='tailored')return !!(j.resume_html||j.cover_html);
  if(quick==='thesis')return /thesis|werkstudent|masterarbeit|abschlussarbeit|praktik|semesterarbeit|student/i.test((j.title||'')+' '+(sj.work_type||''));
@@ -268,6 +270,7 @@ function card(j){
  const sj=j.score_json||{};
  const tailored=!!(j.resume_html||j.cover_html);
  let tags='';
+ if(sj.is_new)tags+='<span class="tag" style="background:#19c37d;color:#06210f;font-weight:700">NEW</span>';
  if(sj.sector)tags+=`<span class="tag t-sector">${esc(sj.sector)}</span>`;
  if(sj.is_phd)tags+='<span class="tag t-phd">PhD/research</span>';
  if(sj.work_type)tags+=`<span class="tag t-tier">${esc(sj.work_type)}</span>`;
