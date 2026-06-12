@@ -318,7 +318,10 @@ function showDoc(id,which){
  if(which==='open'){window.open(j.url||'#','_blank');return;}
  if(which==='jd'){body.innerHTML=`<pre class="jd">${esc(j.jd)||'(no description captured)'}</pre>`;return;}
  const html=which==='resume'?j.resume_html:j.cover_html;
- const ifr=document.createElement('iframe');ifr.srcdoc=html;body.innerHTML='';body.appendChild(ifr);
+ const slug=(j.score_json||{}).packet;
+ const note=slug?`<div style="background:#0f1d34;border:1px solid #1f2c45;border-radius:8px;padding:8px 11px;margin:0 0 8px;font-size:12.5px;color:#bcd">✏️ Editable source: <code>Job automation/applications/${slug}/</code> — open <code>${which}${which==='cover'?'_letter':''}.html</code> to edit inline, or edit the <code>.md</code> and run <code>python -m jobauto render ${slug}</code></div>`:'';
+ body.innerHTML=note;
+ const ifr=document.createElement('iframe');ifr.srcdoc=html;body.appendChild(ifr);
 }
 function pick(kind,id){sel[kind].add(id);sel[kind==='approve'?'reject':'approve'].delete(id);updateBar();}
 function updateBar(){

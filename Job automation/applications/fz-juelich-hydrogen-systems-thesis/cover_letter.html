@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>S V V Sai Sri Vallabh Pataneni</title><style>
+:root{--accent:#0b6e4f;--ink:#1a1a1a;--muted:#566;--line:#e3e6ea}
+*{box-sizing:border-box}body{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+ color:var(--ink);max-width:840px;margin:24px auto;padding:0 40px;line-height:1.5;font-size:14.5px}
+h1{font-size:27px;margin:0 0 2px;letter-spacing:.2px}
+h1+p{color:var(--accent);font-weight:600;margin:0 0 4px}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);
+ border-bottom:2px solid var(--line);padding-bottom:3px;margin:16px 0 7px}
+h3{font-size:14.5px;margin:9px 0 1px}
+p{margin:5px 0}ul{margin:5px 0 8px;padding-left:18px}li{margin:3px 0}
+hr{border:0;border-top:1px solid var(--line);margin:10px 0}
+em{color:var(--muted);font-style:normal;font-size:12.8px}
+a{color:var(--accent);text-decoration:none}
+@media print{body{margin:0;max-width:none;font-size:11.6px;padding:0 12px}.toolbar{display:none!important}}
+</style></head><body>
+<div class="toolbar" style="position:sticky;top:0;z-index:9;display:flex;gap:8px;align-items:center;
+ background:#0b1220;color:#fff;padding:8px 12px;margin:-24px -40px 16px;font:13px -apple-system,Segoe UI,Arial">
+ <strong style="margin-right:auto">Editable document</strong>
+ <button onclick="toggleEdit(this)" style="cursor:pointer;border:0;border-radius:7px;padding:6px 12px;background:#19c37d;color:#06210f;font-weight:700">✏️ Edit</button>
+ <button onclick="dl()" style="cursor:pointer;border:0;border-radius:7px;padding:6px 12px;background:#2b3c5e;color:#fff">⬇ Download</button>
+ <button onclick="window.print()" style="cursor:pointer;border:0;border-radius:7px;padding:6px 12px;background:#2b3c5e;color:#fff">🖨 PDF</button>
+ <span id="saved" style="opacity:.7;font-size:12px"></span>
+</div>
+<div id="doc"><h1>S V V Sai Sri Vallabh Pataneni</h1>
+<p>Renningen / Stuttgart · vallabh.pataneni@rwth-aachen.de · +49 176 8594 4047 · linkedin.com/in/vallabh-pataneni</p>
+<hr>
+<p>Institute of Climate and Energy Systems (ICE-2), Jülicher Systemanalyse</p>
+<p>Forschungszentrum Jülich</p>
+<p>12 June 2026</p>
+<p><strong>Application: Masterarbeit, Importpotenziale grüner Wasserstoffderivate</strong></p>
+<p>I am applying for the Master&#x27;s thesis on the import potential of green hydrogen derivatives. The integrated simulation and optimisation approach your institute uses is the way I already work: at Robert Bosch I built MATLAB/Simulink models of fuel-cell powertrain strategies and ran multi-variable optimisation with Genetic Algorithms and Gradient Descent, benchmarked against dynamic programming and ECMS, to find cost-effective operating points.</p>
+<p>The techno-economic side of the thesis fits my background too. I built a Well-to-Wheel and total-cost-of-ownership model comparing powertrains across their life cycle, which is the same kind of system-level, cost-driven comparison that an import-potential analysis of hydrogen carriers requires. I am fluent in Python and MATLAB for the data handling and scenario analysis behind such models, and I follow the hydrogen literature with genuine interest through my fuel-cell work at DLR and Bosch.</p>
+<p>Contributing to Jülich&#x27;s work on a sustainable hydrogen economy is exactly the direction I want my thesis to take. My English is fluent and my German is at B1. I would be glad to discuss the scope with you.</p>
+<p>Yours sincerely,</p>
+<p><strong>Vallabh Pataneni</strong></p></div>
+<script>
+const KEY='app:'+location.pathname.split('/').pop();
+const doc=document.getElementById('doc');
+try{const s=localStorage.getItem(KEY);if(s){doc.innerHTML=s;mark('restored your edits')}}catch(e){}
+function toggleEdit(b){const on=doc.isContentEditable;doc.contentEditable=!on;
+ doc.style.outline=on?'none':'2px dashed #19c37d';doc.style.padding=on?'0':'6px';
+ b.textContent=on?'✏️ Edit':'✓ Done';if(on)save();}
+doc.addEventListener('input',()=>{clearTimeout(window._t);window._t=setTimeout(save,500)});
+function save(){try{localStorage.setItem(KEY,doc.innerHTML);mark('saved locally '+new Date().toLocaleTimeString())}catch(e){}}
+function mark(m){document.getElementById('saved').textContent=m}
+function dl(){const html='<!doctype html><meta charset=utf-8><style>'+document.querySelector('style').textContent+'</style>'+doc.outerHTML;
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+ a.download=(location.pathname.split('/').pop()||'document.html');a.click();}
+</script>
+</body></html>

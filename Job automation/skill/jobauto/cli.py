@@ -314,6 +314,20 @@ def cmd_dump_jobs(args):
     print(f"dumped {len(rows)} jobs -> {out}")
 
 
+def cmd_render(args):
+    from . import render_md
+    base = cfg.applications_dir()
+    targets = [base / args.slug] if args.slug else [p for p in base.iterdir() if p.is_dir()]
+    total = 0
+    for d in targets:
+        if not d.exists():
+            print(f"no such packet: {d}"); continue
+        written = render_md.render_dir(d)
+        total += len(written)
+        print(f"{d.name}: rendered {len(written)} file(s)")
+    print(f"done ({total} files). Edit the .md in your own words, then re-run `render`.")
+
+
 def cmd_next(args):
     c = _db().counts()
     g = lambda k: c.get(k, 0)
@@ -389,6 +403,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(func=cmd_dashboard)
     sp = sub.add_parser("dump-jobs"); sp.add_argument("--out", default=None)
     sp.set_defaults(func=cmd_dump_jobs)
+    sp = sub.add_parser("render", help="rebuild editable HTML/PDF from an application's Markdown")
+    sp.add_argument("slug", nargs="?", default=None); sp.set_defaults(func=cmd_render)
     sp = sub.add_parser("check-sources"); sp.add_argument("--timeout", type=float, default=15.0)
     sp.set_defaults(func=cmd_check_sources)
     sp = sub.add_parser("validate-links"); sp.add_argument("--timeout", type=float, default=12.0)

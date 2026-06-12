@@ -67,5 +67,12 @@ def reports_dir() -> Path:
     return d
 
 
+def applications_dir() -> Path:
+    """Committed, editable application packets (resume.md / cover_letter.md + rendered HTML)."""
+    d = REPO_DIR / "applications"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
 def db_path() -> Path:
     return REPO_DIR / "output" / "jobs.db"
