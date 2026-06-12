@@ -30,6 +30,9 @@ jobs:
       # Add this in GitHub: Settings -> Secrets and variables -> Actions -> New repository
       # secret named RAPIDAPI_KEY (your free JSearch key). Without it, JSearch is skipped.
       RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+      # Free Adzuna keys (developer.adzuna.com) — add as repo secrets to switch Adzuna on.
+      ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+      ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
       # Diagnostic override for the freshness window; blank on the daily cron.
       JOBAUTO_MAX_AGE_DAYS: ${{ github.event.inputs.max_age_days }}
     defaults:

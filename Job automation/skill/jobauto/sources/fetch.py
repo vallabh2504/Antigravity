@@ -10,7 +10,7 @@ import json
 from typing import Any
 
 from ..models import RawPosting
-from . import Recipe, parse
+from . import Recipe, parse, parse_text
 
 
 def _client():
@@ -29,6 +29,8 @@ def fetch_recipe(recipe: Recipe) -> list[RawPosting]:
         else:
             resp = client.get(recipe.list_url, headers=recipe.headers)
         resp.raise_for_status()
+        if recipe.fmt == "text":
+            return parse_text(recipe, resp.text)
         payload: Any = resp.json()
         postings = parse(recipe, payload)
         # follow detail fetches for full JD where required
@@ -56,9 +58,17 @@ def fetch_all(recipes: list[Recipe]) -> list[RawPosting]:
     out: list[RawPosting] = []
     for r in recipes:
         try:
-            out.extend(fetch_recipe(r))
+            got = fetch_recipe(r)
+            out.extend(got)
+            # diagnostic: show what each aggregator/adapter actually returned (helps debug
+            # silent zeros like Bundesagentur)
+            if r.portal.startswith("agg_") and got:
+                print(f"[src] {r.portal}: {len(got)} postings")
         except Exception as e:  # one bad source shouldn't kill the run
             print(f"[fetch] {r.company} ({r.portal}) failed: {e}")
+    from collections import Counter
+    tally = Counter(p.source.split(":")[0] for p in out)
+    print(f"[src tally] {dict(tally)}")
     return out
 
 

@@ -1,7 +1,7 @@
 companies:
 - name: DLR
-  portal: custom
-  careers_url: https://www.dlr.de/en/careers/job-offers
+  portal: softgarden
+  careers_url: https://jobs.dlr.de
   sectors:
   - aviation
   query: fuel cell
@@ -319,8 +319,8 @@ companies:
   - aviation
   query: fuel cell hydrogen PhD
 - name: ZSW Baden-Württemberg
-  portal: custom
-  careers_url: https://www.zsw-bw.de/en/career.html
+  portal: softgarden
+  careers_url: https://jobdb.softgarden.de
   sectors:
   - heavy
   - aviation

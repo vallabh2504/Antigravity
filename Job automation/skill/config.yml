@@ -34,7 +34,9 @@ aggregators:
   # JSearch (paid RapidAPI) — DROPPED in favour of JobSpy. Left disabled in case you
   # ever want to re-enable it (set the RAPIDAPI_KEY secret + enabled: true).
   jsearch: { enabled: false, query: "fuel cell OR hydrogen engineer Germany", country: de }
-  adzuna: { enabled: false, country: de, what: "fuel cell hydrogen", where: "" }   # needs free keys
+  # Adzuna = the recommended FREE-key win (developer.adzuna.com, not RapidAPI). Activates
+  # automatically once ADZUNA_APP_ID + ADZUNA_APP_KEY secrets exist; inert until then.
+  adzuna: { enabled: true, country: de, what: "fuel cell hydrogen Brennstoffzelle Wasserstoff", where: "" }
   arbeitnow: { enabled: true, query: "fuel cell hydrogen" }          # no auth, DE-heavy
   # German federal index (real dates; covers ZSW/DLR/Fraunhofer/Bosch). One keyword per
   # request, swept; the prefilter narrows. This is our institute/company "adapter".

@@ -43,14 +43,16 @@ def build_aggregator_recipes(cfg: dict[str, Any], secrets: dict[str, Any]) -> li
 
     # --- Adzuna (date-sorted, max age) ---------------------------------------
     a = agg.get("adzuna", {})
-    if a.get("enabled"):
-        ad = secrets.get("adzuna", {})
+    ad = secrets.get("adzuna", {})
+    app_id = ad.get("app_id") or os.environ.get("ADZUNA_APP_ID", "")
+    app_key = ad.get("app_key") or os.environ.get("ADZUNA_APP_KEY", "")
+    if a.get("enabled") and app_id and app_key:   # free keys from developer.adzuna.com
         country = a.get("country", "de")
         what = a.get("what", "fuel cell hydrogen").replace(" ", "%20")
         where = a.get("where", "").replace(" ", "%20")
         out.append(Recipe("Adzuna", "agg_adzuna",
             f"https://api.adzuna.com/v1/api/jobs/{country}/search/1"
-            f"?app_id={ad.get('app_id','')}&app_key={ad.get('app_key','')}"
+            f"?app_id={app_id}&app_key={app_key}"
             f"&what={what}&where={where}&results_per_page=50&max_days_old={days}"
             f"&sort_by=date&content-type=application/json"))
 

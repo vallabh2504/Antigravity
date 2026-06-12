@@ -32,6 +32,7 @@ class Recipe:
     # if the list endpoint lacks JD text, detail_url_tmpl.format(id=...) fetches it
     needs_detail: bool = False
     detail_url_tmpl: str = ""
+    fmt: str = "json"   # "json" (resp.json()) or "text" (resp.text, e.g. Personio XML)
 
 
 def build_recipes(companies: list[dict[str, Any]]) -> list[Recipe]:
@@ -72,6 +73,17 @@ def build_recipes(companies: list[dict[str, Any]]) -> list[Recipe]:
                 headers={"Content-Type": "application/json"},
                 sectors=sectors, needs_detail=True,
                 detail_url_tmpl=f"https://{host}/wday/cxs/{tenant}/{site}{{path}}"))
+        elif portal == "personio":
+            # Public, no-key XML feed with real createdAt dates. tok = subdomain, e.g.
+            # "sunfire" -> https://sunfire.jobs.personio.de/xml
+            out.append(Recipe(name, "personio", f"https://{tok}.jobs.personio.de/xml",
+                              sectors=sectors, fmt="text"))
+        elif portal == "softgarden":
+            # softgarden white-label career sites (ZSW jobdb.softgarden.de, DLR jobs.dlr.de).
+            # tok = host, e.g. "jobs.dlr.de"; the frontend JSON API lists current jobs + dates.
+            base = (c.get("careers_url") or f"https://{tok}").rstrip("/")
+            out.append(Recipe(name, "softgarden", base + "/api/rest/frontend/v3/jobs?limit=200",
+                              sectors=sectors))
         else:  # custom portal (DLR, BMW careers, etc.) — agent fetches the search page
             out.append(Recipe(name, "custom", c.get("careers_url", ""), sectors=sectors,
                               needs_detail=True))
@@ -116,6 +128,42 @@ def parse(recipe: Recipe, payload: Any) -> list[RawPosting]:
                     j.get("locationsText", ""), "", "",
                     j.get("postedOn", ""),
                     {"sectors": recipe.sectors, "path": j.get("externalPath"), "needs_detail": True}))
+        elif p == "softgarden":
+            items = payload.get("items") or payload.get("jobs") or payload.get("content") or []
+            for j in items:
+                loc = j.get("location") or j.get("jobLocation") or ""
+                if isinstance(loc, list):
+                    loc = ", ".join(str(x.get("name", x) if isinstance(x, dict) else x) for x in loc)
+                out.append(RawPosting(src, recipe.company,
+                    j.get("jobTitle") or j.get("title") or j.get("name", ""),
+                    str(loc), j.get("jobUrl") or j.get("applicationUrl") or j.get("url", ""),
+                    strip_html(j.get("jobDescription") or j.get("description", "")),
+                    str(j.get("onlineDate") or j.get("publicationDate") or j.get("createdAt", "")),
+                    {"sectors": recipe.sectors}))
     except (AttributeError, TypeError):
         pass
+    return out
+
+
+def parse_text(recipe: Recipe, text: str) -> list[RawPosting]:
+    """Parse non-JSON adapter payloads (currently Personio's public XML feed)."""
+    out: list[RawPosting] = []
+    if recipe.portal != "personio":
+        return out
+    import xml.etree.ElementTree as ET
+    src = f"personio:{recipe.company}"
+    tok = recipe.list_url.split("//", 1)[-1].split(".", 1)[0]
+    try:
+        root = ET.fromstring(text)
+    except Exception:
+        return out
+    for pos in root.iter("position"):
+        def g(tag):
+            el = pos.find(tag)
+            return el.text if el is not None and el.text else ""
+        jd = " ".join((jd_el.findtext("value", "") or "") for jd_el in pos.iter("jobDescription"))
+        out.append(RawPosting(src, recipe.company, g("name"),
+            ", ".join(filter(None, [g("office"), g("department")])),
+            f"https://{tok}.jobs.personio.de/job/{g('id')}",
+            strip_html(jd), g("createdAt"), {"sectors": recipe.sectors}))
     return out
