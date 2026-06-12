@@ -1,18 +1,17 @@
 {
   "summary": {
     "total": 66,
-    "ok": 38
+    "ok": 35
   },
   "results": [
     {
       "name": "DLR",
-      "portal": "custom",
+      "portal": "softgarden",
       "method": "GET",
-      "url": "https://www.dlr.de/en/careers/job-offers",
-      "status": "ERR (ConnectTimeout)",
-      "ok": false,
-      "jobs": null,
-      "note": "timed out"
+      "url": "https://jobs.dlr.de/api/rest/frontend/v3/jobs?limit=200",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "Airbus",
@@ -346,10 +345,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.cleanlogistics.de/karriere/",
-      "status": "ERR (ConnectError)",
+      "status": "ERR (ConnectTimeout)",
       "ok": false,
       "jobs": null,
-      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate"
+      "note": "timed out"
     },
     {
       "name": "Liebherr",
@@ -401,8 +400,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://powercellgroup.com/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
+      "status": "HTTP 415",
+      "ok": false,
       "jobs": null
     },
     {
@@ -480,11 +479,11 @@
     },
     {
       "name": "ZSW Baden-Württemberg",
-      "portal": "custom",
+      "portal": "softgarden",
       "method": "GET",
-      "url": "https://www.zsw-bw.de/en/career.html",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
+      "url": "https://jobdb.softgarden.de/api/rest/frontend/v3/jobs?limit=200",
+      "status": "NOTFOUND 404 (bad token?)",
+      "ok": false,
       "jobs": null
     },
     {
@@ -492,27 +491,30 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.fz-juelich.de/en/careers",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "timed out"
     },
     {
       "name": "ZBT Duisburg",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.zbt.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "timed out"
     },
     {
       "name": "RWTH Aachen",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.rwth-aachen.de/go/id/dmga/",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ConnectError)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "[Errno 101] Network is unreachable"
     },
     {
       "name": "TU Munich",
