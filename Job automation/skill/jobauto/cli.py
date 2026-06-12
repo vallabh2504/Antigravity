@@ -270,13 +270,17 @@ def cmd_check_sources(args):
 
 
 def cmd_validate_links(args):
-    print("Validating apply URLs are live (needs real network)...\n")
-    r = linkval.check(_db(), reject_dead=args.reject_dead, timeout=args.timeout)
+    print("Validating apply URLs are live + verifying REAL posting dates (needs real network)...\n")
+    cfgd = cfg.load_config()
+    maxage = None if args.no_age_check else cfgd.get("max_age_days")
+    r = linkval.check(_db(), reject_dead=args.reject_dead, timeout=args.timeout, max_age_days=maxage)
     mark = {"live": "✓", "gone": "✗", "unverified": "?", "no-url": "-"}
     for x in r["results"]:
-        print(f"  {mark.get(x['link_state'], '?')} {x['status']:<10} "
-              f"{x['company'][:24]:<24} {x['url'][:60]}")
-    print(f"\n{r['checked']} checked, {r['dead']} gone/expired"
+        pd = f" posted {x['posting_date']}" if x.get("posting_date") else ""
+        print(f"  {mark.get(x['link_state'], '?')} {x['status']:<16} "
+              f"{x['company'][:22]:<22}{pd}")
+    print(f"\n{r['checked']} checked, {r['dead']} gone/expired/stale"
+          + (f" (incl. {r.get('stale', 0)} too-old by real date)" if r.get('stale') else "")
           + (" (auto-rejected)" if r['rejected_dead'] else "")
           + f", {r.get('blocked', 0)} unverified (bot-blocked, kept)")
 
@@ -388,7 +392,9 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("check-sources"); sp.add_argument("--timeout", type=float, default=15.0)
     sp.set_defaults(func=cmd_check_sources)
     sp = sub.add_parser("validate-links"); sp.add_argument("--timeout", type=float, default=12.0)
-    sp.add_argument("--reject-dead", action="store_true"); sp.set_defaults(func=cmd_validate_links)
+    sp.add_argument("--reject-dead", action="store_true")
+    sp.add_argument("--no-age-check", action="store_true", help="skip real-posting-date freshness check")
+    sp.set_defaults(func=cmd_validate_links)
     sub.add_parser("next").set_defaults(func=cmd_next)
 
     sub.add_parser("stats").set_defaults(func=cmd_stats)

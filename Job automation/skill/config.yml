@@ -12,10 +12,11 @@ strict_freshness: true
 # Each search_term x location is one scrape; hours_old is derived from max_age_days.
 jobspy:
   enabled: true
-  # Glassdoor dropped (it 403s datacenter IPs every run). Indeed + Google for Jobs give the
-  # most reliable posting DATES and direct apply links; LinkedIn adds coverage but its dates
-  # are re-surfaced/unreliable, so strict_freshness + expiry detection police it.
-  sites: [indeed, google, linkedin]
+  # Indeed + Google for Jobs only. They return the REAL employer/ATS apply URL (job_url_direct),
+  # which we can fetch to verify the true posting date. LinkedIn is dropped: its links bot-wall
+  # our date checker AND it re-surfaces months-old roles as "fresh" (the BMW 18.03 case).
+  # Glassdoor dropped too (403s datacenter IPs every run).
+  sites: [indeed, google]
   search_terms:
     - "fuel cell engineer"
     - "hydrogen engineer"

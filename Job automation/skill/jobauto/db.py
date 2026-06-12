@@ -62,6 +62,11 @@ class DB:
         )
         self.conn.commit()
 
+    def set_posted_at(self, job_id: str, posted_at: str) -> None:
+        self.conn.execute("UPDATE jobs SET posted_at=?, updated_at=? WHERE id=?",
+                          (posted_at, now_iso(), job_id))
+        self.conn.commit()
+
     def set_state(self, job_id: str, state: str) -> None:
         extra = ""
         if state == "applied":
