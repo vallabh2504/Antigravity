@@ -1,7 +1,7 @@
 {
   "summary": {
-    "total": 64,
-    "ok": 36
+    "total": 66,
+    "ok": 38
   },
   "results": [
     {
@@ -9,9 +9,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.dlr.de/en/careers/job-offers",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ConnectTimeout)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "timed out"
     },
     {
       "name": "Airbus",
@@ -571,10 +572,28 @@
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
-      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=50&page=1&was=Brennstoffzelle%20Wasserstoff&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Brennstoffzelle&veroeffentlichtseit=3",
+      "status": "OK (2 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 2
+    },
+    {
+      "name": "Bundesagentur",
+      "portal": "agg_bundesagentur",
+      "method": "GET",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
+      "status": "OK (5 jobs)",
+      "ok": true,
+      "jobs": 5
+    },
+    {
+      "name": "Bundesagentur",
+      "portal": "agg_bundesagentur",
+      "method": "GET",
+      "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=fuel%20cell&veroeffentlichtseit=3",
+      "status": "OK (3 jobs)",
+      "ok": true,
+      "jobs": 3
     },
     {
       "name": "EURAXESS",
