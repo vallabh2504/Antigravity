@@ -3,11 +3,23 @@
 Living backlog. Top section = active/agreed; below = the candidate improvements we're discussing.
 
 ## 🟢 Done
-- [x] **Static, server-less dashboard** — `python -m jobauto dashboard` builds a single
-      self-contained `output/dashboard.html` (data + CSS + JS + tailored-doc previews all
-      inlined). Opens by double-click, works in the cloud with no server. Approvals build the
-      exact CLI commands with a copy button. (`jobauto/static_dashboard.py`.) The FastAPI app
-      remains as the "local power user" live option.
+- [x] **JobSpy discovery backbone (no API key)** — replaced paid JSearch/RapidAPI with
+      open-source JobSpy (LinkedIn/Indeed/Google/Glassdoor). One run pulled 278 raw → 88
+      relevant → 58 fresh fuel-cell jobs in the last 1-2 days. (`sources/jobspy_source.py`.)
+- [x] **Link validation that actually runs** — validates `discovered` jobs, distinguishes
+      genuinely-gone (404/410, auto-rejected) from bot-blocked (403/999, kept as "unverified").
+- [x] **Redesigned dashboard UI** — dark, modern "Fuel-Cell Job Radar": score rings, fit
+      reasons, sector/freshness/link badges, tailored-doc ribbons, JD/Résumé/Cover viewer,
+      quick filters (Strong / Tailored / Thesis-Werkstudent). (`jobauto/static_dashboard.py`.)
+- [x] **Real LLM relevance scoring (by the agent, not a script)** — all 58 jobs scored 0-100
+      with sector, work-type, German level and specific fit reasons. Gems surface (BMW
+      Brennstoffzelle 90, ZSW AEM thesis 82, REVERION 80); car-sales/tax/AI-founder noise sinks.
+- [x] **Curated tailored applications for the top 3** — résumé + cover letter for BMW (#29),
+      ZSW AEM Stuttgart (#23), REVERION (#40), each pulling DIFFERENT real experience, in
+      Vallabh's voice via the house-style/resume/cover skills, verified ZERO em-dashes.
+- [x] **Cron no longer clobbers the curated dashboard** — daily run writes raw discovery to
+      `auto_latest.html` + a `latest_jobs.json` snapshot (`dump-jobs`); the agent re-enriches
+      `dashboard.html`.
 
 ## 🟢 Done (verified on the live GitHub-runner network)
 - [x] **Discovery runs end-to-end on GitHub Actions** (merged to `main`, ran 3 times). Commits

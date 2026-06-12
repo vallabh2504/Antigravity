@@ -54,10 +54,14 @@ jobs:
       - name: Drop dead / expired links
         run: python -m jobauto validate-links --reject-dead || true
 
-      - name: Build report + static dashboard
+      - name: Build report + raw discovery dashboard
         run: |
+          # The CURATED dashboard.html (LLM scores + tailored docs) is produced by the agent
+          # in a Claude/OpenClaw session and must NOT be clobbered by this keyless run.
+          # The cron only refreshes the raw discovery feed + the daily jobs snapshot.
           python -m jobauto report || true
-          python -m jobauto dashboard --out "../dashboard/dashboard.html" || true
+          python -m jobauto dashboard --out "../dashboard/auto_latest.html" || true
+          python -m jobauto dump-jobs --out "../dashboard/latest_jobs.json" || true
           cp ../output/source_check.json ../dashboard/source_check.json 2>/dev/null || true
 
       - name: Commit results back to the repo
@@ -65,7 +69,7 @@ jobs:
         run: |
           git config user.name  "job-automation-bot"
           git config user.email "job-automation-bot@users.noreply.github.com"
-          git add "Job automation/reports" "Job automation/dashboard/dashboard.html" "Job automation/dashboard/source_check.json" || true
+          git add "Job automation/reports" "Job automation/dashboard/auto_latest.html" "Job automation/dashboard/latest_jobs.json" "Job automation/dashboard/source_check.json" || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else

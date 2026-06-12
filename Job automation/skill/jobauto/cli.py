@@ -282,6 +282,28 @@ def cmd_dashboard(args):
     print(f"static dashboard -> {p}  (open in any browser; no server needed)")
 
 
+def cmd_dump_jobs(args):
+    """Emit a plain jobs snapshot (id, company, title, url, jd, freshness, link state) so an
+    agent session can re-score/tailor and rebuild the curated dashboard without re-fetching."""
+    from pathlib import Path
+    from .util import age_days
+    rows = []
+    for j in _db().all():
+        if j["state"] == "rejected":
+            continue
+        sj = j.get("score_json") or {}
+        rows.append({
+            "id": j["id"], "company": j["company"], "title": j["title"],
+            "location": j.get("location", ""), "url": j.get("url", ""),
+            "age_days": age_days(j.get("posted_at", "")),
+            "link_state": sj.get("link_state"),
+            "jd": (j.get("jd_text") or "")[:8000],
+        })
+    out = Path(args.out) if args.out else (cfg.output_dir() / "latest_jobs.json")
+    out.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"dumped {len(rows)} jobs -> {out}")
+
+
 def cmd_next(args):
     c = _db().counts()
     g = lambda k: c.get(k, 0)
@@ -355,6 +377,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("pdf"); sp.add_argument("ids", nargs="*"); sp.set_defaults(func=cmd_pdf)
     sp = sub.add_parser("dashboard"); sp.add_argument("--out", default=None)
     sp.set_defaults(func=cmd_dashboard)
+    sp = sub.add_parser("dump-jobs"); sp.add_argument("--out", default=None)
+    sp.set_defaults(func=cmd_dump_jobs)
     sp = sub.add_parser("check-sources"); sp.add_argument("--timeout", type=float, default=15.0)
     sp.set_defaults(func=cmd_check_sources)
     sp = sub.add_parser("validate-links"); sp.add_argument("--timeout", type=float, default=12.0)
