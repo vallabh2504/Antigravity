@@ -60,17 +60,21 @@ def build_aggregator_recipes(cfg: dict[str, Any], secrets: dict[str, Any]) -> li
 
     b = agg.get("bundesagentur", {})
     if b.get("enabled"):
-        # Exact shape of the known-working mobile-app call (api_example.py): the /app/jobs
-        # path, angebotsart+pav params, and the app User-Agent (the API rejects default clients).
-        was = b.get("query", "Brennstoffzelle Wasserstoff").replace(" ", "%20")
+        # The German federal job index covers ZSW/DLR/Fraunhofer/Bosch/etc. with REAL dates.
+        # One ANDed phrase ("Brennstoffzelle Wasserstoff") returns ~nothing, so we sweep one
+        # SINGLE keyword per request and let the prefilter narrow. Exact shape of the known-
+        # working mobile-app call: /app/jobs path, angebotsart+pav params, app User-Agent.
+        queries = b.get("queries") or [w for w in b.get("query", "Brennstoffzelle Wasserstoff").split()]
         wo = b.get("where", "").strip()
         loc = f"&wo={wo.replace(' ', '%20')}&umkreis=50" if wo else ""
-        out.append(Recipe("Bundesagentur", "agg_bundesagentur",
-            f"https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs"
-            f"?angebotsart=1&pav=false&size=50&page=1&was={was}"
-            f"&veroeffentlichtseit={days}{loc}",
-            headers={"X-API-Key": "jobboerse-jobsuche",
-                     "User-Agent": "Jobsuche/2.9.2 (de.arbeitsagentur.jobboerse; build:1077; iOS 15.1.0) Alamofire/5.4.4"}))
+        hdr = {"X-API-Key": "jobboerse-jobsuche",
+               "User-Agent": "Jobsuche/2.9.2 (de.arbeitsagentur.jobboerse; build:1077; iOS 15.1.0) Alamofire/5.4.4"}
+        for q in queries:
+            was = q.replace(" ", "%20")
+            out.append(Recipe("Bundesagentur", "agg_bundesagentur",
+                f"https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs"
+                f"?angebotsart=1&pav=false&size=75&page=1&was={was}"
+                f"&veroeffentlichtseit={days}{loc}", headers=hdr))
 
     e = agg.get("euraxess", {})
     if e.get("enabled"):

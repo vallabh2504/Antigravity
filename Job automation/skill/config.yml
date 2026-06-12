@@ -36,7 +36,9 @@ aggregators:
   jsearch: { enabled: false, query: "fuel cell OR hydrogen engineer Germany", country: de }
   adzuna: { enabled: false, country: de, what: "fuel cell hydrogen", where: "" }   # needs free keys
   arbeitnow: { enabled: true, query: "fuel cell hydrogen" }          # no auth, DE-heavy
-  bundesagentur: { enabled: true, query: "Brennstoffzelle Wasserstoff", where: "" }  # public key
+  # German federal index (real dates; covers ZSW/DLR/Fraunhofer/Bosch). One keyword per
+  # request, swept; the prefilter narrows. This is our institute/company "adapter".
+  bundesagentur: { enabled: true, queries: ["Brennstoffzelle", "Wasserstoff Ingenieur", "fuel cell"], where: "" }
   euraxess: { enabled: true, query: "fuel cell hydrogen" }           # EU-wide PhD/research, HTML
 
 # Stage 3 — hard rules (cheap prefilter before LLM scoring)
