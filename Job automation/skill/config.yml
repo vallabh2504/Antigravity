@@ -3,13 +3,19 @@
 # FRESHNESS: only surface postings posted within this many days (the "last 3 days"
 # requirement). Sources are queried with this window; the digest also filters by it.
 max_age_days: 3
+# strict: a posting with NO verifiable date is DROPPED (it cannot be proven to be fresh).
+# This is what stops undated / re-surfaced LinkedIn postings from March/April slipping in.
+strict_freshness: true
 
 # Stage 1a — JobSpy: the open-source, NO-KEY volume/freshness backbone. Scrapes
 # LinkedIn/Indeed/Google for Jobs/Glassdoor directly (replaces the paid JSearch route).
 # Each search_term x location is one scrape; hours_old is derived from max_age_days.
 jobspy:
   enabled: true
-  sites: [indeed, linkedin, google, glassdoor]
+  # Glassdoor dropped (it 403s datacenter IPs every run). Indeed + Google for Jobs give the
+  # most reliable posting DATES and direct apply links; LinkedIn adds coverage but its dates
+  # are re-surfaced/unreliable, so strict_freshness + expiry detection police it.
+  sites: [indeed, google, linkedin]
   search_terms:
     - "fuel cell engineer"
     - "hydrogen engineer"

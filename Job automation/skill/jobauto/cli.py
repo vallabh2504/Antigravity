@@ -77,6 +77,7 @@ def _prefilter(raws, cfgd):
     inc = [k.lower() for k in cfgd.get("include_keywords", [])]
     exc = [k.lower() for k in cfgd.get("exclude_keywords", [])]
     maxage = cfgd.get("max_age_days")
+    strict = cfgd.get("strict_freshness", True)
     kept, drop_kw, drop_age = [], 0, 0
     for r in raws:
         text = f"{r.title} {r.jd_text}".lower()
@@ -86,7 +87,12 @@ def _prefilter(raws, cfgd):
             drop_kw += 1; continue
         if maxage is not None:
             a = age_days(r.posted_at)
-            if a is not None and a > maxage:
+            # strict: a posting with no verifiable date cannot be proven fresh -> drop it.
+            # (This is what let stale LinkedIn reposts through before.)
+            if a is None:
+                if strict:
+                    drop_age += 1; continue
+            elif a > maxage:
                 drop_age += 1; continue
         kept.append(r)
     return kept, drop_kw, drop_age

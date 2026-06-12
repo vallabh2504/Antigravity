@@ -23,6 +23,15 @@ _GONE = {404, 410}
 # "unverified" rather than falsely calling it dead.
 _BLOCKED = {401, 403, 429, 999}
 
+# Phrases that mean a 200-OK page is actually a CLOSED/expired posting (common on LinkedIn,
+# Indeed and ATS pages that return 200 even after the role is filled).
+_EXPIRED_MARKERS = (
+    "no longer accepting applications", "no longer available", "this job is no longer",
+    "position has been filled", "posting has expired", "job has expired", "applications are closed",
+    "nicht mehr verfügbar", "stellenanzeige ist nicht mehr", "anzeige nicht mehr",
+    "diese stelle ist nicht mehr", "bewerbungsfrist ist abgelaufen", "stelle wurde besetzt",
+)
+
 
 def check(db: DB, states: tuple[str, ...] = ("discovered", "scored", "approved", "docs_ready"),
           timeout: float = 12.0, reject_dead: bool = False) -> dict:
@@ -33,18 +42,24 @@ def check(db: DB, states: tuple[str, ...] = ("discovered", "scored", "approved",
         for j in jobs:
             url = j.get("url") or ""
             code: int | None = None
+            expired_body = False
             status, link_state = "no-url", "no-url"
             if url:
                 try:
-                    r = client.head(url)
-                    if r.status_code >= 400 or r.status_code == 405:
-                        r = client.get(url)  # some servers reject HEAD
+                    # GET (not HEAD) so we can inspect the body for "closed/expired" markers;
+                    # HEAD never reveals an expired-but-200 posting.
+                    r = client.get(url)
                     code = r.status_code
                     status = str(code)
+                    if 200 <= code < 400:
+                        body = (r.text or "").lower()
+                        expired_body = any(m in body for m in _EXPIRED_MARKERS)
                 except Exception as e:
                     status = f"ERR {type(e).__name__}"
             # classify: live / gone / unverified(blocked)
-            if code is not None and 200 <= code < 400:
+            if expired_body:
+                link_state = "gone"; status += " expired"
+            elif code is not None and 200 <= code < 400:
                 link_state = "live"
             elif code in _GONE:
                 link_state = "gone"
