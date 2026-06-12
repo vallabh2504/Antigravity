@@ -1,7 +1,7 @@
 companies:
 - name: DLR
-  portal: softgarden
-  careers_url: https://jobs.dlr.de
+  portal: custom   # softgarden, but its API needs a per-tenant channelID + OAuth token (set
+  careers_url: https://jobs.dlr.de   # portal: softgarden + token=channelID once known). Meanwhile DLR roles arrive via Indeed/Google.
   sectors:
   - aviation
   query: fuel cell
@@ -319,8 +319,8 @@ companies:
   - aviation
   query: fuel cell hydrogen PhD
 - name: ZSW Baden-Württemberg
-  portal: softgarden
-  careers_url: https://jobdb.softgarden.de
+  portal: custom   # softgarden (jobdb.softgarden.de) needs a channelID + token; roles arrive via Indeed/Google.
+  careers_url: https://www.zsw-bw.de/en/career.html
   sectors:
   - heavy
   - aviation
