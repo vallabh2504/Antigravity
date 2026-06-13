@@ -1,14 +1,14 @@
 {
   "summary": {
     "total": 66,
-    "ok": 35
+    "ok": 39
   },
   "results": [
     {
       "name": "DLR",
-      "portal": "softgarden",
+      "portal": "custom",
       "method": "GET",
-      "url": "https://jobs.dlr.de/api/rest/frontend/v3/jobs?limit=200",
+      "url": "https://jobs.dlr.de",
       "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
       "jobs": null
@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (41 jobs)",
+      "status": "OK (40 jobs)",
       "ok": true,
-      "jobs": 41
+      "jobs": 40
     },
     {
       "name": "BMW",
@@ -345,10 +345,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.cleanlogistics.de/karriere/",
-      "status": "ERR (ConnectTimeout)",
+      "status": "ERR (ConnectError)",
       "ok": false,
       "jobs": null,
-      "note": "timed out"
+      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate"
     },
     {
       "name": "Liebherr",
@@ -400,8 +400,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://powercellgroup.com/career/",
-      "status": "HTTP 415",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -479,11 +479,11 @@
     },
     {
       "name": "ZSW Baden-Württemberg",
-      "portal": "softgarden",
+      "portal": "custom",
       "method": "GET",
-      "url": "https://jobdb.softgarden.de/api/rest/frontend/v3/jobs?limit=200",
-      "status": "NOTFOUND 404 (bad token?)",
-      "ok": false,
+      "url": "https://www.zsw-bw.de/en/career.html",
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -491,30 +491,27 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.fz-juelich.de/en/careers",
-      "status": "ERR (ConnectTimeout)",
-      "ok": false,
-      "jobs": null,
-      "note": "timed out"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "ZBT Duisburg",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.zbt.de/en/career/",
-      "status": "ERR (ConnectTimeout)",
-      "ok": false,
-      "jobs": null,
-      "note": "timed out"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "RWTH Aachen",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.rwth-aachen.de/go/id/dmga/",
-      "status": "ERR (ConnectError)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "[Errno 101] Network is unreachable"
+      "jobs": null
     },
     {
       "name": "TU Munich",
@@ -593,9 +590,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=fuel%20cell&veroeffentlichtseit=3",
-      "status": "OK (3 jobs)",
+      "status": "OK (2 jobs)",
       "ok": true,
-      "jobs": 3
+      "jobs": 2
     },
     {
       "name": "EURAXESS",
