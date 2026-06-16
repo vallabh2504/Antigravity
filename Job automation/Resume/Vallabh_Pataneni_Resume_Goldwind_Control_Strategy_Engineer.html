@@ -34,12 +34,14 @@
   li{margin:1.8px 0}
   ul.plain{padding-left:15px}
   .edu-note{color:var(--muted);font-size:9.3px;margin-top:1px}
-  /* skills */
-  .skrow{display:flex;gap:10px;align-items:flex-start;margin:3px 0}
-  .skcat{flex:0 0 132px;font-weight:700;color:var(--ink);font-size:9.6px;padding-top:2px}
-  .chips{display:flex;flex-wrap:wrap;gap:4px;flex:1}
-  .chips span{background:var(--soft);border:1px solid var(--line);border-radius:20px;
-    padding:1.5px 8px;font-size:8.8px;color:var(--ink);white-space:nowrap}
+  /* skills: clean inline rows, not bubbles */
+  .skills-wrap{margin-top:2px}
+  .skrow{display:flex;gap:12px;align-items:baseline;padding:3px 0;border-bottom:1px solid #f1f3f5}
+  .skrow:last-child{border-bottom:none}
+  .skcat{flex:0 0 150px;font-weight:700;color:var(--accent);font-size:9.4px;
+    text-transform:uppercase;letter-spacing:.3px}
+  .sklist{flex:1;color:var(--ink);font-size:9.6px;line-height:1.45}
+  .sklist .dot{color:var(--accent);font-weight:700;margin:0 2px}
   @page{size:A4;margin:0}
   @media print{.sheet{max-width:none;margin:0;padding:26px 40px} a{color:inherit}}
 </style></head><body><div class="sheet">
@@ -58,7 +60,7 @@
   </header>
 
   <h2>Profile</h2>
-  <p class="summary">Automotive Engineering Master&#x27;s student at RWTH Aachen specialising in control and operating-strategy engineering for energy systems. I develop, validate and optimise control strategies in MATLAB/Simulink and C++: rule-based and predictive power-split strategies at Robert Bosch GmbH, real-time energy-management and thermal control at Ecogenium e.V., and a controller for an aircraft fuel cell system at DLR implemented for direct deployment. I am strong in model validation against measured data, multi-objective optimisation and benchmarking, and I am applying to join Goldwind&#x27;s Global Graduate Program 2026 as a Control Strategy Engineer in Frankfurt.</p>
+  <p class="summary">My work has followed one thread: making energy systems behave the way they should through control. It started at Ecogenium e.V., where I wrote and validated real-time energy-management and temperature-control strategies in Python and Simulink that lifted our vehicle&#x27;s efficiency by ~80%. At Robert Bosch GmbH I took this to industrial level, developing rule-based and predictive power-split control strategies, calibrating them with Genetic-Algorithm and Gradient-Descent optimisation, and benchmarking against Dynamic Programming and ECMS. At DLR I am now building a fuel cell system controller in MATLAB and C++ for direct deployment to hardware, with start-up, purge, subsystem and safety state logic. I am applying to Goldwind&#x27;s Global Graduate Program 2026 to bring this control-strategy and model-based-development experience to your turbine control team in Frankfurt.</p>
 
   <h2>Professional Experience</h2>
   
@@ -92,7 +94,7 @@
         </div>
 
   <h2>Key Skills</h2>
-  <div class='skrow'><span class='skcat'>Control &amp; Strategy</span><div class='chips'><span>control strategy design</span><span>rule-based &amp; predictive control</span><span>PID / MPC</span><span>operating strategy</span><span>energy management (EMS)</span><span>real-time control</span><span>MIL validation</span></div></div><div class='skrow'><span class='skcat'>Optimisation &amp; Data</span><div class='chips'><span>multi-objective optimisation</span><span>Genetic Algorithms</span><span>Gradient Descent</span><span>DP / ECMS benchmarking</span><span>MAP / lookup-table calibration</span><span>KPI analysis</span></div></div><div class='skrow'><span class='skcat'>Simulation &amp; Modelling</span><div class='chips'><span>MATLAB/Simulink</span><span>digital twin</span><span>model validation</span><span>Dymola</span><span>CARLA</span></div></div><div class='skrow'><span class='skcat'>Programming</span><div class='chips'><span>MATLAB</span><span>C/C++</span><span>Python (NumPy, Pandas, scikit-learn, PyTorch)</span></div></div><div class='skrow'><span class='skcat'>Data &amp; Tools</span><div class='chips'><span>Power BI</span><span>Tableau</span><span>Siemens Teamcenter</span><span>Git</span></div></div>
+  <div class="skills-wrap"><div class='skrow'><span class='skcat'>Control Methods</span><span class='sklist'>PID control <span class='dot'>·</span> Model Predictive Control (MPC) <span class='dot'>·</span> rule-based control <span class='dot'>·</span> predictive control <span class='dot'>·</span> feedforward / feedback control <span class='dot'>·</span> supervisory &amp; state-machine control <span class='dot'>·</span> gain scheduling <span class='dot'>·</span> real-time control</span></div><div class='skrow'><span class='skcat'>Strategy &amp; Calibration</span><span class='sklist'>control strategy design <span class='dot'>·</span> operating &amp; energy-management strategy <span class='dot'>·</span> control MAP / lookup-table calibration <span class='dot'>·</span> multi-objective optimisation <span class='dot'>·</span> Genetic Algorithms <span class='dot'>·</span> Gradient Descent <span class='dot'>·</span> DP / ECMS benchmarking <span class='dot'>·</span> KPI analysis</span></div><div class='skrow'><span class='skcat'>Model-Based Development</span><span class='sklist'>MATLAB/Simulink <span class='dot'>·</span> digital twin <span class='dot'>·</span> Model-in-the-Loop (MIL) <span class='dot'>·</span> model &amp; measurement validation <span class='dot'>·</span> C++ deployment to controller <span class='dot'>·</span> CARLA</span></div><div class='skrow'><span class='skcat'>Programming &amp; Data</span><span class='sklist'>MATLAB <span class='dot'>·</span> C/C++ <span class='dot'>·</span> Python (NumPy, Pandas, scikit-learn, PyTorch) <span class='dot'>·</span> signal processing <span class='dot'>·</span> Power BI</span></div><div class='skrow'><span class='skcat'>Tools</span><span class='sklist'>Siemens Teamcenter <span class='dot'>·</span> Git <span class='dot'>·</span> Tableau</span></div></div>
 
   <h2>Education</h2>
   

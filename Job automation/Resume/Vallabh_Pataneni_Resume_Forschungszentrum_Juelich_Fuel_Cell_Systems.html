@@ -34,12 +34,14 @@
   li{margin:1.8px 0}
   ul.plain{padding-left:15px}
   .edu-note{color:var(--muted);font-size:9.3px;margin-top:1px}
-  /* skills */
-  .skrow{display:flex;gap:10px;align-items:flex-start;margin:3px 0}
-  .skcat{flex:0 0 132px;font-weight:700;color:var(--ink);font-size:9.6px;padding-top:2px}
-  .chips{display:flex;flex-wrap:wrap;gap:4px;flex:1}
-  .chips span{background:var(--soft);border:1px solid var(--line);border-radius:20px;
-    padding:1.5px 8px;font-size:8.8px;color:var(--ink);white-space:nowrap}
+  /* skills: clean inline rows, not bubbles */
+  .skills-wrap{margin-top:2px}
+  .skrow{display:flex;gap:12px;align-items:baseline;padding:3px 0;border-bottom:1px solid #f1f3f5}
+  .skrow:last-child{border-bottom:none}
+  .skcat{flex:0 0 150px;font-weight:700;color:var(--accent);font-size:9.4px;
+    text-transform:uppercase;letter-spacing:.3px}
+  .sklist{flex:1;color:var(--ink);font-size:9.6px;line-height:1.45}
+  .sklist .dot{color:var(--accent);font-weight:700;margin:0 2px}
   @page{size:A4;margin:0}
   @media print{.sheet{max-width:none;margin:0;padding:26px 40px} a{color:inherit}}
 </style></head><body><div class="sheet">
@@ -58,7 +60,7 @@
   </header>
 
   <h2>Profile</h2>
-  <p class="summary">Automotive Engineering Master&#x27;s student at RWTH Aachen who builds fuel cell systems end to end. My work spans air-cooled PEM stack operation and test-bench characterisation at Ecogenium e.V., FCEV energy-management and degradation analysis at Robert Bosch GmbH, and the complete ~150 kW aircraft fuel cell system I am now developing at DLR, covering operating strategy, control, thermal management, sizing, component selection and validation. I am seeking to apply this hands-on fuel cell systems expertise to the hydrogen and fuel cell research at Forschungszentrum Juelich.</p>
+  <p class="summary">My path into fuel cell systems began hands-on at Ecogenium e.V., where I fabricated a standalone test bench, ran an air-cooled PEM stack through its operating window, and wrote the energy-management and thermal-control strategies that carried Germany&#x27;s only student-built hydrogen car to a runner-up finish at Shell Eco-Marathon 2025. That experimental grounding took me to Robert Bosch GmbH at system level, engineering FCEV operating strategies and studying fuel-cell degradation, and then to DLR, where I am now developing a complete ~150 kW fuel cell system for a hydrogen aircraft, from a thermal-management digital twin and component sizing to the control software itself. I want to bring this full-stack experience, from stack to system to control, to the hydrogen and fuel cell research at Forschungszentrum Juelich.</p>
 
   <h2>Professional Experience</h2>
   
@@ -85,7 +87,7 @@
         </div>
 
   <h2>Key Skills</h2>
-  <div class='skrow'><span class='skcat'>Fuel Cell Systems</span><div class='chips'><span>PEM fuel cell systems</span><span>air-cooled stack operation</span><span>balance of plant</span><span>thermal management</span><span>system sizing</span><span>component selection</span><span>FCEV powertrain</span></div></div><div class='skrow'><span class='skcat'>Controls &amp; Strategy</span><div class='chips'><span>operating strategy</span><span>energy management (EMS)</span><span>degradation / SOH analysis</span><span>MAP / lookup-table optimisation</span><span>DP / ECMS benchmarking</span></div></div><div class='skrow'><span class='skcat'>Test &amp; Experimentation</span><div class='chips'><span>FC test-bench design</span><span>polarisation curves</span><span>purging / humidity cycling</span><span>data acquisition</span><span>model validation</span></div></div><div class='skrow'><span class='skcat'>Simulation &amp; Modelling</span><div class='chips'><span>MATLAB/Simulink (MIL)</span><span>digital twin</span><span>ANSYS</span><span>Star-CCM+</span><span>Dymola</span></div></div><div class='skrow'><span class='skcat'>Programming &amp; Data</span><div class='chips'><span>Python (NumPy, Pandas, scikit-learn)</span><span>C/C++</span><span>Power BI</span></div></div><div class='skrow'><span class='skcat'>CAD</span><div class='chips'><span>CATIA V5</span><span>Siemens NX</span><span>Fusion 360</span></div></div>
+  <div class="skills-wrap"><div class='skrow'><span class='skcat'>Fuel Cell Systems</span><span class='sklist'>PEM fuel cell systems <span class='dot'>·</span> air-cooled stack operation <span class='dot'>·</span> balance of plant <span class='dot'>·</span> thermal management <span class='dot'>·</span> system sizing <span class='dot'>·</span> component selection <span class='dot'>·</span> FCEV powertrain</span></div><div class='skrow'><span class='skcat'>Controls &amp; Strategy</span><span class='sklist'>operating strategy <span class='dot'>·</span> energy management (EMS) <span class='dot'>·</span> degradation / SOH analysis <span class='dot'>·</span> MAP / lookup-table optimisation <span class='dot'>·</span> DP / ECMS benchmarking</span></div><div class='skrow'><span class='skcat'>Test &amp; Experimentation</span><span class='sklist'>FC test-bench design <span class='dot'>·</span> polarisation curves <span class='dot'>·</span> purging / humidity cycling <span class='dot'>·</span> data acquisition <span class='dot'>·</span> model validation</span></div><div class='skrow'><span class='skcat'>Simulation &amp; Modelling</span><span class='sklist'>MATLAB/Simulink (MIL) <span class='dot'>·</span> digital twin <span class='dot'>·</span> ANSYS <span class='dot'>·</span> Star-CCM+ <span class='dot'>·</span> Dymola</span></div><div class='skrow'><span class='skcat'>Programming &amp; Data</span><span class='sklist'>Python (NumPy, Pandas, scikit-learn) <span class='dot'>·</span> C/C++ <span class='dot'>·</span> Power BI</span></div><div class='skrow'><span class='skcat'>CAD</span><span class='sklist'>CATIA V5 <span class='dot'>·</span> Siemens NX <span class='dot'>·</span> Fusion 360</span></div></div>
 
   <h2>Education</h2>
   

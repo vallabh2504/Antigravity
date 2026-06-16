@@ -32,6 +32,9 @@ def page(name, role, accent, accent_soft, summary, experience, skills,
     def chips(items):
         return "".join(f"<span>{html.escape(s)}</span>" for s in items)
 
+    def sklist(items):
+        return " <span class='dot'>·</span> ".join(html.escape(s) for s in items)
+
     def exp_block(j):
         bullets = "".join(
             f"<li><b>{html.escape(b[0])}:</b> {html.escape(b[1])}</li>" if isinstance(b, tuple)
@@ -58,7 +61,7 @@ def page(name, role, accent, accent_soft, summary, experience, skills,
 
     skills_html = "".join(
         f"<div class='skrow'><span class='skcat'>{html.escape(cat)}</span>"
-        f"<div class='chips'>{chips(items)}</div></div>" for cat, items in skills)
+        f"<span class='sklist'>{sklist(items)}</span></div>" for cat, items in skills)
 
     extras_html = ""
     if extras:
@@ -101,12 +104,14 @@ def page(name, role, accent, accent_soft, summary, experience, skills,
   li{{margin:1.8px 0}}
   ul.plain{{padding-left:15px}}
   .edu-note{{color:var(--muted);font-size:9.3px;margin-top:1px}}
-  /* skills */
-  .skrow{{display:flex;gap:10px;align-items:flex-start;margin:3px 0}}
-  .skcat{{flex:0 0 132px;font-weight:700;color:var(--ink);font-size:9.6px;padding-top:2px}}
-  .chips{{display:flex;flex-wrap:wrap;gap:4px;flex:1}}
-  .chips span{{background:var(--soft);border:1px solid var(--line);border-radius:20px;
-    padding:1.5px 8px;font-size:8.8px;color:var(--ink);white-space:nowrap}}
+  /* skills: clean inline rows, not bubbles */
+  .skills-wrap{{margin-top:2px}}
+  .skrow{{display:flex;gap:12px;align-items:baseline;padding:3px 0;border-bottom:1px solid #f1f3f5}}
+  .skrow:last-child{{border-bottom:none}}
+  .skcat{{flex:0 0 150px;font-weight:700;color:var(--accent);font-size:9.4px;
+    text-transform:uppercase;letter-spacing:.3px}}
+  .sklist{{flex:1;color:var(--ink);font-size:9.6px;line-height:1.45}}
+  .sklist .dot{{color:var(--accent);font-weight:700;margin:0 2px}}
   @page{{size:A4;margin:0}}
   @media print{{.sheet{{max-width:none;margin:0;padding:26px 40px}} a{{color:inherit}}}}
 </style></head><body><div class="sheet">
@@ -131,7 +136,7 @@ def page(name, role, accent, accent_soft, summary, experience, skills,
   {''.join(exp_block(j) for j in experience)}
 
   <h2>Key Skills</h2>
-  {skills_html}
+  <div class="skills-wrap">{skills_html}</div>
 
   <h2>Education</h2>
   {''.join(edu_block(e) for e in education)}
@@ -151,13 +156,16 @@ juelich = dict(
     role="Fuel Cell System Engineer  ·  Hydrogen & Fuel Cell R&D",
     accent="#0b6e4f", accent_soft="#eaf4ef",
     summary=(
-        "Automotive Engineering Master's student at RWTH Aachen who builds fuel cell systems "
-        "end to end. My work spans air-cooled PEM stack operation and test-bench characterisation "
-        "at Ecogenium e.V., FCEV energy-management and degradation analysis at Robert Bosch GmbH, "
-        "and the complete ~150 kW aircraft fuel cell system I am now developing at DLR, covering "
-        "operating strategy, control, thermal management, sizing, component selection and validation. "
-        "I am seeking to apply this hands-on fuel cell systems expertise to the hydrogen and fuel "
-        "cell research at Forschungszentrum Juelich."
+        "My path into fuel cell systems began hands-on at Ecogenium e.V., where I fabricated a "
+        "standalone test bench, ran an air-cooled PEM stack through its operating window, and wrote "
+        "the energy-management and thermal-control strategies that carried Germany's only "
+        "student-built hydrogen car to a runner-up finish at Shell Eco-Marathon 2025. That "
+        "experimental grounding took me to Robert Bosch GmbH at system level, engineering FCEV "
+        "operating strategies and studying fuel-cell degradation, and then to DLR, where I am now "
+        "developing a complete ~150 kW fuel cell system for a hydrogen aircraft, from a "
+        "thermal-management digital twin and component sizing to the control software itself. I want "
+        "to bring this full-stack experience, from stack to system to control, to the hydrogen and "
+        "fuel cell research at Forschungszentrum Juelich."
     ),
     experience=[
         dict(role="Werkstudent, Fuel Cell Systems (Aircraft)",
@@ -232,14 +240,16 @@ goldwind = dict(
     role="Control Strategy Engineer  ·  Global Graduate Program 2026",
     accent="#16508c", accent_soft="#eaf1f8",
     summary=(
-        "Automotive Engineering Master's student at RWTH Aachen specialising in control and "
-        "operating-strategy engineering for energy systems. I develop, validate and optimise "
-        "control strategies in MATLAB/Simulink and C++: rule-based and predictive power-split "
-        "strategies at Robert Bosch GmbH, real-time energy-management and thermal control at "
-        "Ecogenium e.V., and a controller for an aircraft fuel cell system at DLR implemented for "
-        "direct deployment. I am strong in model validation against measured data, multi-objective "
-        "optimisation and benchmarking, and I am applying to join Goldwind's Global Graduate "
-        "Program 2026 as a Control Strategy Engineer in Frankfurt."
+        "My work has followed one thread: making energy systems behave the way they should through "
+        "control. It started at Ecogenium e.V., where I wrote and validated real-time "
+        "energy-management and temperature-control strategies in Python and Simulink that lifted our "
+        "vehicle's efficiency by ~80%. At Robert Bosch GmbH I took this to industrial level, "
+        "developing rule-based and predictive power-split control strategies, calibrating them with "
+        "Genetic-Algorithm and Gradient-Descent optimisation, and benchmarking against Dynamic "
+        "Programming and ECMS. At DLR I am now building a fuel cell system controller in MATLAB and "
+        "C++ for direct deployment to hardware, with start-up, purge, subsystem and safety state "
+        "logic. I am applying to Goldwind's Global Graduate Program 2026 to bring this control-strategy "
+        "and model-based-development experience to your turbine control team in Frankfurt."
     ),
     experience=[
         dict(role="Operating Strategy / System Simulation Intern",
@@ -286,13 +296,17 @@ goldwind = dict(
              ]),
     ],
     skills=[
-        ("Control & Strategy", ["control strategy design", "rule-based & predictive control", "PID / MPC",
-                                "operating strategy", "energy management (EMS)", "real-time control", "MIL validation"]),
-        ("Optimisation & Data", ["multi-objective optimisation", "Genetic Algorithms", "Gradient Descent",
-                                 "DP / ECMS benchmarking", "MAP / lookup-table calibration", "KPI analysis"]),
-        ("Simulation & Modelling", ["MATLAB/Simulink", "digital twin", "model validation", "Dymola", "CARLA"]),
-        ("Programming", ["MATLAB", "C/C++", "Python (NumPy, Pandas, scikit-learn, PyTorch)"]),
-        ("Data & Tools", ["Power BI", "Tableau", "Siemens Teamcenter", "Git"]),
+        ("Control Methods", ["PID control", "Model Predictive Control (MPC)", "rule-based control",
+                             "predictive control", "feedforward / feedback control",
+                             "supervisory & state-machine control", "gain scheduling", "real-time control"]),
+        ("Strategy & Calibration", ["control strategy design", "operating & energy-management strategy",
+                                    "control MAP / lookup-table calibration", "multi-objective optimisation",
+                                    "Genetic Algorithms", "Gradient Descent", "DP / ECMS benchmarking", "KPI analysis"]),
+        ("Model-Based Development", ["MATLAB/Simulink", "digital twin", "Model-in-the-Loop (MIL)",
+                                     "model & measurement validation", "C++ deployment to controller", "CARLA"]),
+        ("Programming & Data", ["MATLAB", "C/C++", "Python (NumPy, Pandas, scikit-learn, PyTorch)",
+                                "signal processing", "Power BI"]),
+        ("Tools", ["Siemens Teamcenter", "Git", "Tableau"]),
     ],
     education=[
         dict(degree="M.Sc. Automotive Engineering", school="RWTH Aachen University",
