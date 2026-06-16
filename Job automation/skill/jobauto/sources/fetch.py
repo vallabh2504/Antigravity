@@ -34,6 +34,12 @@ def fetch_recipe(recipe: Recipe) -> list[RawPosting]:
         if recipe.fmt == "text":
             return parse_text(recipe, resp.text)
         payload: Any = resp.json()
+        # aggregators (Bundesagentur/Arbeitnow/JSearch/Adzuna) use their own parser; without
+        # this dispatch they were silently dropped (parse() only knows the per-company ATS).
+        if recipe.portal.startswith("agg_"):
+            from .aggregators import parse_aggregator
+            from ..config import load_config
+            return parse_aggregator(recipe, payload, load_config().get("include_keywords", []))
         postings = parse(recipe, payload)
         # follow detail fetches for full JD where required
         if recipe.needs_detail and recipe.detail_url_tmpl:
