@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 36
+    "ok": 39
   },
   "results": [
     {
@@ -36,7 +36,7 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.mtu.de/careers/jobs/",
-      "status": "AUTH 403 (blocked / needs key)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
       "jobs": null
     },
@@ -327,7 +327,7 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.nikolamotor.com/careers",
-      "status": "AUTH 403 (blocked / needs key)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
       "jobs": null
     },
@@ -400,8 +400,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://powercellgroup.com/career/",
-      "status": "HTTP 415",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -509,10 +509,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.rwth-aachen.de/go/id/dmga/",
-      "status": "ERR (ConnectError)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "[Errno 101] Network is unreachable"
+      "jobs": null
     },
     {
       "name": "TU Munich",
@@ -537,10 +536,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.psi.ch/en/hr/job-opportunities",
-      "status": "ERR (ReadTimeout)",
-      "ok": false,
-      "jobs": null,
-      "note": "The read operation timed out"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "VTT Finland",
@@ -601,8 +599,8 @@
       "portal": "agg_euraxess",
       "method": "GET",
       "url": "https://euraxess.ec.europa.eu/jobs/search?keywords=fuel+cell+hydrogen",
-      "status": "AUTH 403 (blocked / needs key)",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     }
   ]
