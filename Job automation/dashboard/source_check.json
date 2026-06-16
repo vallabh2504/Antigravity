@@ -590,9 +590,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=fuel%20cell&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 1
     },
     {
       "name": "EURAXESS",
