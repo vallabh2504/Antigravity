@@ -116,7 +116,12 @@ def parse_aggregator(recipe: Recipe, payload: Any, include_kw: list[str]) -> lis
                     j.get("location", ""), j.get("url", ""),
                     strip_html(j.get("description", "")), str(j.get("created_at", ""))))
         elif p == "agg_bundesagentur":
-            for j in payload.get("stellenangebote", []):
+            sa = payload.get("stellenangebote") or []
+            # diagnostic: total available vs returned (so we see if it is genuinely empty
+            # vs a response-shape/auth issue) without guessing
+            print(f"[agg-debug] bundesagentur: {len(sa)} returned, "
+                  f"maxErgebnisse={payload.get('maxErgebnisse')}, keys={list(payload.keys())[:8]}")
+            for j in sa:
                 ref = j.get("refnr", "")
                 out.append(RawPosting(p, j.get("arbeitgeber", "Bundesagentur"), j.get("titel", ""),
                     (j.get("arbeitsort") or {}).get("ort", ""),

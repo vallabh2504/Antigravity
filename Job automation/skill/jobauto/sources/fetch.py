@@ -29,6 +29,8 @@ def fetch_recipe(recipe: Recipe) -> list[RawPosting]:
         else:
             resp = client.get(recipe.list_url, headers=recipe.headers)
         resp.raise_for_status()
+        if recipe.portal.startswith("agg_"):
+            print(f"[agg-debug] {recipe.portal} HTTP {resp.status_code} ({len(resp.content)}B)")
         if recipe.fmt == "text":
             return parse_text(recipe, resp.text)
         payload: Any = resp.json()
