@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 39
+    "ok": 37
   },
   "results": [
     {
@@ -9,9 +9,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://jobs.dlr.de",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "timed out"
     },
     {
       "name": "Airbus",
@@ -391,9 +392,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ReadTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "PowerCell Sweden",
@@ -572,9 +574,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Brennstoffzelle&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (2 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 2
     },
     {
       "name": "Bundesagentur",
