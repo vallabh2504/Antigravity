@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 40
+    "ok": 39
   },
   "results": [
     {
@@ -209,8 +209,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://apus-aero.de/career/",
-      "status": "NOTFOUND 404 (bad token?)",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -254,8 +254,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.pipistrel-aircraft.com/about-us/careers/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
+      "status": "AUTH 403 (blocked / needs key)",
+      "ok": false,
       "jobs": null
     },
     {
@@ -391,9 +391,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ReadTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "PowerCell Sweden",
@@ -572,27 +573,27 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Brennstoffzelle&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 1
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
-      "status": "OK (9 jobs)",
+      "status": "OK (6 jobs)",
       "ok": true,
-      "jobs": 9
+      "jobs": 6
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=fuel%20cell&veroeffentlichtseit=3",
-      "status": "OK (1 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 1
+      "jobs": 0
     },
     {
       "name": "EURAXESS",
