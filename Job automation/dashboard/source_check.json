@@ -100,18 +100,19 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (41 jobs)",
+      "status": "OK (40 jobs)",
       "ok": true,
-      "jobs": 41
+      "jobs": 40
     },
     {
       "name": "BMW",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.bmwgroup.jobs/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ReadTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "Volvo Group",
@@ -254,8 +255,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.pipistrel-aircraft.com/about-us/careers/",
-      "status": "AUTH 403 (blocked / needs key)",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -382,27 +383,27 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.schaeffler.com/en/careers/",
-      "status": "ERR (ConnectError)",
+      "status": "AUTH 403 (blocked / needs key)",
       "ok": false,
-      "jobs": null,
-      "note": "[Errno -2] Name or service not known"
+      "jobs": null
     },
     {
       "name": "Proton Motor Fuel Cell",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "_ssl.c:999: The handshake operation timed out"
     },
     {
       "name": "PowerCell Sweden",
       "portal": "custom",
       "method": "GET",
       "url": "https://powercellgroup.com/career/",
-      "status": "HTTP 415",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -564,9 +565,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 1
     },
     {
       "name": "Bundesagentur",
@@ -582,9 +583,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
-      "status": "OK (5 jobs)",
+      "status": "OK (4 jobs)",
       "ok": true,
-      "jobs": 5
+      "jobs": 4
     },
     {
       "name": "Bundesagentur",
