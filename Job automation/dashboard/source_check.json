@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (40 jobs)",
+      "status": "OK (39 jobs)",
       "ok": true,
-      "jobs": 40
+      "jobs": 39
     },
     {
       "name": "BMW",
@@ -392,10 +392,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "ERR (ConnectTimeout)",
+      "status": "ERR (ReadTimeout)",
       "ok": false,
       "jobs": null,
-      "note": "_ssl.c:999: The handshake operation timed out"
+      "note": "The read operation timed out"
     },
     {
       "name": "PowerCell Sweden",
@@ -583,9 +583,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
-      "status": "OK (4 jobs)",
+      "status": "OK (5 jobs)",
       "ok": true,
-      "jobs": 4
+      "jobs": 5
     },
     {
       "name": "Bundesagentur",
