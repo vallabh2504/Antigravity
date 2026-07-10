@@ -39,8 +39,13 @@ says so honestly.
    practical default.
 
 ## How to edit
-- `resume.md` and `cover_letter.md` are yours to edit in plain Markdown.
+- `resume.md` and `cover_letter.md` are yours to edit in plain Markdown — this is the content
+  source of truth.
 - Open `resume.html` / `cover_letter.html` in a browser: click **Edit** to change text inline
   (autosaves locally), **Download** to save, or **PDF** to print.
-- After editing the Markdown, run `python -m jobauto render rwth-tme-fuel-cell-systems-phd`
-  from `skill/` to rebuild the HTML/PDF.
+- `resume.html` / `cover_letter.html` were hand-built from the `skills/resume-writer/template.html`
+  and `skills/cover-letter-writer/template.html` designs (skill chips, flex-aligned dates, accent
+  colour) instead of the generic `jobauto render` CLI, which only has a plain markdown-to-HTML
+  fallback (no chips, no visual hierarchy) and would downgrade the design if run here. **Don't
+  run `python -m jobauto render rwth-tme-fuel-cell-systems-phd`** — after editing the Markdown,
+  ask Claude to re-apply the changes to the HTML/PDF so the design is preserved.
