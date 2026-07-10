@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>S V V Sai Sri Vallabh Pataneni</title><style>
+:root{--accent:#0b6e4f;--ink:#1a1a1a;--muted:#566;--line:#e3e6ea}
+*{box-sizing:border-box}body{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+ color:var(--ink);max-width:840px;margin:24px auto;padding:0 40px;line-height:1.5;font-size:14.5px}
+h1{font-size:27px;margin:0 0 2px;letter-spacing:.2px}
+h1+p{color:var(--accent);font-weight:600;margin:0 0 4px}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);
+ border-bottom:2px solid var(--line);padding-bottom:3px;margin:16px 0 7px}
+h3{font-size:14.5px;margin:9px 0 1px}
+p{margin:5px 0}ul{margin:5px 0 8px;padding-left:18px}li{margin:3px 0}
+hr{border:0;border-top:1px solid var(--line);margin:10px 0}
+em{color:var(--muted);font-style:normal;font-size:12.8px}
+a{color:var(--accent);text-decoration:none}
+@media print{body{margin:0;max-width:none;font-size:11.6px;padding:0 12px}.toolbar{display:none!important}}
+</style></head><body>
+<div class="toolbar" style="position:sticky;top:0;z-index:9;display:flex;gap:8px;align-items:center;
+ background:#0b1220;color:#fff;padding:8px 12px;margin:-24px -40px 16px;font:13px -apple-system,Segoe UI,Arial">
+ <strong style="margin-right:auto">Editable document</strong>
+ <button onclick="toggleEdit(this)" style="cursor:pointer;border:0;border-radius:7px;padding:6px 12px;background:#19c37d;color:#06210f;font-weight:700">✏️ Edit</button>
+ <button onclick="dl()" style="cursor:pointer;border:0;border-radius:7px;padding:6px 12px;background:#2b3c5e;color:#fff">⬇ Download</button>
+ <button onclick="window.print()" style="cursor:pointer;border:0;border-radius:7px;padding:6px 12px;background:#2b3c5e;color:#fff">🖨 PDF</button>
+ <span id="saved" style="opacity:.7;font-size:12px"></span>
+</div>
+<div id="doc"><h1>S V V Sai Sri Vallabh Pataneni</h1>
+<p>Aachen, Germany · vallabh.pataneni@rwth-aachen.de · +49 176 8594 4047 · linkedin.com/in/vallabh-pataneni</p>
+<hr />
+<p>Chair of Thermodynamics of Mobile Energy Conversion Systems (TME)
+Prof. Marco Günther, RWTH Aachen University
+Forckenbeckstrasse 4, 52074 Aachen</p>
+<p>10 July 2026</p>
+<p><strong>Application: Research Assistant/Associate (PhD), Fuel Cell Systems (Ref. V000011113 SOFC / V000011114 PEM CFD &amp; Water Transport / V000011115 PEM Aging)</strong></p>
+<p>Dear Prof. Günther,</p>
+<p>I am applying for the Research Assistant/Associate PhD positions in fuel-cell systems at TME, across all three open topics (SOFC systems, PEM CFD and water transport, and PEM aging). For the last two months at DLR I have been designing the cathode-side control architecture for our aircraft fuel-cell system: a full 0D lumped-parameter plant model of the cathode loop plus feed-forward, PI and decoupler control for cathode operation and back-pressure-valve protection, now being tuned against real system measurement data in MATLAB/Simulink. That system-level modeling and control work sits on top of two years of hands-on PEM fuel-cell experience across scales, from a 1 kW student-competition stack to a 100 kW, 1.5 t FCEV pickup truck at Robert Bosch to the 150-200 kW aircraft powertrain at DLR.</p>
+<p>On the experimental side, I am leading this season's fuel-cell system testing, integration and troubleshooting at Ecogenium on our newly built water-cooled stack, building on the standalone test bench I engineered and commissioned there, where I ran purging, humidity-cycling and polarisation-curve campaigns and mapped the stack's thermal operating window. I correlate that test data against my own models the same way I did at Bosch, where I validated a Simulink operating-strategy model against measurement data and built post-processing and KPI analysis covering power distribution, efficiency and degradation. That measurement-correlated, model-based workflow maps directly onto validating CFD and aging models at the single-cell and stack test bench, and the system-architecture and control principles I work with (balance-of-plant, control loops, operating-strategy optimization) carry over from PEM to SOFC, even though my hands-on stack experience so far is PEM.</p>
+<p>A PhD is genuinely half of what I am weighing for what comes next, alongside industry fuel-cell roles, and continuing at RWTH under Prof. Pischinger's chair, in the city where I already live and work, is an easy decision. I would be glad to contribute to whichever of the three topics suits the group's priorities best: my cathode-control and modeling background speaks most directly to the SOFC systems position, and my test-bench and measurement-correlation experience to the CFD-validation and aging positions. I expect to submit my Master's thesis at DLR later this year and could start soon after. My English is fluent and my German is at A2-B1.</p>
+<p>Yours sincerely,
+<strong>Vallabh Pataneni</strong></p></div>
+<script>
+const KEY='app:'+location.pathname.split('/').pop();
+const doc=document.getElementById('doc');
+try{const s=localStorage.getItem(KEY);if(s){doc.innerHTML=s;mark('restored your edits')}}catch(e){}
+function toggleEdit(b){const on=doc.isContentEditable;doc.contentEditable=!on;
+ doc.style.outline=on?'none':'2px dashed #19c37d';doc.style.padding=on?'0':'6px';
+ b.textContent=on?'✏️ Edit':'✓ Done';if(on)save();}
+doc.addEventListener('input',()=>{clearTimeout(window._t);window._t=setTimeout(save,500)});
+function save(){try{localStorage.setItem(KEY,doc.innerHTML);mark('saved locally '+new Date().toLocaleTimeString())}catch(e){}}
+function mark(m){document.getElementById('saved').textContent=m}
+function dl(){const html='<!doctype html><meta charset=utf-8><style>'+document.querySelector('style').textContent+'</style>'+doc.outerHTML;
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));
+ a.download=(location.pathname.split('/').pop()||'document.html');a.click();}
+</script>
+</body></html>
