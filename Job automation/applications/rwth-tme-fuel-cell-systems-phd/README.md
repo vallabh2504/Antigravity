@@ -35,6 +35,16 @@ paper's status to "in review at SAE," added "Germany's only student-built hydrog
 vehicle," and removed the false claim of a specific Master's-thesis submission date (thesis
 hasn't formally started; direction confirmed as fuel-cell system control, scope still open).
 
+## Resume format
+The **resume** (not the cover letter) follows a specific format you supplied
+(`Resume_Prompt.txt`): third-person throughout (no "I"/"my"), a 4-part Summary
+(opening → top industrial contribution → synthesis of leadership/hands-on/academic →
+targeted closing) with 3-5 strategically bolded phrases, and each Experience entry as a
+single dense narrative paragraph (not bullets) plus one closing "Key Skills:" line. The
+Skills section (categorized chips) now sits after Experience, matching your real resumes'
+layout. The cover letter is unaffected and stays first-person, as that prompt only covers
+resumes.
+
 ## Before you send — please confirm/edit
 1. **Whether you actually want all three** — the letter applies to all three ref numbers with
    one packet. If you'd rather rank/prioritize one topic explicitly, or apply to only one or two,
