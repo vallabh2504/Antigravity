@@ -23,20 +23,34 @@ test-bench + KPI/degradation analysis for V115. SOFC is explicitly framed as *tr
 system-architecture knowledge*, not direct hands-on experience — he has none, and the letter
 says so honestly.
 
+## Fact-check pass (this revision)
+Content was corrected against your direct input plus two real source resumes you provided,
+saved in `../../Resumes/`. Key fixes: MPC is now "built" (not "designing"), added the DLR
+balance-of-plant sizing tools / component selection / system rig work, added the GT Suite 1D
+model and Dymola (Modelica — a direct match for the JD's "Matlab/Simulink or Modelica" line),
+removed the incorrect "thermal-management digital twin" claim (the real digital twin is the
+cathode-side plant model), corrected the Bosch degradation bullet to the stronger real phrasing,
+added the confirmed second publication (IJSED, aircraft design, 11/2022) and corrected the Bosch
+paper's status to "in review at SAE," added "Germany's only student-built hydrogen fuel-cell
+vehicle," and removed the false claim of a specific Master's-thesis submission date (thesis
+hasn't formally started; direction confirmed as fuel-cell system control, scope still open).
+
 ## Before you send — please confirm/edit
-1. **Thesis completion date** — the cover letter says "later this year" for submitting the
-   Master's thesis. If you have a firmer date (or want to give a specific month), edit it in.
-2. **Whether you actually want all three** — the letter applies to all three ref numbers with
+1. **Whether you actually want all three** — the letter applies to all three ref numbers with
    one packet. If you'd rather rank/prioritize one topic explicitly, or apply to only one or two,
    say so and I'll adjust.
-3. **Additional documents German academic applications usually expect** — this chair's posting
+2. **Additional documents German academic applications usually expect** — this chair's posting
    doesn't list required attachments beyond the application itself, but PhD applications at RWTH
    typically also want: transcripts (B.Tech + M.Sc.), a copy of the B.Tech degree certificate,
    and optionally reference letters. None of those are generated here — you'll need to attach
    your own PDFs when you send the email.
-4. **Submission channel** — the posting says email is accepted but postal mail is recommended
+3. **Submission channel** — the posting says email is accepted but postal mail is recommended
    "for data protection reasons." Your call; email to bewerbungen@tme.rwth-aachen.de is the
    practical default.
+4. **Still open / unconfirmed**: exact relevant-modules list for the M.Sc. (source resumes list
+   different module sets depending on which job each was tailored for — I picked the most
+   fuel-cell/control-relevant combination, please verify); German level shown as A2-B1 per
+   `profile.md`, but the source resumes all say a flat "B1" — which is current?
 
 ## How to edit
 - `resume.md` and `cover_letter.md` are yours to edit in plain Markdown — this is the content

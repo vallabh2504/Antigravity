@@ -1,0 +1,3682 @@
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                      +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany               linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Master's student in Automotive Engineering with a focused emphasis on design, simulation, and
+prototyping of sustainable automotive applications. Possesses extensive experience in generative
+design, various FEM software (PTC Creo to Ansys), simulation tools (MATLAB/Simulink), and a
+comprehensive understanding of different Motor technologies, coupled with advanced
+programming and proficient visualization skills. Seeks a mandatory internship to further develop
+expertise in hybrid transmission systems and contribute to the central competences of the E-Mobility
+Division at Schaeffler.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Engineering (Dynamics, Components and
+                         Assistant systems),Alternative Vehicle propulsion systems (ICE, BEV, HEV),
+                         FEM, DFM, Mobile Propulsion systems ( E-motors, Fuel Cells, ICE).
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Suspension Division & member of Pitcrew 2025
+                           Led the complete design cycle for suspension and steering systems,
+                           •
+
+
+
+
+                           from conceptualization and optimization through Generative Design
+                           and extensive FEM simulations leading to production. This involved
+                           implementing a motorcycle-inspired trailing arm and double-wishbone
+                           front suspension to optimize driving dynamics and minimize rolling
+                           friction.
+                           Contributed to the structural engineering design and finite element
+                           •
+
+
+
+
+                           analysis (FEA) of a hybrid Aluminum-carbon fiber chassis, resulting in
+                           a mass reduction while maintaining structural integrity, demonstrating
+                           experience with meshed body analysis.
+                           Developed and implemented data-driven driving strategies using
+                           •
+
+
+
+
+                           Matlab-Simulink, and Power BI, leveraging previous competition data to
+                           identify performance bottlenecks and significantly improve overall
+                           vehicle efficiency.
+                           Contributed to the selection, integration design, and Assembly of the
+                           •
+
+
+
+
+                           PMSM Wheel Hub Motor for the car Hydraix in the Eco Shell Marathon
+                           competion 2025.
+Experience
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          led the end-to-end design and prototyping of a user-centric robot, focusing
+                           •
+
+
+
+
+                          on robot dynamics, Compactness and ease of repairability.
+                          Developed and implemented precise acceleration and deceleration
+                           •
+
+
+
+
+                          curves for robot motion by programming a double H-bridge motor
+                          controller using Arduino IDE, controlling a NEMA 23 stepper motor
+                          integrated with a planetary gearbox.
+                          Designed the robot's enclosure using forms design in Fusion 360, focusing
+                           •
+
+
+
+
+                          on the neat integration of chassis components and overall aesthetics.
+                          Proficiently developed comprehensive technical documentation, managed
+                           •
+
+
+
+
+                          diverse datasets, and delivered impactful presentations utilizing MS Office.
+
+01/2023 – 03/2023       Mechanical Design Intern
+Hyderabad               Garuda 3D
+                          Contributed to the conceptualization and prototyping of a proof of
+                           •
+
+
+
+
+                          concept air taxi (scaled-down model) using SolidWorks, focusing on
+                          translating innovative mobility solutions into tangible designs.
+                          Executed the design, simulation, and fabrication of critical air taxi
+                           •
+
+
+
+
+                          components (e.g., wings, landing mechanism), specifically optimizing for
+                          maneuverability and structural integrity using a Dual nozzle FDM
+                          based Rapid prototyping 3D printer (Raise 3D).
+
+Skills
+CAD Software                                        Simulation Software
+Fusion 360                                          Ansys
+SolidWorks                                          Matlab - Simulink
+PTC Creo                                            Fusion 360
+Siemens NX                                          Solidworks
+
+                                                    Data Visualization Tools
+Software Proficiency
+                                                    Power BI
+Python
+                                                    Tableau
+C/C++
+MS Office Suite
+
+
+Languages
+English                           German
+Fluent                            Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving
+an outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                        +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                 linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering with a strong focus on computational
+mechanics, geometric modeling, and program development for engineering applications. Possesses hands-
+on experience in vehicle system design (Fusion 360) and data-driven strategy implementation (Power
+BI,Matlab/Simulink), complemented by proficiency in simulation(FEM/FEA),prototyping and
+programming. Seeking a mandatory internship to apply my analytical skills, technical understanding, and a
+systematic work style to support product readiness for future requirements.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and Components,Material Science,
+                         Data Science, Fundamentals of Machine learning, Additive Manufaturing, FEM,
+                         DFM.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Wheel efficiency & member of Pitcrew 2025
+                           Led the complete design cycle for suspension and steering systems, from
+                           •
+
+
+
+
+                           conceptualization and optimization through Generative Design simulation
+                           (Fusion 360) and production. This involved implementing a motorcycle-
+                           inspired trailing arm and double-wishbone front suspension to optimize
+                           driving dynamics and minimize rolling friction.
+                           Contributed to the structural engineering design and finite element
+                           •
+
+
+
+
+                           analysis (FEA) of a hybrid Aluminum-carbon fiber chassis, resulting in a
+                           mass reduction while maintaining structural integrity, demonstrating experience
+                           with meshed body analysis.
+                           Developed and implemented data-driven driving strategies using Matlab-
+                           •
+
+
+
+
+                           Simulink, and Power BI, leveraging previous competition data to identify
+                           performance bottlenecks and significantly improve overall vehicle efficiency.
+                           Contributed to the design, integration, and maintenance of the gearbox for
+                           •
+
+
+
+
+                           the motors of the "Hydraix" vehicle, optimizing its torque transmission and
+                           overall drivetrain efficiency.
+Experience
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          led the end-to-end design and prototyping of a user-centric robot, focusing on
+                          •
+
+
+
+
+                          robot dynamics and iterative design and simulation.
+                          Developed and implemented precise acceleration and deceleration curves
+                          •
+
+
+
+
+                          for robot motion by programming a double H-bridge motor controller using
+                          Arduino IDE, controlling a NEMA 23 stepper motor integrated with a
+                          planetary gearbox.
+                          Successfully implemented speech recognition AI functionality for the
+                          •
+
+
+
+
+                          doorbot, initially utilizing Vosk on Raspberry Pi and subsequently migrating to
+                          Google API for enhanced performance.
+                          Leveraged Power BI to collect and analyze real-time data, leading to
+                          •
+
+
+
+
+                          improvements in the efficiency of the doorbot's speech recognition
+                          capabilities for command-based operation.
+
+01/2023 – 03/2023       Mechanical Design Intern
+Hyderabad               Garuda 3D
+                          Contributed to the conceptualization and prototyping of a proof of concept
+                          •
+
+
+
+
+                          air taxi (scaled-down model) using SolidWorks, focusing on translating
+                          innovative mobility solutions into tangible designs.
+                          Executed the design, simulation, and fabrication of critical air taxi
+                          •
+
+
+
+
+                          components (e.g., wings, landing mechanism), specifically optimizing for
+                          maneuverability and structural integrity using a Dual nozzle FDM based
+                          Rapid prototyping 3D printer (Raise 3D).
+
+Skills
+
+CAD Software                                          Simulation Software
+Fusion 360                                            Ansys
+SolidWorks                                            Matlab - Simulink
+PTC Creo                                              Fusion 360
+                                                      Solidworks
+
+Software Proficiency                                  Data Visualization Tools
+Python                                                Power BI
+C/C++                                                 Tableau
+MS Office Suite
+
+
+Languages
+
+English                            German
+Fluent                             Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                        +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                 linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering with a strong focus on computational
+mechanics, geometric modeling, and program development for engineering applications. Possesses hands-
+on experience in vehicle system design (Fusion 360) and data-driven strategy implementation (Power
+BI,Matlab/Simulink), complemented by proficiency in simulation(FEM/FEA),prototyping and
+programming. Seeking a mandatory internship to apply my analytical skills, technical understanding, and a
+systematic work style to support product readiness for future requirements.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and Components,Material Science,
+                         Data Science, Fundamentals of Machine learning, Additive Manufaturing, FEM,
+                         DFM.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Wheel efficiency & member of Pitcrew 2025
+                           Led the complete design cycle for suspension and steering systems, from
+                           •
+
+
+
+
+                           conceptualization and optimization through Generative Design simulation
+                           (Fusion 360) and production. This involved implementing a motorcycle-
+                           inspired trailing arm and double-wishbone front suspension to optimize
+                           driving dynamics and minimize rolling friction.
+                           Contributed to the structural engineering design and finite element
+                           •
+
+
+
+
+                           analysis (FEA) of a hybrid Aluminum-carbon fiber chassis, resulting in a
+                           mass reduction while maintaining structural integrity, demonstrating experience
+                           with meshed body analysis.
+                           Developed and implemented data-driven driving strategies using Matlab-
+                           •
+
+
+
+
+                           Simulink, and Power BI, leveraging previous competition data to identify
+                           performance bottlenecks and significantly improve overall vehicle efficiency.
+                           Contributed to the development and implementation of the vehicle's
+                           •
+
+
+
+
+                           braking system, encompassing testing, evaluation, and routine maintenance
+                           activities (e.g., bleeding brakes) to ensure optimal performance, functionality,
+                           and safety for competition.
+Experience
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          led the end-to-end design and prototyping of a user-centric robot, focusing on
+                          •
+
+
+
+
+                          robot dynamics and iterative design and simulation.
+                          Programmed a double H-bridge motor controller using Arduino IDE to
+                          •
+
+
+
+
+                          implement precise acceleration and deceleration curves for robot movement.
+                          Successfully implemented speech recognition AI functionality for the
+                          •
+
+
+
+
+                          doorbot, initially utilizing Vosk on Raspberry Pi and subsequently migrating to
+                          Google API for enhanced performance.
+                          Leveraged Power BI to collect and analyze real-time data, leading to
+                          •
+
+
+
+
+                          improvements in the efficiency of the doorbot's speech recognition
+                          capabilities for command-based operation.
+
+01/2023 – 03/2023       Mechanical Design Intern
+Hyderabad               Garuda 3D
+                          Contributed to the conceptualization and prototyping of a proof of concept
+                          •
+
+
+
+
+                          air taxi (scaled-down model) using SolidWorks, focusing on translating
+                          innovative mobility solutions into tangible designs.
+                          Executed the design, simulation, and fabrication of critical air taxi
+                          •
+
+
+
+
+                          components (e.g., wings, landing mechanism), specifically optimizing for
+                          maneuverability and structural integrity using a Dual nozzle FDM based
+                          Rapid prototyping 3D printer (Raise 3D).
+
+Skills
+CAD Software                                          Simulation Software
+Fusion 360                                            Ansys
+SolidWorks                                            Matlab - Simulink
+PTC Creo                                              Fusion 360
+                                                      Solidworks
+
+Software Proficiency                                  Data Visualization Tools
+Python                                                Power BI
+C/C++                                                 Tableau
+MS Office Suite
+
+
+Languages
+English                            German
+Fluent                             Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                      +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany               linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering with a strong focus on product design
+and performance evaluation, data analysis, and efficiency optimization. Possesses hands-on
+experience in vehicle system design (Fusion 360) and data-driven strategy implementation
+(Power BI,Matlab/Simulink), complemented by proficiency simulation,prototyping and
+programming. Seeking a mandatory internship to apply my analytical skills, technical understanding,
+and a systematic work style to support product readiness for future requirements.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and Components,Material
+                         Science, Data Science, Fundamentals of Machine learning, Additive
+                         Manufaturing.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Wheel efficiency & member of Pitcrew 2025
+                           Contributed to the development and implementation of the vehicle's
+                           •
+
+
+
+
+                           braking system, encompassing testing, evaluation, and routine
+                           maintenance activities (e.g., bleeding brakes) to ensure optimal
+                           performance, functionality, and safety for competition.
+                           Led the complete design cycle for suspension and steering systems,
+                           •
+
+
+
+
+                           from conceptualization and optimization through Generative Design
+                           simulation (Fusion 360) and production. This involved implementing a
+                           motorcycle-inspired trailing arm and double-wishbone front
+                           suspension to optimize driving dynamics and minimize rolling friction.
+                           Developed and implemented data-driven driving strategies using
+                           •
+
+
+
+
+                           Python, Simulink, and Power BI, leveraging previous competition data to
+                           identify performance bottlenecks and significantly improve overall
+                           vehicle efficiency.
+                           Proficiently developed comprehensive technical documentation, managed
+                           •
+
+
+
+
+                           diverse datasets, and delivered impactful presentations utilizing MS Office.
+Experience
+03/2023 – 07/2023      Industrial Design Intern
+Hyderabad              Techolution
+                         led the end-to-end design and prototyping of a user-centric robot, focusing
+                         •
+
+
+
+
+                         on robot dynamics and iterative design and simulation.
+                         Programmed a double H-bridge motor controller using Arduino IDE to
+                         •
+
+
+
+
+                         implement precise acceleration and deceleration curves for robot movement.
+                         Successfully implemented speech recognition AI functionality for the
+                         •
+
+
+
+
+                         doorbot, initially utilizing Vosk on Raspberry Pi and subsequently
+                         migrating to Google API for enhanced performance.
+                         Leveraged Power BI to collect and analyze real-time data, leading to
+                         •
+
+
+
+
+                         improvements in the efficiency of the doorbot's speech recognition
+                         capabilities for command-based operation.
+
+01/2023 – 03/2023      Mechanical Design Intern
+Hyderabad              Garuda 3D
+                         Contributed to the conceptualization and prototyping of a proof of
+                         •
+
+
+
+
+                         concept air taxi (scaled-down model) using SolidWorks, focusing on
+                         translating innovative mobility solutions into tangible designs.
+                         Executed the design, simulation, and fabrication of critical air taxi
+                         •
+
+
+
+
+                         components (e.g., wings, landing mechanism), specifically optimizing for
+                         maneuverability and structural integrity using a Dual nozzle FDM
+                         based Rapid prototyping 3D printer (Raise 3D).
+
+Skills
+CAD Software                                       Simulation Software
+Fusion 360                                         Ansys
+SolidWorks                                         Matlab - Simulink
+PTC Creo                                           Fusion 360
+                                                   Solidworks
+
+Software Proficiency                               Data Visualization Tools
+Python                                             Power BI
+C/C++                                              Tableau
+MS Office Suite
+
+
+Languages
+English                          German
+Fluent                           Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving
+an outstanding overall grade of 1.2 in core automotive engineering courses.
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                     +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany              linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering specializing in vehicle dynamics and AI
+based testing methodologies, with a strong interest in wheel brake development. Possesses practical
+experience in braking system development, testing, evaluation, and maintenance, coupled with
+proficient programming skills (Python, MATLAB/Simulink) and an eagerness to apply AI
+algorithms in Automotive Technologies. Seeks a Mandatory Internship to contribute to innovative
+brake concepts, performance testing, and data analysis within a dynamic team.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and Components, Additive
+                         Manufacturing, Fundamentals of Machine Learning.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Wheel efficiency & member of Pitcrew 2025
+                           Contributed to the development and implementation of the vehicle's
+                           •
+
+
+
+
+                           braking system, encompassing testing, evaluation, and routine
+                           maintenance activities (e.g., bleeding brakes) to ensure optimal
+                           performance, functionality, and safety for competition.
+                           Developed and implemented driving strategy algorithms using Python
+                           •
+
+
+
+
+                           and Simulink to enhance overall efficiency, demonstrating practical
+                           application of programming for system optimization and data-driven
+                           decisions.
+                           Led the complete design cycle for the vehicle's suspension and steering
+                           •
+
+
+
+
+                           systems, optimizing driving dynamics and addressing complex challenges
+                           like turning radius and suspension stiffness.
+                           Contributed to the structural engineering design and finite element
+                           •
+
+
+
+
+                           analysis (FEA) of a hybrid Aluminum-carbon fiber chassis, achieving a
+                           mass reduction while maintaining structural integrity.
+                           Managed driver communication and race strategy for the 2025 Eco-
+                           •
+
+
+
+
+                           Marathon, coordinating the driver to achieve 5 valid runs and secure a
+                           runners-up position.
+Experience
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          ed the end-to-end design and prototyping of a user-centric robot, focusing
+                            •
+
+
+
+
+                          on robot dynamics and iterative design and simulation.
+                          Programmed a double H-bridge motor controller using Arduino IDE to
+                            •
+
+
+
+
+                          implement precise acceleration and deceleration curves for robot movement.
+                          Successfully implemented speech recognition AI functionality for the
+                            •
+
+
+
+
+                          doorbot, initially utilizing Vosk on Raspberry Pi and subsequently
+                          migrating to Google API for enhanced performance.
+                          Operated FDM-based dual-nozzle 3D printers for rapid prototyping and
+                            •
+
+
+
+
+                          fabrication of over 150 functional components.
+
+01/2023 – 03/2023       Industrial Design Intern
+Hyderabad               Garuda 3D
+                          Contributed to the conceptualization and prototyping of a proof-of-
+                            •
+
+
+
+
+                          concept air taxi (scaled-down model) using SolidWorks, focusing on
+                          translating innovative mobility solutions into tangible designs.
+                          Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                          components (e.g., wings, landing mechanism), specifically optimizing for
+                          maneuverability and structural integrity using FDM-based Rapid
+                          prototyping 3D printer.
+
+Skills
+CAD Software                                        Simulation Software
+Catia V5                                            Ansys
+Fusion 360                                          Matlab - Simulink
+SolidWorks                                          Fusion 360
+PTC Creo                                            Solidworks
+
+
+                                                    Software Proficiency
+Rendering & Visualization                           Python
+Keyshot                                             C/C++
+Rhino                                               MS Office Suite
+
+
+Languages
+English                           German
+Fluent                            Intermediate
+
+Recognitions and publications
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                       +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Master's student in Automotive Engineering, specialized in the complete product development cycle
+from conceptualization and design through prototyping and manufacturing. With a strong focus
+on additive manufacturing, particularly metal 3D printing, and Composite Material technology.
+Possesses practical experience in experimentation, data analysis, and process development,
+complemented by robust skills in 3D CAD design and production technology. Seeking a Mandatory
+Internship at Robert Bosch GmbH to advance the development of metal 3D printing, contribute to
+experimental work, and collaborate on innovative process development within this cutting-edge field.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and design, Additive
+                         Manufacturing, DFM, Material Science, Alternative propulsions systems.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Suspension and Steering Division & member of Pitcrew 2025
+                           Led the conceptualization and optimization for the "Katara" vehicle's
+                           •
+
+
+
+
+                           suspension and steering systems, addressing complex challenges in
+                           turning radius and suspension stiffness by implementing a motorcycle-
+                           inspired trailing arm suspension for the rear, optimizing driving
+                           dynamics.
+                           Executed the complete design cycle for these systems, utilizing CATIA V5
+                           •
+
+
+
+
+                           for conceptualization and Generative Design simulation (Fusion 360)
+                           through to production using metal 3D printing(DMLS).
+                           Contributed to the design and manufacturing of "Katara's" carbon fiber
+                           •
+
+
+
+
+                           aeroshell using the prepreg layup method, leveraging flow simulation
+                           for aerodynamic performance refinement.
+                           Developed and implemented driving strategy algorithms using Python
+                           •
+
+
+
+
+                           and Simulink to enhance the overall efficiency of the fuel cell system
+                           during competition runs.
+                           Managed driver communication and race strategy for the 2025 Eco-
+                           •
+
+
+
+
+                           Marathon, coordinating the driver to achieve 5 valid runs and secure a
+                           runners-up position in the hydrogen fuel cell category.
+Experience
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          Led the end-to-end design and prototyping of a user-centric robot
+                            •
+
+
+
+
+                          (doorbot), focusing on robot dynamics and enhancing the overall user
+                          experience through iterative design and simulation.
+                          Programmed a double H-bridge motor controller using Arduino IDE to
+                            •
+
+
+
+
+                          implement precise acceleration and deceleration curves for robot
+                          movement.
+                          Worked with Raspberry Pi to effectively control the user interface of the
+                            •
+
+
+
+
+                          robot, ensuring seamless interaction.
+                          Operated FDM-based dual-nozzle 3D printers (Raise 3D) for rapid
+                            •
+
+
+
+
+                          prototyping and fabrication of over 150 functional components across
+                          various engineering sub-projects.
+
+01/2023 – 03/2023       Industrial Design Intern
+Hyderabad               Garuda 3D
+                          Contributed to the conceptualization and prototyping of a proof-of-
+                            •
+
+
+
+
+                          concept air taxi (scaled-down model) using SolidWorks, focusing on
+                          translating innovative mobility solutions into tangible designs.
+                          Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                          components (e.g., wings, landing mechanism), specifically optimizing for
+                          maneuverability and structural integrity using FDM-based Rapid
+                          prototyping 3D printer.
+
+Skills
+CAD Software                                        Simulation Software
+Catia V5                                            Ansys
+Fusion 360                                          Matlab - Simulink
+SolidWorks                                          Fusion 360
+PTC Creo                                            Solidworks
+
+
+                                                    Software Proficiency
+Rendering & Visualization                           Python
+Keyshot                                             C/C++
+Rhino                                               MS Office Suite
+
+
+Languages
+English                           German
+Fluent                            Intermediate
+
+Recognitions and publications
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                         +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                  linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Master's student in Automotive Engineering, specialized in the complete product development cycle from
+conceptualization and design through prototyping and manufacturing. Possessing robust practical
+experience in 3D CAD design, advanced simulation, and cutting-edge production technologies,
+complemented by foundational programming skills. Seeking a Mandatory Internship to apply comprehensive
+technical and software expertise to mechanical design projects, with a keen interest in contributing to the
+development and construction of research demonstrators and solving complex assembly and transport tasks at
+Robert Bosch GmbH, leveraging skills in robotics, mechatronics, and 3D printing.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and design, FEM, DFM, Material
+                         Science, Robotics, Mechatronics.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Suspension and Steering Division & member of Pitcrew 2025
+                           Led the conceptualization and optimization for the "Katara" vehicle's
+                           •
+
+
+
+
+                           suspension and steering systems, addressing complex challenges in turning
+                           radius and suspension stiffness by implementing a motorcycle-inspired
+                           trailing arm suspension for the rear, optimizing driving dynamics.
+                           Executed the complete design cycle for these systems, utilizing CATIA V5 for
+                           •
+
+
+
+
+                           conceptualization and Generative Design simulation (Fusion 360) through to
+                           production using metal 3D printing.
+                           Contributed to the design and manufacturing of "Katara's" carbon fiber
+                           •
+
+
+
+
+                           aeroshell using the prepreg layup method, leveraging flow simulation for
+                           aerodynamic performance refinement.
+                           Played a key role in the manufacturing of the carbon fiber steering wheel
+                           •
+
+
+
+
+                           using the resin infusion method and engineered a fuel cell system rig with
+                           carbon fiber components, optimizing packaging and integration.
+                           Developed and implemented driving strategy algorithms using Python and
+                           •
+
+
+
+
+                           Simulink to enhance the overall efficiency of the fuel cell system during
+                           competition runs.
+                           Managed driver communication and race strategy for the 2025 Eco-
+                           •
+
+
+
+
+                           Marathon, coordinating the driver to achieve 5 valid runs and secure a
+                           runners-up position in the hydrogen fuel cell category.
+Experience
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Led the end-to-end design and prototyping of a user-centric robot
+                            •
+
+
+
+
+                           (doorbot), focusing on robot dynamics and enhancing the overall user
+                           experience through iterative design and simulation.
+                           Programmed a double H-bridge motor controller using Arduino IDE to
+                            •
+
+
+
+
+                           implement precise acceleration and deceleration curves for robot movement.
+                           Worked with Raspberry Pi to effectively control the user interface of the
+                            •
+
+
+
+
+                           robot, ensuring seamless interaction.
+                           Operated FDM-based dual-nozzle 3D printers (Raise 3D) for rapid
+                            •
+
+
+
+
+                           prototyping and fabrication of over 150 functional components across various
+                           engineering sub-projects.
+
+01/2023 – 03/2023        Industrial Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the conceptualization and prototyping of a proof-of-concept
+                            •
+
+
+
+
+                           air taxi (scaled-down model) using SolidWorks, focusing on translating
+                           innovative mobility solutions into tangible designs.
+                           Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                           components (e.g., wings, landing mechanism), specifically optimizing for
+                           maneuverability and structural integrity.
+
+Skills
+CAD Software                                          Simulation Software
+Catia V5                                              Ansys
+Fusion 360                                            ANSA
+SolidWorks                                            Matlab - Simulink
+PTC Creo                                              Fusion 360
+Siemens NX                                            Solidworks
+                                                      CADFEM
+
+Rendering & Visualization                             Software Proficiency
+Keyshot                                               Python
+Rhino                                                 C/C++
+Adobe illustrator                                     MS Office Suite
+
+
+Languages
+English                             German
+Fluent                              Intermediate
+
+Recognitions and publications
+
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                        +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                 linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering with expertise spanning the entire vehicle
+development lifecycle, from initial conceptualization and design through prototyping and
+manufacturing. Specializing in chassis, aeroshell and suspension design along with various cutting edge
+manufacturing techniques (Resin infusion CFRP method, Metal 3D printing) for Urban concept
+vehicles. Proficient in mechanical and generative design, dynamic simulation, and technical drawing
+using advanced CAD systems (CATIA V5, Fusion 360). Seeking a mandatory internship to leverage my
+strong technical understanding of motorcycles and a collaborative spirit for innovative design projects.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Automotive Dynamics and design, FEM, DFM, Material
+                         Science, Flevo Bike Design and development.
+                         GPA : 1.7
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen, Germany          Head of Suspension and Steering Division & member of Pitcrew 2025
+                           Led the conceptualization and optimization for the "Katara" vehicle's
+                           •
+
+
+
+
+                           suspension and steering systems, addressing complex challenges in turning
+                           radius and suspension stiffness by implementing a motorcycle-inspired
+                           trailing arm suspension for the rear, optimizing driving dynamics.
+                           Executed the complete design cycle for these systems, utilizing CATIA V5 for
+                           •
+
+
+
+
+                           conceptualization and Generative Design simulation (Fusion 360) through to
+                           production using metal 3D printing.
+                           Participated in the structural engineering design and finite element analysis
+                           •
+
+
+
+
+                           (FEA) of a hybrid Aluminum-carbon fiber chassis, resulting in a mass
+                           reduction of 25 kg while maintaining structural integrity.
+                           Contributed to the design and manufacturing of "Katara's" carbon fiber
+                           •
+
+
+
+
+                           aeroshell using the prepreg layup method, leveraging flow simulation for
+                           aerodynamic performance refinement.
+                           Played a key role in the manufacturing of the carbon fiber steering wheel
+                           •
+
+
+
+
+                           using the resin infusion method and engineered a fuel cell system rig with
+                           carbon fiber components, optimizing packaging and integration.
+                           Managed driver communication and race strategy for the 2025 Eco-
+                           •
+
+
+
+
+                           Marathon, coordinating the driver to achieve 5 valid runs and secure a
+                           runners-up position in the hydrogen fuel cell category.
+Experience
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Led the end-to-end design and prototyping of a user-centric robot
+                            •
+
+
+
+
+                           (doorbot), focusing on robot dynamics and enhancing the overall user
+                           experience through iterative design and simulation.
+                           Executed the industrial design for the robot's exterior shell, prioritizing
+                            •
+
+
+
+
+                           compactness and refined aesthetics while skillfully integrating complex
+                           internal components (sensors, PCBs) and ensuring intuitive interface
+                           design within spatial constraints.
+                           Operated FDM-based dual-nozzle 3D printers (Raise 3D) for rapid
+                            •
+
+
+
+
+                           prototyping and fabrication of over 150 functional components across various
+                           engineering sub-projects.
+
+01/2023 – 03/2023        Industrial Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the conceptualization and prototyping of a proof-of-concept
+                            •
+
+
+
+
+                           air taxi (scaled-down model) using SolidWorks, focusing on translating
+                           innovative mobility solutions into tangible designs.
+                           Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                           components (e.g., wings, landing mechanism), specifically optimizing for
+                           maneuverability and structural integrity.
+
+Skills
+CAD Software                                          Simulation Software
+Catia V5                                              Ansys
+Fusion 360                                            ANSA
+SolidWorks                                            Matlab - Simulink
+PTC Creo                                              Fusion 360
+Siemens NX                                            Solidworks
+                                                      CADFEM
+
+Rendering & Visualization                             Software Proficiency
+Keyshot                                               Python
+Rhino                                                 MS Office Suite
+Adobe illustrator
+
+Languages
+English                             German
+Fluent                              Intermediate
+
+Recognitions and publications
+
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                     +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany              linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering with a strong focus on fiber-reinforced
+composite materials, precision mechanical design, and advanced manufacturing processes. Proven
+hands-on experience in carbon fiber fabrication (e.g., resin infusion, prepreg layup), CAD-based
+engineering (PTC Creo, Siemens NX, Fusion 360), and experimental and simulation based analysis(
+Ansys, CADFEM).Seeking a mandatory internship to leverage my skills in Production engineering,
+reverse engineering, and composite component overhaul for high-performance aviation and
+Automobile industries.
+
+Education
+03/2026                 Master of Science in Automotive Engineering
+Aachen, Germany         RWTH Aachen University
+                        Relevant Coursework: Optimization of light-weight systems,Material science,
+                        3D modelling, FEM, DFM.Automotive Dynamics and design.
+                        GPA : 1.7
+
+06/2019 – 04/2023       Bachelors in technology - Mechanical Engineering
+Hyderabad, India        Jawaharlal Nehru Technological Univerisity
+                        GPA: 1.3
+
+Student Club
+06/2024 – Present       Ecogenium e.V
+Aachen, Germany         Head of Suspension and Steering Division & member of Pitcrew 2025
+                          Led the complete design cycle for the "Katara" Eco-Marathon vehicle's
+                          •
+
+
+
+
+                          suspension systems, from conceptualization and optimization through
+                          Generative Design and structural simulation (PTC Creo, ANSYS) and
+                          production using metal 3D printing.
+                          Contributed significantly to the holistic design and manufacturing of
+                          •
+
+
+
+
+                          "Katara's" carbon fiber aeroshell. Focused on the critical interplay
+                          between aerodynamics and exterior aesthetics, leveraging flow
+                          simulation for performance refinement. Actively participated in the
+                          manufacturing of the aeroshell using the prepreg layup method,
+                          gaining direct experience with advanced composite fabrication.
+                          Played a key role in the manufacturing of the carbon fiber steering
+                          •
+
+
+
+
+                          wheel using the resin infusion method.
+                          As part of the pit crew, regularly performed Non-Destructive Testing
+                          •
+
+
+
+
+                          (NDT) to identify structural defects in composite components (mainly
+                          chassis) and conducted routine maintenance activities (e.g., greasing,
+                          bleeding brakes) to ensure vehicle integrity and performance.
+Experience
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          Led the design and manufacturing of a user-centric robot (doorbot),
+                            •
+
+
+
+
+                          focusing on Compact packaging and developing its visually appealing
+                          exterior shell through iterative design and prototyping.
+                          Conducted routine maintenance on the robot's gearboxes and other
+                            •
+
+
+
+
+                          moving components to ensure optimal performance and longevity.
+                          Utilized FDM-based dual-nozzle 3D printers (Raise 3D) for rapid
+                            •
+
+
+
+
+                          prototyping and fabrication of various composites with continuous
+                          fibres ( Reinforced glass fibre composites), critically supporting the
+                          visualization and increasing the strength of the components.
+
+01/2023 – 03/2023       Industrial Design Intern
+Hyderabad               Garuda 3D
+                          Contributed to the conceptualization and prototyping of a proof-of-
+                            •
+
+
+
+
+                          concept air taxi (scaled-down model) using SolidWorks, focusing on
+                          translating innovative mobility solutions into tangible designs.
+                          Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                          components (e.g., wings, landing mechanism), specifically optimizing for
+                          maneuverability and structural integrity.
+
+Skills
+CAD Software                                        Simulation Software
+Fusion 360                                          Ansys
+SolidWorks                                          ANSA
+PTC Creo                                            Matlab - Simulink
+Siemens NX                                          Fusion 360
+Catia V5                                            Solidworks
+                                                    CADFEM
+Rendering & Visualization
+                                                    Software Proficiency
+Keyshot
+                                                    Python
+Rhino
+                                                    MS Office Suite
+Adobe illustrator
+
+Languages
+English                           German
+Fluent                            Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving
+an outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                        +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                 linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Master's student in Automotive Engineering (RWTH Aachen University) bringing a unique blend of
+vehicle development expertise and a strong focus on 3D visualization and design communication.
+With proven experience in generative design, rapid prototyping, and design optimization (including
+structural/thermal simulation and topology optimization), I possess a clear sense of aesthetics. Seeking
+a mandatory internship to leverage these skills in creating appealing and contemporary visualizations
+for vehicle body design and development.
+
+Education
+03/2026                   Master of Science in Automotive Engineering
+Aachen, Germany           RWTH Aachen University
+                          Relevant Coursework: Industrial design Engineering, Ergonomics, 3D
+                          modelling and animation.Automotive Dynamics and design.
+
+06/2019 – 04/2023         Bachelors in technology - Mechanical Engineering
+Hyderabad, India          Jawaharlal Nehru Technological Univerisity
+                          GPA: 1.3
+
+Student Club
+06/2024 – Present         Ecogenium e.V
+Aachen                    Head of Suspension and Steering Division
+                            Led the complete design cycle for the "Katara" Eco-Marathon vehicle's
+                            •
+
+
+
+
+                            suspension systems, from conceptualization and optimization through
+                            Generative Design simulation and production. Crucially, utilized Fusion
+                            360 and Keyshot for high-quality visualization of the complex
+                            structures, demonstrating a methodical approach to engineering and design.
+                            Contributed to the holistic design of "Katara's" aeroshell, focusing on
+                            •
+
+
+
+
+                            the critical interplay between aerodynamics and exterior aesthetics, and
+                            leveraging flow simulation to refine both performance and visual
+                            appeal.
+                            Gained comprehensive insight into the entire vehicle development
+                            •
+
+
+
+
+                            process, encompassing interior/exterior aesthetics, driver ergonomics,
+                            and intuitive vehicle communication, providing a strong foundation for
+                            visualizing and animating complex vehicle concepts from idea to
+                            realization.
+Experience
+03/2023 – 07/2023      Industrial Design Intern
+Hyderabad              Techolution
+                         Led the conceptualization and design of a user-centric robot (doorbot),
+                            •
+
+
+
+
+                         focusing on enhancing the overall user experience (UX) and developing
+                         its visually appealing exterior shell through iterative design and
+                         prototyping.
+                         Executed the industrial design for the robot's exterior shell, prioritizing
+                            •
+
+
+
+
+                         refined aesthetics and compactness while skillfully integrating
+                         complex internal components and ensuring an intuitive interface
+                         design within spatial constraints.
+                         Utilized FDM-based dual-nozzle 3D printers (Raise 3D) for rapid
+                            •
+
+
+
+
+                         prototyping and fabricating over 150 functional components, critically
+                         supporting the visualization and iterative refinement of designs across
+                         various projects.
+
+01/2023 – 03/2023      Industrial Design Intern
+Hyderabad              Garuda 3D
+                         Contributed to the conceptualization and prototyping of a proof-of-
+                            •
+
+
+
+
+                         concept air taxi (scaled-down model) using SolidWorks, focusing on
+                         translating innovative mobility solutions into tangible designs.
+                         Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                         components (e.g., wings, landing mechanism), specifically optimizing for
+                         maneuverability and structural integrity.
+
+Skills
+CAD Software                                       Simulation Software
+Fusion 360                                         Ansys
+SolidWorks                                         ANSA
+PTC Creo                                           Matlab - Simulink
+Siemens NX                                         Fusion 360
+Catia V5                                           Solidworks
+
+
+Rendering & Visualization                          Software Proficiency
+Keyshot                                            Python
+Rhino                                              MS Office Suite
+Adobe illustrator
+
+Languages
+English                          German
+Fluent                           Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving
+an outstanding overall grade of 1.2 in core automotive engineering courses.
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                     +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany              linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering (RWTH Aachen University) with proven
+experience in generative design and vehicle development. Passionate about rapid prototyping and
+design optimization, I offer strong technical skills in Vehicle design, structural and thermal
+simulation, topology optimization and additive manufacturing. Seeking a mandatory internship to
+apply a user-centered design approach and enhance expertise in Vehicle Design and Development.
+
+Education
+03/2026                 Master of Science in Automotive Engineering
+Aachen, Germany         RWTH Aachen University
+                        Relevant Coursework: Vehicle Design, Vehicle Dynamics, FEM,Additve
+                        Manufacturing,Material Science,GT&T, DFM.
+                        GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023       Bachelors in technology - Mechanical Engineering
+Hyderabad, India        Jawaharlal Nehru Technological Univerisity
+                        GPA: 1.3
+
+Student Club
+06/2024 – Present       Ecogenium e.V
+Aachen                  Head of Suspension and Steering Division
+                          Led the full cycle of structural design, multi-objective optimization, and
+                          •
+
+
+
+
+                          FEA simulation using Fusion 360 and ANSYS for the double wishbone
+                          and trailing-arm suspension systems of a hydrogen powered Eco-
+                          Marathon vehicle.
+                          Oversaw the carbon fiber steering wheel fabrication (optimized for
+                          •
+
+
+
+
+                          stiffness/weight) using Resin Infusion method and also the production of
+                          Front and rear suspension parts via Metal 3D printing using DMLS
+                          method.
+                          Contributed to aerodynamic design and CFD simulation for vehicle's
+                          •
+
+
+
+
+                          aeroshell, focusing on optimal component packing and maneuverability
+                          optimization using fusion 360.
+                          Developed and simulated complex driving strategies in MATLAB and
+                          •
+
+
+
+
+                          Simulink to optimize vehicle operational efficiency and enhance fuel
+                          cell performance through start-up operation improvements.
+Experience
+03/2023 – 07/2023      Industrial Design Intern
+Hyderabad              Techolution
+                         Led the end-to-end design and prototyping of a user-centric robot
+                            •
+
+
+
+
+                         (doorbot), focusing on robot dynamics and enhancing the overall user
+                         experience through iterative design and simulation.
+                         Executed the industrial design for the robot's exterior shell, prioritizing
+                            •
+
+
+
+
+                         compactness and refined aesthetics while skillfully integrating complex
+                         internal components (sensors, PCBs) and ensuring intuitive interface
+                         design within spatial constraints.
+                         Operated FDM-based dual-nozzle 3D printers (Raise 3D) for rapid
+                            •
+
+
+
+
+                         prototyping and fabrication of over 150 functional components across
+                         various engineering sub-projects.
+
+01/2023 – 03/2023      Industrial Design Intern
+Hyderabad              Garuda 3D
+                         Contributed to the conceptualization and prototyping of a proof-of-
+                            •
+
+
+
+
+                         concept air taxi (scaled-down model) using SolidWorks, focusing on
+                         translating innovative mobility solutions into tangible designs.
+                         Executed the design, simulation, and fabrication of critical air taxi
+                            •
+
+
+
+
+                         components (e.g., wings, landing mechanism), specifically optimizing for
+                         maneuverability and structural integrity.
+
+Skills
+CAD Software                                       Simulation Software
+Fusion 360                                         Ansys
+SolidWorks                                         ANSA
+PTC Creo                                           Matlab - Simulink
+Siemens NX                                         Fusion 360
+Catia V5                                           Solidworks
+
+
+Rendering & Visualization                          Software Proficiency
+Keyshot                                            Python
+Rhino                                              MS Office Suite
+Adobe illustrator
+
+Languages
+English                          German
+Fluent                           Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving
+an outstanding overall grade of 1.2 in core automotive engineering courses.
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                             +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                      linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering (RWTH Aachen University) with proven
+experience in industrial design and vehicle development. Passionate about "Generative Design", I offer strong
+technical skills, expertise in Rhino, SolidWorks, Keyshot and various design and simulation softwares. I'm
+seeking a mandatory six-month internship to contribute to diverse projects to test my industrial design
+skills.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Alternative Vehicle propulsion systems, Fuel cell system
+                         technology, Vehicle testing and analysis, Material Science, FEM.
+                         GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen                   Head of Suspension and Steering Division
+                           Led the complete design cycle for the "Katara" Eco-Marathon vehicle's suspension
+                            •
+
+
+
+
+                           systems, from conceptualization and optimization (using SolidWorks and Keyshot
+                           for visualisation) through Generative design simulation and metal 3D printing
+                           for production, demonstrating a methodical approach to complex engineering
+                           challenges.
+                           Contributed to the holistic design of "Katara's" aeroshell, focusing on the critical
+                            •
+
+
+
+
+                           interplay between aerodynamics and exterior aesthetics, and leveraging flow
+                           simulation to refine performance and visual appeal.
+                           Gained comprehensive insight into vehicle development, encompassing interior
+                            •
+
+
+
+
+                           and exterior aesthetics, driver ergonomics, and intuitive vehicle
+                           communication, to ensure a cohesive and user-centric overall experience.
+
+Experience
+
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Led the end-to-end design and prototyping of a user-centric robot (doorbot),
+                            •
+
+
+
+
+                           focusing on robot dynamics and enhancing the overall user experience through
+                           iterative design and simulation in Fusion 360.
+                           Executed the industrial design for the robot's exterior shell, prioritizing compactness
+                            •
+
+
+
+
+                           and refined aesthetics while skillfully integrating complex internal components
+                           (sensors, PCBs) and ensuring intuitive interface design within spatial
+                           constraints.
+01/2023 – 03/2023        Industrial Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the conceptualization and prototyping of a proof-of-concept air
+                            •
+
+
+
+
+                           taxi (scaled-down model) using SolidWorks, focusing on translating innovative
+                           mobility solutions into tangible designs.
+                           Executed the design, simulation, and fabrication of critical air taxi components
+                            •
+
+
+
+
+                           (e.g., wings, landing mechanism), specifically optimizing for maneuverability and
+                           structural integrity.
+
+Skills
+
+CAD Software                                            Simulation Software
+SolidWorks                                              Solidworks
+PTC Creo                                                PTC Creo
+Fusion 360                                              Ansys
+Siemens NX                                              Fusion 360
+Catia V5                                                Matlab - Simulink
+
+                                                        Software Proficiency
+Rendering & Visualization
+                                                        Python
+Keyshot
+                                                        MS Office Suite
+Rhino
+Adobe illustrator
+
+Languages
+English                              German
+Fluent                               Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                            +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                     linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering adept at the full engineering lifecycle, from
+conceptual design and advanced simulation to rigorous experimental testing and rapid prototyping.
+Specializing in fuel cell systems, thermodynamic analysis, and data evaluation, with proven experience in
+hydrogen fuel cell compatibility and experimental work.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Alternative Vehicle propulsion systems, Fuel cell system
+                         technology, Vehicle testing and analysis, Material Science, FEM.
+                         GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen                   Head of Suspension and Steering Division & member of vehicle operations team
+                           As part of the Vehicle Operations team, I performed experimental analysis (e.g,
+                           •
+
+
+
+
+                           Humidity cycling, purging) and data evaluation to optimize fuel cell performance and
+                           integration within the vehicle.
+                           Designed and fabricated a compact fuel cell test rig and a water-cooling system,
+                           •
+
+
+
+
+                           optimizing component packaging density for fuel cells and associated electronic
+                           systems through detailed design within PTC Creo.
+                           Led the design, optimization, simulation of front (double-wishbone) and rear
+                           •
+
+
+
+
+                           (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon vehicle
+                           using PTC Creo.
+                           Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                           •
+
+
+
+
+                           optimizing layup for stiffness/weight.
+                           Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                           •
+
+
+
+
+                           using Metal 3D printers.
+
+Experience
+
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                           •
+
+
+
+
+                           dynamics and user experience using Fusion 360.
+                           Integrated sensors and PCBs, considering spatial constraints and interface design.
+                           •
+
+
+
+
+                           Executed thermal simulations for diverse power-electronic components, designing
+                           •
+
+
+
+
+                           custom thermal management solutions (heatsinks) for PCBs.
+                           Developed, tested, and integrated a robust noise cancellation system utilizing a dual-
+                           •
+
+
+
+
+                           microphone array.
+Skills
+
+CAD Software                                            Simulation Software
+PTC Creo                                                PTC Creo
+Fusion 360                                              Ansys
+SolidWorks                                              Solidworks
+Siemens NX                                              Fusion 360
+Catia V5                                                Matlab - Simulink
+
+                                                        Software Proficiency
+Rendering & Visualization
+                                                        Python
+Blender
+                                                        MS Office Suite
+Keyshot
+
+Languages
+English                              German
+Fluent                               Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                            +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                     linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with expertise in
+designing and prototyping vehicle systems for Green Mobility. Proven skills in Vehicle operations , Simulation
+and Experimental analysis. Proficient in data evaluation, system analysis (MATLAB/Simulink), and
+problem-solving for sustainable transportation solutions.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Vehicle Design, Alternative Vehicle propulsion systems, Vehicle
+                         testing and analysis, Material Science, FEM.
+                         GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen                   Head of Suspension and Steering Division & member of vehicle operations team
+                           As part of the Vehicle Operations team, I performed experimental analysis (e.g,
+                           •
+
+
+
+
+                           Humidity cycling, purging) and data evaluation to optimize fuel cell performance and
+                           integration within the vehicle, identifying and addressing technical challenges.
+                           Designed and fabricated a compact fuel cell test rig, optimizing component packaging
+                           •
+
+
+
+
+                           density for fuel cells and associated electronic systems through detailed design within
+                           PTC Creo.
+                           Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                           •
+
+
+
+
+                           optimizing layup for stiffness/weight.
+                           Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                           •
+
+
+
+
+                           using Metal 3D printers.
+                           Led the design, optimization, simulation of front (double-wishbone) and rear
+                           •
+
+
+
+
+                           (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon vehicle
+                           using PTC Creo.
+
+Experience
+
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                           •
+
+
+
+
+                           dynamics and user experience using Fusion 360.
+                           Integrated sensors and PCBs, considering spatial constraints and interface design.
+                           •
+
+
+
+
+                           Selected motors and implemented motor cooling strategies.
+                           •
+
+
+
+
+                           Developed, tested, and integrated a robust noise cancellation system utilizing a dual-
+                           •
+
+
+
+
+                           microphone array.
+                           Designed and fabricated shell enclosure, focusing on aesthetics.
+                           •
+Skills
+
+CAD Software                                            Simulation Software
+PTC Creo                                                PTC Creo
+Fusion 360                                              Ansys
+SolidWorks                                              Solidworks
+Siemens NX                                              Fusion 360
+Catia V5                                                Matlab - Simulink
+
+                                                        Software Proficiency
+Rendering & Visualization
+                                                        Python
+Blender
+                                                        MS Office Suite
+Keyshot
+
+Languages
+English                              German
+Fluent                               Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                           +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                    linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with expertise in
+designing and prototyping vehicle systems for Green Mobility. Proficiency in comprehensive CAD development,
+Simulation and Rapid Prototyping. My proactive approach to design and robust simulation capabilities enable
+me to translate complex concepts into functional prototypes, driving innovation in vehicle systems.
+
+Education
+03/2026                 Master of Science in Automotive Engineering
+Aachen, Germany         RWTH Aachen University
+                        Relevant Coursework: Vehicle Design, Automated and connected Driving challanges,
+                        Vehicle Dynamics, Material Science, DFM, FEM.
+                        GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023       Bachelors in technology - Mechanical Engineering
+Hyderabad, India        Jawaharlal Nehru Technological Univerisity
+                        GPA: 1.3
+
+Student Club
+06/2024 – Present       Ecogenium e.V
+Aachen                  Head of Suspension and Steering Division
+                          Led the design, optimization, simulation of front (double-wishbone) and rear
+                          •
+
+
+
+
+                          (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon vehicle
+                          using PTC Creo.
+                          Designed and fabricated a compact fuel cell test rig, optimizing component packaging
+                          •
+
+
+
+
+                          density for fuel cells and associated electronic systems through detailed design within
+                          PTC Creo.
+                          Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                          •
+
+
+
+
+                          optimizing layup for stiffness/weight.
+                          Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                          •
+
+
+
+
+                          using Metal 3D printers.
+                          Delivered technical presentations and generated supporting documentation using MS
+                          •
+
+
+
+
+                          office.
+
+Experience
+
+03/2023 – 07/2023       Industrial Design Intern
+Hyderabad               Techolution
+                          Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                          •
+
+
+
+
+                          dynamics and user experience using Fusion 360.
+                          Integrated sensors and PCBs, considering spatial constraints and interface design.
+                          •
+
+
+
+
+                          Selected motors and implemented motor cooling strategies.
+                          •
+
+
+
+
+                          Developed robot chassis, emphasizing smart packaging and component protection.
+                          •
+
+
+
+
+                          Designed and fabricated shell enclosure, focusing on aesthetics.
+                          •
+01/2023 – 03/2023        Industrial Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the design and prototyping of a scaled-down air taxi for proof of
+                            •
+
+
+
+
+                           concept using Solidworks.
+                           Design, simulation and fabrication of Air taxi wings focusing on maneourablity.
+                            •
+
+
+
+
+                           Design and simulation of Landing mechanism.
+                            •
+
+
+
+
+Skills
+
+CAD Software                                              Simulation Software
+PTC Creo                                                  PTC Creo
+Fusion 360                                                Ansys
+SolidWorks                                                Solidworks
+Siemens NX                                                Fusion 360
+Catia V5                                                  Matlab - Simulink
+
+                                                          Software Proficiency
+Rendering & Visualization
+                                                          Python
+Blender
+                                                          MS Office Suite
+Keyshot
+
+Languages
+English                               German
+Fluent                                Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                           +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                    linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with a strong focus on
+Green-mobility and extensive experience in vehicle development projects. Proven skills in CAD, Simulation,
+and Prototyping with foundational programming skills, seeking to apply technical expertise and contribute to
+Mechanical design projects within a dynamic internship. Eager to engage in the full spectrum of Product
+development, from concept to implementation, and collaborate within an interdisciplinary team.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Vehicle Design, Optimization of light weight designs, Finite
+                         element methods, Fundamentals of maching learning.
+                         GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen                   Head of Suspension and Steering Division
+                           Led the design, optimization, simulation of front (double-wishbone) and rear
+                           •
+
+
+
+
+                           (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon vehicle
+                           using PTC Creo.
+                           Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                           •
+
+
+
+
+                           optimizing layup for stiffness/weight.
+                           Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                           •
+
+
+
+
+                           using Metal 3D printers.
+                           Contributed to aeroshell design and flow simulation.
+                           •
+
+
+
+
+                           Delivered technical presentations and generated supporting documentation using MS
+                           •
+
+
+
+
+                           office.
+
+Experience
+
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                           •
+
+
+
+
+                           dynamics and user experience using Fusion 360.
+                           Integrated sensors and PCBs, considering spatial constraints and interface design.
+                           •
+
+
+
+
+                           Selected motors and implemented motor cooling strategies.
+                           •
+
+
+
+
+                           Developed robot chassis, emphasizing smart packaging and component protection.
+                           •
+
+
+
+
+                           Designed and fabricated shell enclosure, focusing on aesthetics.
+                           •
+01/2023 – 03/2023        Mechanical Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the design and prototyping of a scaled-down air taxi for proof of
+                            •
+
+
+
+
+                           concept using Solidworks.
+                           Design, simulation and fabrication of Air taxi wings focusing on maneourablity.
+                            •
+
+
+
+
+                           Design and simulation of Landing mechanism.
+                            •
+
+
+
+
+Skills
+
+CAD Software                                              Simulation Software
+PTC Creo                                                  PTC Creo
+Fusion 360                                                Ansys
+SolidWorks                                                Solidworks
+Siemens NX                                                Fusion 360
+Catia V5                                                  Matlab - Simulink
+
+                                                          Software Proficiency
+Rendering & Visualization
+                                                          Python
+Blender
+                                                          MS Office Suite
+Keyshot
+
+Languages
+English                               German
+Fluent                                Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                           +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                    linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with a strong focus on
+Green-mobility and extensive experience in vehicle development projects. Proven skills in CAD, Simulation,
+and Prototyping, seeking to apply technical expertise and contribute to Mechanical design projects within a
+dynamic internship. Eager to engage in the full spectrum of Product development, from concept to
+implementation, and collaborate within an interdisciplinary team.
+
+Education
+03/2026                  Master of Science in Automotive Engineering
+Aachen, Germany          RWTH Aachen University
+                         Relevant Coursework: Vehicle Design, Optimization of light weight designs, Alternative
+                         Vehicle Propulsion systems, GD&T, Vehicle Dynamics, DFM.
+                         GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023        Bachelors in technology - Mechanical Engineering
+Hyderabad, India         Jawaharlal Nehru Technological Univerisity
+                         GPA: 1.3
+
+Student Club
+06/2024 – Present        Ecogenium e.V
+Aachen                   Head of Suspension and Steering Division
+                           Led the design, optimization, simulation of front (double-wishbone) and rear
+                           •
+
+
+
+
+                           (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon vehicle
+                           using PTC Creo.
+                           Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                           •
+
+
+
+
+                           optimizing layup for stiffness/weight.
+                           Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                           •
+
+
+
+
+                           using Metal 3D printers.
+                           Contributed to aeroshell design and flow simulation.
+                           •
+
+
+
+
+                           Delivered technical presentations and generated supporting documentation using MS
+                           •
+
+
+
+
+                           office.
+
+Experience
+
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                           •
+
+
+
+
+                           dynamics and user experience using Fusion 360.
+                           Integrated sensors and PCBs, considering spatial constraints and interface design.
+                           •
+
+
+
+
+                           Selected motors and implemented motor cooling strategies.
+                           •
+
+
+
+
+                           Developed robot chassis, emphasizing smart packaging and component protection.
+                           •
+
+
+
+
+                           Designed and fabricated shell enclosure, focusing on aesthetics.
+                           •
+01/2023 – 03/2023        Mechanical Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the design and prototyping of a scaled-down air taxi for proof of
+                            •
+
+
+
+
+                           concept using Solidworks.
+                           Design, simulation and fabrication of Air taxi wings focusing on maneourablity.
+                            •
+
+
+
+
+                           Design and simulation of Landing mechanism.
+                            •
+
+
+
+
+Skills
+
+CAD Software                                              Simulation Software
+PTC Creo                                                  PTC Creo
+Fusion 360                                                Ansys
+SolidWorks                                                Solidworks
+Siemens NX                                                Fusion 360
+Catia V5                                                  Matlab - Simulink
+
+                                                          Software Proficiency
+Rendering & Visualization
+                                                          MS Office Suite
+Blender
+                                                          Python
+Keyshot
+
+Languages
+English                               German
+Fluent                                Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                            +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                     linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with a strong focus on
+Green-mobility and extensive experience in vehicle development projects. Proven skills in design, simulation,
+and prototyping, seeking to apply technical expertise and contribute to innovative E-vehicle development within a
+dynamic internship. Eager to engage in the full spectrum of vehicle development, from concept to
+implementation, and collaborate within an interdisciplinary team.
+
+Education
+03/2026                   Master of Science in Automotive Engineering
+Aachen, Germany           RWTH Aachen University
+                          Relevant Coursework: Vehicle Design, Battery storage systems, Alternative Vehicle
+                          Propulsion systems, Intellectual property policy and law,Vehicle Dynamics.
+                          GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023         Bachelors in technology - Mechanical Engineering
+Hyderabad, India          Jawaharlal Nehru Technological Univerisity
+                          GPA: 1.3
+
+Student Club
+06/2024 – Present         Ecogenium e.V
+Aachen                    Head of Suspension and Steering Division
+                            Led the design, optimization, simulation and production of front (double-wishbone)
+                            •
+
+
+
+
+                            and rear (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon
+                            vehicle.
+                            Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                            •
+
+
+
+
+                            optimizing layup for stiffness/weight.
+                            Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                            •
+
+
+
+
+                            using Metal 3D printers.
+                            Contributed to aeroshell design and flow simulation.
+                            •
+
+
+
+
+                            Delivered technical presentations and generated supporting documentation using MS
+                            •
+
+
+
+
+                            office.
+
+Experience
+
+03/2023 – 07/2023         Industrial Design Intern
+Hyderabad                 Techolution
+                            Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                            •
+
+
+
+
+                            dynamics and user experience.
+                            Integrated sensors and PCBs, considering spatial constraints and interface design.
+                            •
+
+
+
+
+                            Selected motors and implemented motor cooling strategies.
+                            •
+
+
+
+
+                            Developed robot chassis, emphasizing smart packaging and component protection.
+                            •
+
+
+
+
+                            Designed and fabricated shell enclosure, focusing on aesthetics.
+                            •
+01/2023 – 03/2023        Industrial Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the design and prototyping of a scaled-down air taxi for proof of
+                            •
+
+
+
+
+                           concept.
+                           Design, simulation and fabrication of Air taxi wings focusing on maneourablity.
+                            •
+
+
+
+
+                           Design and simulation of Landing mechanism.
+                            •
+
+
+
+
+Skills
+
+CAD Software                                              Simulation Software
+SolidWorks                                                Ansys
+Fusion 360                                                Solidworks
+Siemens NX                                                Fusion 360
+Catia V5                                                  Matlab - Simulink
+Creo
+                                                          Software Proficiency
+Rendering & Visualization                                 MS Office Suite
+Blender                                                   Python
+Keyshot
+
+Languages
+
+English                               German
+Fluent                                Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                              +49 17685944047
+
+    Bahnhofstraße 59/2, Renningen, Germany                       linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with a strong passion
+for automotive design and proven experience in vehicle development and industrial design projects. Seeking to
+leverage technical and design skills in a dynamic Industrial Design Internship to contribute to innovative vehicle
+design and enhance user experience. Proficient in numerous CAD and simulation softwares, with experience in
+design optimization, prototyping, and manufacturing. Eager to apply creativity and a user-centered design
+approach to contribute to the world’s automotive industry.
+
+Education
+03/2026                   Master of Science in Automotive Engineering
+Aachen, Germany           RWTH Aachen University
+                          Relevant Coursework: Vehicle Design, Automotive Aerodynamics, Materials Science,
+                          Manufacturing Processes, Ergonomics, Vehicle Dynamics.
+                          GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023         Bachelors in technology - Mechanical Engineering
+Hyderabad, India          Jawaharlal Nehru Technological Univerisity
+                          GPA: 1.3
+
+Student Club
+06/2024 – Present         Ecogenium e.V
+Aachen                    Head of Suspension and Steering Division
+                            Led the design, optimization, simulation and production of front (double-wishbone)
+                            •
+
+
+
+
+                            and rear (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon
+                            vehicle.
+                            Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                            •
+
+
+
+
+                            optimizing layup for stiffness/weight.
+                            Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                            •
+
+
+
+
+                            using Metal 3D printers.
+                            Contributed to aeroshell design and flow simulation.
+                            •
+
+
+
+
+                            Gained holistic knowledge in vehicle development, including interior/exterior
+                            •
+
+
+
+
+                            aesthetics, driver ergonomics, and vehicle communication.
+
+Experience
+
+03/2023 – 07/2023         Industrial Design Intern
+Hyderabad                 Techolution
+                            Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                            •
+
+
+
+
+                            dynamics and user experience.
+                            Integrated sensors and PCBs, considering spatial constraints and interface design.
+                            •
+
+
+
+
+                            Selected motors and implemented motor cooling strategies.
+                            •
+
+
+
+
+                            Developed robot chassis, emphasizing smart packaging and component protection.
+                            •
+
+
+
+
+                            Designed and fabricated shell enclosure, focusing on aesthetics.
+                            •
+01/2023 – 03/2023        Industrial Design Intern
+Hyderabad                Garuda 3D
+                           Contributed to the design and prototyping of a scaled-down air taxi for proof of
+                            •
+
+
+
+
+                           concept.
+                           Design, simulation and fabrication of Air taxi wings focusing on maneourablity.
+                            •
+
+
+
+
+                           Design and simulation of Landing mechanism.
+                            •
+
+
+
+
+Skills
+
+CAD Software                                              Simulation Software
+SolidWorks                                                Ansys
+Fusion 360                                                Solidworks
+Siemens NX                                                Fusion 360
+Catia V5                                                  Matlab - Simulink
+Creo
+                                                          Software Proficiency
+Rendering & Visualization                                 MS Office Suite
+Blender                                                   Python
+Keyshot
+
+Languages
+
+English                               German
+Fluent                                Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                              +49 17685944047
+
+    Karlsgraben 7, Aachen, Germany.                              linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Highly motivated Master's student in Automotive Engineering at RWTH Aachen University with a strong passion
+for automotive design and proven experience in vehicle development and industrial design projects. Seeking to
+leverage technical and design skills in a dynamic Industrial Design Internship to contribute to innovative vehicle
+design and enhance user experience. Proficient in numerous CAD and simulation softwares, with experience in
+design optimization, prototyping, and manufacturing. Eager to apply creativity and a user-centered design
+approach to contribute to the world’s automotive industry.
+
+Education
+03/2026                   Master of Science in Automotive Engineering
+Aachen, Germany           RWTH Aachen University
+                          Relevant Coursework: Vehicle Design, Automotive Aerodynamics, Materials Science,
+                          Manufacturing Processes, Ergonomics, Vehicle Dynamics.
+                          GPA: 1.7 - (Currently in 4th Semester)
+
+06/2019 – 04/2023         Bachelors in technology - Mechanical Engineering
+Hyderabad, India          Jawaharlal Nehru Technological Univerisity
+                          GPA: 1.3
+
+Student Club
+06/2024 – Present         Ecogenium e.V
+                          Head of Suspension and Steering Division
+                            Led the design, optimization, simulation and production of front (double-wishbone)
+                            •
+
+
+
+
+                            and rear (trailing-arm) suspension systems for a hydrogen-powered Eco-Marathon
+                            vehicle.
+                            Oversaw carbon fiber steering wheel manufacturing using Resin infusion method,
+                            •
+
+
+
+
+                            optimizing layup for stiffness/weight.
+                            Oversaw the manufacturing of Front and rear suspension parts (Shape optimized)
+                            •
+
+
+
+
+                            using Metal 3D printers.
+                            Contributed to aeroshell design and flow simulation.
+                            •
+
+
+
+
+                            Gained holistic knowledge in vehicle development, including interior/exterior
+                            •
+
+
+
+
+                            aesthetics, driver ergonomics, and vehicle communication.
+
+Experience
+
+03/2023 – 07/2023         Industrial Design Intern
+                          Techolution
+                            Designed, simulated, and prototyped a door-opening robot, focusing on robot
+                            •
+
+
+
+
+                            dynamics and user experience.
+                            Integrated sensors and PCBs, considering spatial constraints and interface design.
+                            •
+
+
+
+
+                            Selected motors and implemented motor cooling strategies.
+                            •
+
+
+
+
+                            Developed robot chassis, emphasizing smart packaging and component protection.
+                            •
+
+
+
+
+                            Designed and fabricated shell enclosure, focusing on aesthetics.
+                            •
+01/2023 – 03/2023        Industrial Design Intern
+                         Garuda 3D
+                           Contributed to the design and prototyping of a scaled-down air taxi for proof of
+                            •
+
+
+
+
+                           concept.
+                           Design, simulation and fabrication of Air taxi wings focusing on maneourablity.
+                            •
+
+
+
+
+                           Design and simulation of Landing mechanism.
+                            •
+
+
+
+
+Skills
+
+CAD Software                                              Simulation Software
+SolidWorks                                                Ansys
+Fusion 360                                                Solidworks
+Siemens NX                                                Fusion 360
+Catia V5                                                  Matlab - Simulink
+Creo
+                                                          Software Proficiency
+Rendering & Visualization                                 MS Office Suite
+Blender                                                   Python
+Keyshot
+
+Languages
+
+English                               German
+Fluent                                Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+            S V V SAI SRI VALLABH PATANENI
+           Master's student in Automotive Engineering -RWTH Aachen
+            vallabh.pataneni@rwth-aachen.de       +49 17685944047             Bahnhofstraße 59/2, Renningen
+                                           linkedin.com/in/vallabh-pataneni
+
+Summary
+Multidisciplinary automotive engineering Master's student seeking a mandatory internship at Daimler Truck
+GMBH, driven by the ambition to build a fully autonomous car. Highly experienced in Python, skilled with a wide
+range of Python libraries, Power BI, and Tableau. Adept at advanced data science, system design, and leadership
+in innovative vehicle technology projects. Proficient at developing robust data pipelines, applying machine learning
+and computer vision, and delivering actionable insights for both engineering and business stakeholders.
+Committed to advancing intelligent, autonomous vehicles through teamwork, continuous improvement, and a
+passion for turning complex sensor data into practical mobility solutions.
+
+Education
+Master of Science in Automotive Engineering                                            03/2026 | Aachen, Germany
+RWTH Aachen University
+Relevant Coursework: Automotive Engineering (Dynamics, Components and Assistant systems),Data Science,
+Fundamentals of Machine Learning, Deep Learning.
+GPA : 1.7
+
+Bachelors in technology - Mechanical Engineering                              06/2019 – 04/2023 | Hyderabad, India
+Jawaharlal Nehru Technological Univerisity
+GPA: 1.3
+
+Experience
+Industrial Design Intern                                                           03/2023 – 07/2023 | Hyderabad
+Techolution
+  Designed end-to-end data logging pipelines for audio and image data, enabling robust time-stamped
+  •
+
+
+
+
+  acquisition for the Robot DoorBot 3.0.
+  Developed an automated speech recognition AI using the Google Speech-to-Text API, with advanced audio
+  •
+
+
+
+
+  preprocessing, feature extraction, and voice activity detection in Python to reliably trigger door automation
+  on voice command.
+  Set up and calibrated a robotics test rig, establishing synchronized camera data acquisition and real-time
+  •
+
+
+
+
+  event logging to train and validate object manipulation tasks.
+  Created and maintained a data dashboard for camera image curation, annotation, and quality monitoring,
+  •
+
+
+
+
+  supporting supervised learning and data pipeline automation.
+  Trained and evaluated CNN models for robotic screw-picking, developing image augmentation strategies and
+  •
+
+
+
+
+  performance metrics for deployment-ready object detection. Employed multiple Python libraries throughout the
+  project lifecycle.
+
+Academic Project
+Vehicle Sensor Data analysis Project - IKA                                            04/2025 – 07/2025 | Aachen
+Autonomous Engineer
+  Designed and built Python data pipelines to process camera, LiDAR, and radar sensor data, using signal
+  •
+
+
+
+
+  processing and feature extraction for environment mapping and behavior analysis.
+  Developed and deployed a real-time traffic sign recognition system utilizing convolutional neural networks
+  •
+
+
+
+
+  and transfer learning on GTSRB and custom datasets for accurate multi-class detection.
+  Implemented connected driving features by syncing real-time traffic light status with vehicle telemetry and
+  •
+
+
+
+
+  developing MPC-based trajectory optimization algorithms for intersection management.
+  Created interactive Power BI dashboards to visualize and analyze large-scale vehicle time-series data,
+  •
+
+
+
+
+  supporting anomaly detection and actionable insights.
+Student Club
+Ecogenium e.V                                                                06/2024 – Present | Aachen, Germany
+Mechanical Team lead & member of pit crew 24/25
+  Currently leading a multidisciplinary team to design, fabricate, and assemble a hydrogen fuel cell powered
+  •
+
+
+
+
+  vehicle from scratch for the Shell Eco-Marathon, managing the complete lifecycle from concept to
+  competition ready vehicle.
+  Utilized advanced data analysis and Power BI for visualization of complex powertrain data, transforming raw
+  •
+
+
+
+
+  vehicle data into actionable insights for technical and business stakeholders, with extensive Python-based
+  processing.
+  Developed and iterated optimized driving strategies and control algorithms, validated with simulations, which
+  •
+
+
+
+
+  enabled data-driven decisions and transparent communication, resulting in an 80 percent increase in efficiency
+  and a second-place finish in a national competition.
+  Proficient in design, simulation, and prototyping: created CAD models, digital twins, and high-fidelity
+  •
+
+
+
+
+  simulations for design validation and prototyping.
+
+Skills
+CAD Software                                               Software Proficiency
+Catia V5                                                   Python
+3DExperience Solidworks                                    C/C++
+Fusion 360                                                 MS Office Suite
+PTC Creo
+Siemens NX
+Pro Engineering                                            Python Libraries
+                                                           NumPy
+                                                           Pandas
+Data Visualization Tools                                   scikit-learn
+Power BI                                                    PyTorch
+Tableau                                                    TensorFlow
+
+Cloud
+Azure
+Data Bricks
+
+Languages
+English                                German
+Fluent (C1)                            Intermediate (B1)
+
+Recognitions and Publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering -RWTH Aachen
+    vallabh.pataneni@rwth-aachen.de                             +49 17685944047
+    Bahnhofstraße 59/2, Renningen                               linkedin.com/in/vallabh-pataneni
+
+
+Summary
+A highly driven automotive engineer from RWTH Aachen University seeking a mandatory internship at Tesla,
+passionate about shaping next-generation mobility. Brings a strong technical foundation in CAD modeling with
+proficiency in CATIA V5, Fusion 360, and Solidworks 3D Experience, as well as extensive simulation expertise
+in tools such as ANSYS, Solidworks CFD and MATLAB/Simulink. In addition, offers skills in generative design
+and advanced prototyping techniques including DMLS metal 3D printing and carbon fiber layup. Renowned
+for transforming creative concepts into manufacturable, high-performance solutions through innovative and
+practical design. Demonstrates proven leadership by successfully coordinating multidisciplinary projects, excelling
+in clear communication across engineering and manufacturing teams, and consistently delivering innovative
+results within strict deadlines.
+
+Education
+03/2026                    Master of Science in Automotive Engineering
+Aachen, Germany            RWTH Aachen University
+                           Relevant Coursework: Automotive Engineering (Dynamics, Components and Assistant
+                           systems),DFM, FEA, Material Science, Additive Manufacturing.
+                           GPA : 1.7
+
+06/2019 – 04/2023          Bachelors in technology - Mechanical Engineering
+Hyderabad, India           Jawaharlal Nehru Technological Univerisity
+                           GPA: 1.3
+
+Student Club
+06/2024 – Present          Ecogenium e.V
+Aachen, Germany            Mechanical Team lead & member of pit crew 24/25
+                              Currently leading a multidisciplinary team to design, fabricate, and assemble a
+                              •
+
+
+
+
+                              hydrogen fuel cell powered vehicle from scratch for the Shell Eco-Marathon,
+                              managing the complete lifecycle from concept to competition ready vehicle.
+                              Performed the complete development cycle for the vehicle’s suspension systems—
+                              •
+
+
+
+
+                              engineering a double wishbone suspension at the front and a trailing arm concept
+                              at the rear. This included iterative and generative CAD development (Catia V5) ,
+                              kinematics and structural analysis, and prototyping with DMLS Printing ensuring
+                              optimal handling, weight distribution, and structural integrity for competition
+                              performance.
+                              Collaborated on the modeling and production of an ergonomic, lightweight steering
+                              •
+
+
+
+
+                              wheel using resin-infused carbon fiber layup, balancing performance and tactile
+                              driver experience.
+                              Contributed to hybrid aluminum-carbon chassis development, utilizing prepreg
+                              •
+
+
+
+
+                              carbon fiber sandwich layup with custom metal molds to maximize stiffness and
+                              occupant safety while achieving minimal weight.
+                              Designed and performed CFD simulations of the carbon fiber aeroshell in
+                              •
+
+
+
+
+                              3DExperience Flow Simulation, leading to a 12% reduction in drag coefficient
+                              through iterative, data-driven refinement.
+                              Produced technical documentation, led milestone reviews, and presented
+                              •
+
+
+
+
+                              innovative, manufacturable designs to sponsors and partners.
+Experience
+03/2023 – 07/2023         Industrial Design Intern
+Hyderabad                 Techolution
+                            Led the end-to-end design and mechanical development of a user-centric door-
+                            •
+
+
+
+
+                            opening robot, applying Fusion 360 for advanced CAD modeling of complex parts
+                            and assemblies under tight packaging constraints.
+                            Engineered enclosures and component layouts balancing aesthetics, protection,
+                            •
+
+
+
+
+                            and ergonomic user interaction.
+                            Programmed double H-bridge motor controllers (Arduino IDE) for precise
+                            •
+
+
+
+
+                            motion control and integrated sensor arrays to ensure robust and reliable
+                            performance in electromechanical systems.
+
+01/2023 – 03/2023         Mechanical Design Intern
+Hyderabad                 Garuda 3D
+                            Contributed to the conceptualization and prototyping of a proof-of-concept air taxi
+                            •
+
+
+
+
+                            (scaled model) using SolidWorks, with a focus on translating advanced mobility ideas
+                            into functional designs.
+                            Developed precise CAD models for complex flight-critical components such as wings
+                            •
+
+
+
+
+                            and the landing mechanism, balancing structural integrity with lightweight design
+                            through iterative simulation.
+                            Performed CFD simulations on fuselage and multiple aerofoil designs to optimize
+                            •
+
+
+
+
+                            geometry for improved lift and minimized drag.
+                            Utilized a dual-nozzle FDM rapid prototyping 3D printer (Raise 3D) for
+                            •
+
+
+
+
+                            fabrication and continuous design refinement based on testing feedback.
+
+Skills
+CAD Software                                              Simulation Software
+Catia V5                                                  Ansys Structural & Fluent
+3DExperience Solidworks                                   Solidworks
+Fusion 360                                                Converge
+PTC Creo                                                  Matlab - Simulink
+Siemens NX                                                Fusion 360
+Pro Engineering
+
+                                                          Data Visualization Tools
+Software Proficiency
+                                                          Power BI
+Python
+                                                          Tableau
+C/C++
+MS Office Suite
+
+
+Languages
+English                               German
+Fluent (C1)                           Intermediate (B1)
+
+Recognitions and Publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering -RWTH Aachen
+    vallabh.pataneni@rwth-aachen.de                           +49 17685944047
+    Malmedyer str 20, Aachen                                  linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Enthusiastic automotive engineer with a passion for turning complex vehicle technology into seamless, real world
+performance. Currently seeking a hands-on Mandatory internship with DEKRA Automobil GmbH to apply my
+blend of technical expertise, data driven design, and practical teamwork. I thrive in workshop environments
+where knowledge meets application and every day brings a new mechanical challenge. My journey has ranged
+from prototyping racecars to optimizing drone aerodynamics, always with a focus on learning,
+communication, and innovation.
+
+Education
+03/2026                   Master of Science in Automotive Engineering
+Aachen, Germany           RWTH Aachen University
+                          Relevant Coursework: Automotive Engineering (Dynamics, Components and Assistant
+                          systems),Alternative Vehicle Propulsion systems,Internal Combustion Engines, Additive
+                          manufacturing.
+                          GPA : 1.7
+
+06/2019 – 04/2023         Bachelors in technology - Mechanical Engineering
+Hyderabad, India          Jawaharlal Nehru Technological Univerisity
+                          GPA: 1.3
+
+Student Club
+06/2024 – Present         Ecogenium e.V
+Aachen, Germany           Mechanical Team lead & member of pit crew 24/25
+                             Currently leading a multidisciplinary team to design, fabricate, and assemble a
+                             •
+
+
+
+
+                             hydrogen fuel cell powered vehicle from scratch for the Shell Eco-Marathon,
+                             managing the complete lifecycle from concept to competition ready vehicle.
+                             Led the simulation-driven design process for Katara’s aeroshell, iteratively
+                             •
+
+
+
+
+                             testing and refining surface contours and component alignment to optimize
+                             aerodynamic performance, which resulted in a 12% reduction in overall drag
+                             coefficient.
+                             Analyzed wake dynamics, flow separation, and pressure distribution, delivering
+                             •
+
+
+
+
+                             actionable recommendations that enhanced airflow efficiency and led to
+                             measurable improvements in competition rollout energy efficiency.
+                             Performed the full design, simulation, prototyping, manufacturing, and
+                             •
+
+
+
+
+                             validation cycle for the vehicle’s suspension systems—engineering a double
+                             wishbone suspension at the front and a trailing arm concept at the rear. This
+                             included iterative CAD development, kinematics and structural analysis, and
+                             physical fabrication ensuring optimal handling, weight distribution, and
+                             structural integrity for competition performance.
+                             Authored technical documentation, delivered technical presentations;
+                             •
+
+
+
+
+                             coordinated with multiple teams and external partners for project synergy.
+                             Directed on-track troubleshooting, damage checks, and rapid repairs under
+                             •
+
+
+
+
+                             competition deadlines.
+Experience
+03/2023 – 07/2023         Industrial Design Intern
+Hyderabad                 Techolution
+                            Led the end-to-end design and prototyping of a user-centric robot, focusing on
+                            •
+
+
+
+
+                            robot dynamics and iterative design/simulation.
+                            Designed the robot's enclosure ensuring visual aesthetics, robust protection,
+                            •
+
+
+
+
+                            optimal component integration, and ease of assembly.
+                            Designed and developed a dedicated test bench setup to capture visual data for the
+                            •
+
+
+
+
+                            purpose of training an AI model to guide a robotic arm in screw-picking tasks.
+
+01/2023 – 03/2023         Mechanical Design Intern
+Hyderabad                 Garuda 3D
+                            Designed and tested scale air-taxi prototypes, exploring lift, stability, and
+                            •
+
+
+
+
+                            structural integration.
+                            Executed CFD simulations on fuselage and multiple aerofoil designs, shaping
+                            •
+
+
+
+
+                            geometry for drag/lift optimization.
+                            Sourced rapid fabrication and performed qualitative/quantitative validation on
+                            •
+
+
+
+
+                            wind-tunnel models.
+                            Performed the design, simulation, and fabrication of critical air taxi components
+                            •
+
+
+
+
+                            (e.g., wings, landing mechanism), specifically optimizing for maneuverability and
+                            structural integrity using a Dual nozzle FDM based Rapid prototyping 3D
+                            printer (Raise 3D).
+
+Skills
+CAD Software                                              Simulation Software
+Fusion 360                                                Ansys Fluent
+SolidWorks                                                Converge
+PTC Creo                                                  Openfoam (Basic)
+Siemens NX                                                Matlab - Simulink
+Pro Engineering                                           Fusion 360
+                                                          Solidworks
+Software Proficiency
+Python                                                    Data Visualization Tools
+C/C++                                                     Power BI
+MS Office Suite                                           Tableau
+
+
+Languages
+English                               German
+Fluent                                Intermediate
+
+Recognitions and Publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering -RWTH Aachen
+    vallabh.pataneni@rwth-aachen.de                           +49 17685944047
+    Malmedyer str 20, Aachen                                  linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Purposeful automotive engineer actively seeking a mandatory internship to further my journey into motorsport
+and advanced powertrain engineering with TOYOTA GAZOO Racing Europe. With direct experience spanning
+the complete cycle from design and simulation (200+ hours using leading CFD platforms) to hands-on
+prototyping and manufacturing—I thrive in environments where ideas quickly become working technology. My
+background combines meticulous technical execution with proven team management, leading multidisciplinary
+groups through complex vehicle development projects. Guided by a strong passion for racing and progress, I am
+eager to contribute my engineering and CFD skills to TOYOTA GAZOO’s high performance team.
+
+Education
+03/2026                   Master of Science in Automotive Engineering
+Aachen, Germany           RWTH Aachen University
+                          Relevant Coursework: Automotive Engineering (Dynamics, Components and Assistant
+                          systems),Alternative Vehicle Propulsion systems,Internal Combustion Engines, Additive
+                          manufacturing.
+                          GPA : 1.7
+
+06/2019 – 04/2023         Bachelors in technology - Mechanical Engineering
+Hyderabad, India          Jawaharlal Nehru Technological Univerisity
+                          GPA: 1.3
+
+Student Club
+06/2024 – Present         Ecogenium e.V
+Aachen, Germany           Mechanical Team lead & member of pit crew 24/25
+                            Currently leading a multidisciplinary team to design, fabricate, and assemble a
+                            •
+
+
+
+
+                            hydrogen fuel cell powered vehicle from scratch for the Shell Eco-Marathon,
+                            managing the complete lifecycle from concept to competition ready vehicle.
+                            Led the simulation-driven design process for Katara’s aeroshell, iteratively
+                            •
+
+
+
+
+                            testing and refining surface contours and component alignment to optimize
+                            aerodynamic performance, which resulted in a 12% reduction in overall drag
+                            coefficient.
+                            Analyzed wake dynamics, flow separation, and pressure distribution, delivering
+                            •
+
+
+
+
+                            actionable recommendations that enhanced airflow efficiency and led to
+                            measurable improvements in competition rollout energy efficiency.
+                            Performed the full design, simulation, prototyping, manufacturing, and
+                            •
+
+
+
+
+                            validation cycle for the vehicle’s suspension systems—engineering a double
+                            wishbone suspension at the front and a trailing arm concept at the rear. This
+                            included iterative CAD development, kinematics and structural analysis, and
+                            physical fabrication ensuring optimal handling, weight distribution, and
+                            structural integrity for competition performance.
+                            Authored technical documentation, delivered technical presentations;
+                            •
+
+
+
+
+                            coordinated with multiple teams and external partners for project synergy.
+Publications
+Paper Publication
+International Journal of Science & Engineering Development Research
+A Comprehensive Analysis of Two Innovative Aircraft Design Configurations
+
+Bachelor's Thesis
+JNTUH-CEH
+CFD-Based Aerodynamic and Spray System Design for Enhanced Performance in Agricultural Drones
+  Spearheaded aerofoil design with iterative CFD analysis in ANSYS Fluent, optimizing drone blade lift and
+  •
+
+
+
+
+  controllability.
+  Engineered and simulated a custom fertilizer spray nozzle using CONVERGE, performing internal/external flow
+  •
+
+
+
+
+  simulations—methodology transferable to in-cylinder CFD for powertrain applications.
+
+Experience
+01/2023 – 03/2023         Mechanical Design Intern
+Hyderabad                 Garuda 3D
+                            Contributed to the conceptualization and prototyping of a proof of concept air
+                            •
+
+
+
+
+                            taxi (scaled-down model) using SolidWorks, focusing on translating innovative
+                            mobility solutions into tangible designs.
+                            Executed CFD simulations on the fuselage using ANSYS Fluent and other tools,
+                            •
+
+
+
+
+                            systematically studying pressure distribution, drag, and lift while iterating with
+                            multiple aerofoil designs to refine performance, evaluating and optimizing trade-offs
+                            between stability, control, and efficiency.
+                            Performed the design, simulation, and fabrication of critical air taxi components
+                            •
+
+
+
+
+                            (e.g., wings, landing mechanism), specifically optimizing for maneuverability and
+                            structural integrity using a Dual nozzle FDM based Rapid prototyping 3D
+                            printer (Raise 3D).
+
+03/2023 – 07/2023         Industrial Design Intern
+Hyderabad                 Techolution
+                            Led the end-to-end design and prototyping of a user-centric robot, focusing on
+                            •
+
+
+
+
+                            robot dynamics and iterative design/simulation.
+                            Designed the robot's enclosure ensuring visual aesthetics, robust protection,
+                            •
+
+
+
+
+                            optimal component integration, and ease of assembly.
+                            Designed and developed a dedicated test bench setup to capture visual data for the
+                            •
+
+
+
+
+                            purpose of training an AI model to guide a robotic arm in screw-picking tasks.
+
+Skills
+CAD Software                                              Simulation Software
+Fusion 360                                                Ansys Fluent
+SolidWorks                                                Converge
+PTC Creo                                                  Openfoam (Basic)
+Siemens NX                                                Matlab - Simulink
+Pro Engineering                                           Fusion 360
+                                                          Solidworks
+Software Proficiency
+Python                                                    Data Visualization Tools
+C/C++                                                     Power BI
+MS Office Suite                                           Tableau
+
+
+Languages
+English                               German
+Fluent                                Intermediate
+S V V SAI SRI VALLABH PATANENI
+Master's student in Automotive Engineering
+    vallabh.pataneni@rwth-aachen.de                             +49 17685944047
+    Bahnhofstraße 59/2, Renningen                               linkedin.com/in/vallabh-pataneni
+
+
+Summary
+Innovative automotive engineer intent on shaping tomorrow’s urban mobility. Fueled by a passion for
+autonomy and smart systems, I fuse deep hands-on experience in mechanical design, simulation, prototyping,
+testing, and coding skills sharpened through leading vehicle development teams and orchestrating cross-functional
+teams from concept to finished parts. At the nexus of hardware and code, I have crafted, simulated, and optimized
+complex testbenches, sensor arrays, and control systems, leveraging Python and Simulink to bring data-driven
+solutions to life. Now seeking a mandatory internship at Robert Bosch GmbH, Renningen, I am ready to turn
+real-world technical challenges into robust, elegant answers each project another step toward my vision of cities
+moved by responsive, intelligent vehicles.
+
+Education
+03/2026                    Master of Science in Automotive Engineering
+Aachen, Germany            RWTH Aachen University
+                           Relevant Coursework: Automotive Engineering (Dynamics, Components and Assistant
+                           systems),Alternative Vehicle Propulsion systems, Mechatronics, Additive manufacturing.
+                           GPA : 1.7
+
+06/2019 – 04/2023          Bachelors in technology - Mechanical Engineering
+Hyderabad, India           Jawaharlal Nehru Technological Univerisity
+                           GPA: 1.3
+
+Student Club
+06/2024 – Present          Ecogenium e.V
+Aachen, Germany            Mechanical Team lead & member of pit crew 24/25
+                             Currently leading a multidisciplinary team to design, fabricate, and assemble a
+                             •
+
+
+
+
+                             hydrogen-powered vehicle from scratch for the Shell Eco-Marathon, managing the
+                             complete lifecycle from concept to operational prototype.
+                             Suspension Test Bench: Designed and built a dedicated setup to analyze
+                             •
+
+
+
+
+                             kinematics, identify and improve upon design weaknesses, and validate alignment
+                             and load distribution.
+                             Fuel Cell Test Bench: Engineered and programmed a standalone rig for
+                             •
+
+
+
+
+                             operational testing (purging, short circuiting, telemetry); developed automation
+                             routines and efficiency strategies in Python/Simulink.
+                             Led the complete design cycle, simulation, electronic integration, and
+                             •
+
+
+
+
+                             manufacturing of the vehicle's suspension and steering system using cutting edge
+                             prototyping technologies.
+                             Conducted MIL simulations in Simulink to optimize control strategies and validate
+                             •
+
+
+
+
+                             vehicle performance, leveraging competition data to boost efficiency.
+                             Authored technical documentation, delivered technical presentations;
+                             •
+
+
+
+
+                             coordinated with multiple teams and external partners for project synergy.
+Academic Project
+04/2025 – 07/2025        Automated Driving Practical - IKA
+                         System integration Engineer
+                           Developed sensor-driven testbenches integrating radar and LiDAR to validate
+                           •
+
+
+
+
+                           Adaptive Cruise Control (ACC) and Lane Keep Assist (LKA) functions.
+                           Developed models and tuned PID controllers using MATLAB/Simulink and
+                           •
+
+
+
+
+                           Python, correlating simulation and real world results to optimize vehicle performance
+                           strategies through data-driven analysis, thereby advancing efficiency and control
+                           system effectiveness.
+                           Executed Digital simulations and real time testing using a mock vehicle and
+                           •
+
+
+
+
+                           platforms like CARLA, directly linking lab validation with practical outcomes.
+                           Comprehensive system integration: Assembled, calibrated, and validated sensor
+                           •
+
+
+
+
+                           arrays and control logic, bridging mechanical, electronic, and software domains for
+                           advanced driver assistance applications.
+
+Experience
+03/2023 – 07/2023        Industrial Design Intern
+Hyderabad                Techolution
+                           Led the end-to-end design and prototyping of a user-centric robot, focusing on robot
+                           •
+
+
+
+
+                           dynamics and iterative design/simulation.
+                           Developed and built a custom test rig to evaluate the clamping performance of a
+                           •
+
+
+
+
+                           robotic doorbot across varied surfaces.
+                           Tested and compared clamping strength on steel, aluminium, and carbon fibre to
+                           •
+
+
+
+
+                           optimize material selection and reduce weight while maintaining reliability.
+                           Integrated test data into the prototyping process, directly enhancing mechanical
+                           •
+
+
+
+
+                           design and operational safety.
+                           Designed and developed a dedicated test bench setup to capture visual data for
+                           •
+
+
+
+
+                           the purpose of training an AI model to guide a robotic arm in screw-picking tasks.
+
+Skills
+CAD Software                                             Simulation Software
+Fusion 360                                               Ansys
+SolidWorks                                               Matlab - Simulink
+PTC Creo                                                 Fusion 360
+Siemens NX                                               Solidworks
+                                                         Carla
+                                                         ADAMS
+Software Proficiency
+Python
+                                                         Data Visualization Tools
+C/C++
+                                                         Power BI
+MS Office Suite
+                                                         Tableau
+
+Languages
+English                              German
+Fluent                               Intermediate
+
+Recognitions and publications
+Academic Recognition
+RWTH
+Acknowledged at the Semester Annual Meetup -RWTH for exemplary academic performance, achieving an
+outstanding overall grade of 1.2 in core automotive engineering courses.
+

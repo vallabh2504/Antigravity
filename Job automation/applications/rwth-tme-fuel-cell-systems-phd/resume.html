@@ -55,19 +55,19 @@
   </header>
 
   <h2>Summary</h2>
-  <p class="summary">An Automotive Engineering Master's student at RWTH Aachen with over two years of hands-on PEM fuel-cell systems experience, from a 1 kW student-competition stack to a 100 kW, 1.5 t FCEV pickup truck at Robert Bosch to a 150-200 kW aircraft powertrain at DLR. I design fuel-cell system control architectures and 0D lumped-parameter plant models in MATLAB/Simulink, and I run structured test-bench campaigns and correlate them against measurement data. Seeking a Research Assistant/Associate PhD position at RWTH's Chair of Thermodynamics of Mobile Energy Conversion Systems (TME) to bring this system-level modeling, control and test-bench experience to fuel-cell systems research for mobile applications.</p>
+  <p class="summary">An Automotive Engineering Master's student at RWTH Aachen with over two years of hands-on PEM fuel-cell systems experience, from Germany's only student-built hydrogen fuel-cell vehicle (1 kW) to a 100 kW, 1.5 t FCEV pickup truck at Robert Bosch to a 150-200 kW aircraft powertrain at DLR. At DLR I sized and selected the system's balance-of-plant components, then designed and built its cathode-side control architecture, including a Model Predictive Control approach, in MATLAB/Simulink. Seeking a Research Assistant/Associate PhD position at RWTH's Chair of Thermodynamics of Mobile Energy Conversion Systems (TME) to bring this system-level modeling, control and test-bench experience to fuel-cell systems research for mobile applications.</p>
 
   <h2>Key Skills</h2>
   <div class="skill-cat">Fuel-cell systems &amp; controls</div>
-  <div class="skills"><span>PEM fuel-cell system architecture</span><span>0D lumped-parameter plant modeling</span><span>feed-forward/PI/decoupler control design</span><span>back-pressure-valve (BPV) protection control</span><span>operating-strategy optimization</span><span>balance-of-plant</span><span>CAN communication</span></div>
+  <div class="skills"><span>PEM fuel-cell system architecture</span><span>0D lumped-parameter plant modeling</span><span>1D lumped modeling</span><span>feed-forward/PI/decoupler control design</span><span>Model Predictive Control (MPC)</span><span>back-pressure-valve (BPV) protection control</span><span>operating-strategy optimization</span><span>balance-of-plant sizing &amp; selection</span><span>CAN communication</span></div>
   <div class="skill-cat">Modeling &amp; simulation</div>
-  <div class="skills"><span>MATLAB/Simulink</span><span>Genetic Algorithms</span><span>Gradient Descent</span><span>DP/ECMS benchmarking</span><span>thermal-management digital twins</span></div>
+  <div class="skills"><span>MATLAB/Simulink</span><span>GT Suite</span><span>Dymola (Modelica)</span><span>Genetic Algorithms</span><span>Gradient Descent</span><span>DP/ECMS benchmarking</span></div>
   <div class="skill-cat">Test &amp; measurement</div>
   <div class="skills"><span>fuel-cell test-bench build &amp; commissioning</span><span>single-cell &amp; stack testing</span><span>polarisation curves</span><span>purging/humidity cycling</span><span>measurement-data evaluation &amp; troubleshooting</span></div>
   <div class="skill-cat">Programming &amp; data</div>
   <div class="skills"><span>Python (NumPy, Pandas)</span><span>C/C++</span><span>Power BI</span></div>
-  <div class="skill-cat">Design</div>
-  <div class="skills"><span>CATIA V5</span><span>Siemens NX</span></div>
+  <div class="skill-cat">Design &amp; CFD</div>
+  <div class="skills"><span>CATIA V5</span><span>Siemens NX</span><span>ANSYS (Fluent, Structural)</span></div>
 
   <h2>Professional Experience</h2>
 
@@ -75,10 +75,11 @@
     <div class="top"><span>Werkstudent, Fuel-Cell Systems (Aircraft), DLR Institute for Small Aircraft Technologies (INK)</span><span class="dates">01/2026 – Present</span></div>
     <div class="org">Würselen (Aachen), Germany</div>
     <ul>
-      <li><strong>Cathode-Side Control Architecture:</strong> Designing the cathode-side control architecture for the ~150-200 kW fuel-cell system powering EnginePod, DLR's hydrogen-electric powertrain for a 9-seater commuter aircraft, starting with an extensive 0D lumped-parameter plant model of the full cathode loop in MATLAB/Simulink.</li>
-      <li><strong>Control Design:</strong> Architected feed-forward, PI and decoupler control for cathode-side operation and back-pressure-valve (BPV) protection, now tuning control parameters against real system measurement data.</li>
-      <li><strong>Thermal-Management Digital Twin:</strong> Built a MATLAB/Simulink digital twin of the complete thermal-management system to derive design specifications (coolant flow, temperature range, coolant pressure), driving procurement of the coolant pump and heat exchanger.</li>
-      <li><strong>Component Selection &amp; System Rig:</strong> Selected every thermal-management component against the derived specifications and designed a compact, aircraft-engine-sized fuel-cell system rig in CATIA V5, optimized for easy transferability.</li>
+      <li><strong>Cathode-Side Control Architecture:</strong> Built a 0D lumped-parameter plant model of the cathode loop in MATLAB/Simulink for the ~150-200 kW fuel-cell system powering EnginePod, DLR's hydrogen-electric powertrain for a 9-seater commuter aircraft, and designed feed-forward, PI and decoupler control plus back-pressure-valve (BPV) protection control on top of it.</li>
+      <li><strong>Model Predictive Control:</strong> Built a Model Predictive Control (MPC) approach for the same cathode-side control architecture, now tuning both control strategies' parameters against real system measurement data.</li>
+      <li><strong>Higher-Fidelity Modeling:</strong> Building a complementary 1D lumped plant model of the cathode system in GT Suite.</li>
+      <li><strong>Balance-of-Plant Sizing &amp; Component Selection:</strong> Built Python- and Excel-based sizing tools to select balance-of-plant components, then derived design specifications and selected the cathode system, thermal-management system and full sensory-system components, driving their procurement.</li>
+      <li><strong>System Rig Design:</strong> Designed the complete fuel-cell system rig in CATIA V5 for packaging, piping, testing and component orientation, optimized for easy transferability and integration.</li>
     </ul>
   </div>
 
@@ -86,7 +87,7 @@
     <div class="top"><span>Mechanical / Suspension Team Lead &amp; Pit Crew, Ecogenium e.V. (RWTH student team)</span><span class="dates">06/2024 – Present</span></div>
     <div class="org">Aachen, Germany</div>
     <ul>
-      <li><strong>Fuel-Cell System Testing &amp; Troubleshooting:</strong> Leading this season's fuel-cell system testing, integration and fault diagnosis on our newly built water-cooled fuel-cell system, running structured test campaigns across the electrical, thermal and fluidic subsystems.</li>
+      <li><strong>Fuel-Cell System Testing &amp; Troubleshooting:</strong> Leading this season's fuel-cell system testing, integration and fault diagnosis on Germany's only student-built hydrogen fuel-cell vehicle, on its newly built water-cooled fuel-cell system, running structured test campaigns across the electrical, thermal and fluidic subsystems.</li>
       <li><strong>Energy-Management &amp; Cooling System Design:</strong> Designed this season's energy-management and cooling-system control strategy for the water-cooled fuel-cell system in MATLAB/Simulink.</li>
       <li><strong>Fuel-Cell Test Bench:</strong> Engineered, fabricated and electronically integrated a standalone fuel-cell test bench for the prior air-cooled stack, running purging, humidity cycling, short-circuiting and polarisation-curve experiments and mapping its optimal thermal operating window.</li>
       <li><strong>End-to-End System Ownership:</strong> Holistic ownership of fuel-cell system setup, from component sizing and selection through CAN-bus communication and control design to test and experimentation, gained across a runner-up finish at Shell Eco-Marathon 2025.</li>
@@ -97,6 +98,7 @@
     <div class="top"><span>Operating Strategy / System Simulation Intern, Robert Bosch GmbH</span><span class="dates">09/2025 – 12/2025</span></div>
     <div class="org">Schwieberdingen, Germany</div>
     <ul>
+      <li><strong>Degradation-Safeguarding Strategy:</strong> Engineered a MATLAB-based powertrain strategy for Strong Fuel Cell Hybrid EVs that safeguards fuel-cell and HV-battery degradation by managing dynamic loads, thermal stress, low-voltage operation, SOC swing and life cycles, parameterized via MAPs for different battery capacities and drive cycles.</li>
       <li><strong>Operating-Strategy Modelling:</strong> Developed and validated an iterative Simulink model of a rule-based power-split operating strategy for a 100 kW-stack, 1.5 t FCEV pickup-truck platform in the (FC)EVsim PHEV module, correlating outputs against reference Excel and measurement data for high model fidelity.</li>
       <li><strong>Multi-Objective Optimization:</strong> Executed multi-variable parametric optimization using Genetic Algorithms and Gradient Descent to generate control MAPs for charge sustenance and minimal fuel consumption, benchmarked against Dynamic Programming and ECMS.</li>
       <li><strong>Analysis &amp; Documentation:</strong> Built post-processing and KPI analysis (power distribution, SOC window, efficiency, degradation) and co-authored a peer-reviewed paper on the rule-based FCEV control strategy.</li>
@@ -106,7 +108,7 @@
   <h2>Education</h2>
   <div class="edu-item">
     <div class="top"><span>M.Sc. Automotive Engineering, RWTH Aachen University</span><span class="dates">09/2023 – present</span></div>
-    <div class="org">Aachen, Germany · GPA 1.7 (1.2 in core automotive courses) · Master's thesis in progress at DLR: fuel-cell system cathode-side control architecture · Relevant modules: Fuel-Cell System Technology, Alternative/Mobile Propulsion, Simulation Sciences, FEM, CFD</div>
+    <div class="org">Aachen, Germany · GPA 1.7 (1.2 in core automotive courses) · Upcoming Master's thesis at DLR, direction: fuel-cell system control (scope in definition) · Relevant modules: Alternative &amp; Mobile Propulsion Systems, Simulation Sciences, Mechatronics, Thermodynamics, FEM</div>
   </div>
   <div class="edu-item">
     <div class="top"><span>B.Tech Mechanical Engineering, JNTU Hyderabad</span><span class="dates">06/2019 – 04/2023</span></div>
@@ -115,7 +117,8 @@
 
   <h2>Publications</h2>
   <ul class="plain">
-    <li>Co-author, peer-reviewed paper on a rule-based operating-strategy control approach for FCEV powertrains (Robert Bosch GmbH), in publication.</li>
+    <li>"A Comprehensive Analysis of Two Innovative Aircraft Design Configurations," IJSED Research, 11/2022.</li>
+    <li>Co-author, peer-reviewed paper on a rule-based FCEV operating-strategy control approach (Robert Bosch GmbH), in review at SAE.</li>
   </ul>
 
   <h2>Languages</h2>
