@@ -18,13 +18,12 @@
   .skill-cat:first-of-type{margin-top:0}
   .skills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 2px}
   .skills span{background:#f1f5f3;border:1px solid var(--line);border-radius:6px;padding:2px 9px;font-size:12px;white-space:nowrap}
-  .job{margin:0 0 12px;page-break-inside:avoid}
+  .job{margin:0 0 11px;page-break-inside:avoid}
   .job .top{display:flex;justify-content:space-between;gap:12px;font-weight:600;font-size:13.6px}
   .job .top .dates{color:var(--muted);font-weight:600;white-space:nowrap;font-size:12.3px}
-  .job .org{color:var(--muted);font-weight:500;font-size:12.3px;margin:1px 0 4px}
-  .job p.narrative{margin:0 0 4px;text-align:justify}
-  .job .keyskills{margin:2px 0 0;font-size:12.3px}
-  .job .keyskills b{color:var(--accent);font-weight:600}
+  .job .org{color:var(--muted);font-weight:500;font-size:12.3px;margin:1px 0 3px}
+  .job ul{margin:3px 0 0;padding-left:17px}
+  .job li{margin:2.5px 0}
   .edu-item{margin:0 0 8px;page-break-inside:avoid}
   .edu-item .top{display:flex;justify-content:space-between;gap:12px;font-weight:600;font-size:13.6px}
   .edu-item .top .dates{color:var(--muted);font-weight:600;white-space:nowrap;font-size:12.3px}
@@ -32,11 +31,20 @@
   ul.plain{margin:2px 0 0;padding-left:17px}
   ul.plain li{margin:2px 0;font-size:13px}
   .lang{font-size:13px}
+  .recog{margin:4px 0 8px}
+  .recog .title{font-weight:600;font-size:13px}
+  .recog .item{font-size:13px;color:var(--ink);margin:1px 0 0}
+  .recog-group{page-break-inside:avoid}
+  h2{page-break-after:avoid}
   .toolbar{position:sticky;top:0;z-index:9;display:flex;gap:8px;align-items:center;
     background:#0b1220;color:#fff;padding:8px 12px;margin:0 -36px 16px;font:13px -apple-system,Segoe UI,Arial}
   @media print{
-    body{margin:0;max-width:none;font-size:11.6px;padding:0 14px}
-    h2{margin-top:11px}
+    body{margin:0;max-width:none;font-size:10.8px;padding:0 14px;line-height:1.4}
+    h2{margin-top:8px;margin-bottom:5px}
+    .job{margin-bottom:8px}
+    .edu-item{margin-bottom:5px}
+    .skill-cat{margin-top:5px;margin-bottom:2px}
+    .skills{margin-bottom:0}
     a{color:var(--ink)}
     .toolbar{display:none!important}
   }
@@ -57,42 +65,43 @@
   </header>
 
   <h2>Summary</h2>
-  <p class="summary">Automotive Engineering Master's student at RWTH Aachen with two years of hands-on <strong>PEM fuel-cell systems</strong> experience, spanning a student-competition stack, a 100 kW automotive FCEV at Robert Bosch, and a 150-200 kW aircraft powertrain at DLR. At DLR he designed and built the complete <strong>cathode-side control architecture</strong>, from a 0D lumped-parameter plant model through feed-forward, PI and <strong>Model Predictive Control (MPC)</strong>, now calibrated against real measurement data. He leads fuel-cell testing on <strong>Germany's only student-built hydrogen vehicle</strong>, where his energy-management strategy already lifted efficiency by roughly 80% for a runner-up finish at Shell Eco-Marathon 2025, and co-authored a rule-based FCEV control paper under review at SAE. He is applying to RWTH's <strong>Chair of Thermodynamics of Mobile Energy Conversion Systems (TME)</strong> to bring this system-modeling, control and test-bench experience to fuel-cell systems research for mobile applications.</p>
+  <p class="summary">A highly motivated Automotive Engineering Master's student with a deep passion for hydrogen mobility. Possesses a comprehensive understanding of <strong>fuel cell system control</strong>, gained by architecting and building the complete <strong>cathode-side control architecture</strong>, including a <strong>Model Predictive Control (MPC)</strong> approach, for the ~150-200 kW EnginePod aircraft powertrain at DLR. Combines this system-level control expertise with hands-on leadership of <strong>Germany's only student-built hydrogen fuel cell vehicle</strong> at Ecogenium e.V. and industrial FCEV operating-strategy experience at Robert Bosch GmbH, backed by a peer-reviewed manuscript in review at SAE. Eager to bring this fuel cell systems expertise, from control architecture to test-bench validation, to the <strong>Research Assistant/Associate PhD position</strong> at RWTH's Chair of Thermodynamics of Mobile Energy Conversion Systems (TME).</p>
 
-  <h2>Professional Experience</h2>
+  <h2>Experience</h2>
 
   <div class="job">
-    <div class="top"><span>Werkstudent, Fuel-Cell Systems (Aircraft) | DLR Institute for Small Aircraft Technologies (INK)</span><span class="dates">01/2026 – Present</span></div>
+    <div class="top"><span>Werkstudent, Fuel Cell Systems (Aircraft), DLR Institute for Small Aircraft Technologies (INK)</span><span class="dates">01/2026 – Present</span></div>
     <div class="org">Würselen (Aachen), Germany</div>
-    <p class="narrative">Sized and selected the cathode, thermal-management and sensory balance-of-plant for the 150-200 kW EnginePod fuel-cell system powering DLR's hydrogen-electric 9-seater commuter aircraft, building Python- and Excel-based sizing tools to derive the design specifications and driving procurement. Designed the full system rig in CATIA V5 for packaging, piping, testing and component orientation. On that basis, built the complete cathode-side control architecture in MATLAB/Simulink: a 0D lumped-parameter plant model driving feed-forward, PI, decoupler and Model Predictive Control (MPC) loops, now calibrated against real measurement data, with a higher-fidelity 1D model underway in GT Suite.</p>
-    <div class="keyskills"><b>Key Skills:</b> MATLAB/Simulink, Model Predictive Control, GT Suite, Balance-of-Plant Sizing.</div>
+    <ul>
+      <li><strong>Cathode-Side Control Architecture:</strong> Architected and built the complete cathode-side control architecture for the ~150-200 kW EnginePod fuel cell system powering DLR's hydrogen-electric 9-seater commuter aircraft, developing a 0D lumped-parameter plant model in MATLAB/Simulink and layering feed-forward, PI, decoupler and Model Predictive Control (MPC) strategies on top, now calibrated against real system measurement data.</li>
+      <li><strong>Higher-Fidelity Modeling:</strong> Building a complementary 1D lumped-parameter plant model of the cathode system in GT Suite to validate and extend the MATLAB/Simulink control architecture.</li>
+      <li><strong>Balance-of-Plant Sizing &amp; Selection:</strong> Built Python- and Excel-based sizing tools to select balance-of-plant components, deriving design specifications for the cathode, thermal-management and sensory systems and driving their procurement.</li>
+      <li><strong>System Rig Design:</strong> Designed the complete fuel cell system rig in CATIA V5 for packaging, piping, testing and component orientation, optimized for easy transferability and integration.</li>
+    </ul>
   </div>
 
   <div class="job">
-    <div class="top"><span>Mechanical / Suspension Team Lead &amp; Pit Crew | Ecogenium e.V. (RWTH student team)</span><span class="dates">06/2024 – Present</span></div>
-    <div class="org">Aachen, Germany</div>
-    <p class="narrative">Leads fuel-cell system testing, integration and fault diagnosis on Germany's only student-built hydrogen fuel-cell vehicle, and wrote the energy-management and cooling-control strategy for its new water-cooled stack in MATLAB/Simulink. Previously engineered, fabricated and wired a standalone test bench for the team's air-cooled stack, running purging, humidity-cycling, short-circuiting and polarisation-curve campaigns to map its thermal operating window. That end-to-end ownership, from component sizing and CAN-bus communication through control design to on-track testing, lifted fuel efficiency by roughly 80% and secured a runner-up finish at Shell Eco-Marathon 2025.</p>
-    <div class="keyskills"><b>Key Skills:</b> Fuel-Cell Test-Bench Design, Energy Management Strategy, CAN Communication, Team Leadership.</div>
-  </div>
-
-  <div class="job">
-    <div class="top"><span>Operating Strategy / System Simulation Intern | Robert Bosch GmbH</span><span class="dates">09/2025 – 12/2025</span></div>
+    <div class="top"><span>Operating Strategy / System Simulation Intern, Robert Bosch GmbH</span><span class="dates">09/2025 – 12/2025</span></div>
     <div class="org">Schwieberdingen, Germany</div>
-    <p class="narrative">Engineered a MATLAB-based powertrain strategy for strong-hybrid FCEVs that safeguards fuel-cell and HV-battery degradation, managing dynamic loads, thermal stress, low-voltage operation, SOC swing and life cycles through MAPs parameterized for different battery capacities and drive cycles. Developed and validated an iterative Simulink model of a rule-based power-split operating strategy in the (FC)EVsim PHEV module, correlating outputs against reference Excel and measurement data. Executed multi-variable parametric optimization with Genetic Algorithms and Gradient Descent to generate control MAPs, benchmarked against Dynamic Programming and ECMS, and formalized the resulting KPI analysis, covering power distribution, SOC window, efficiency and degradation, into a peer-reviewed manuscript now in review at SAE.</p>
-    <div class="keyskills"><b>Key Skills:</b> Genetic Algorithms, Gradient Descent, DP/ECMS Benchmarking, Degradation Mitigation.</div>
+    <ul>
+      <li><strong>Operating-Strategy Modelling:</strong> Developed a MATLAB/Simulink model for an existing power-split operating strategy concept and integrated it into the (FC)EVsim PHEV module, validating its fidelity by correlating simulation outputs against the original developer's reference Excel and measurement data.</li>
+      <li><strong>Degradation-Safeguarding Strategy:</strong> Engineered a new, elaborate operating strategy in a MATLAB script for Strong Fuel Cell Hybrid EVs, focused on safeguarding fuel cell and HV-battery degradation by managing dynamic loads, thermal stress, low-voltage operation, SOC swing and life cycles, parameterized by MAPs for different battery capacities and drive cycles.</li>
+      <li><strong>Multi-Objective Optimization:</strong> Conducted multi-variable parametric optimization to generate the required MAPs, specifically targeting charge sustenance and minimal fuel consumption.</li>
+      <li><strong>Analysis &amp; Publication:</strong> Developed post-processing plots to analyze efficiency and degradation KPIs, benchmarked the new strategy's performance against Dynamic Programming (DP) and ECMS, and co-authored a peer-reviewed manuscript on the strategy, now in review at SAE.</li>
+    </ul>
   </div>
 
-  <h2>Skills</h2>
-  <div class="skill-cat">Fuel-cell systems &amp; controls</div>
-  <div class="skills"><span>PEM fuel-cell system architecture</span><span>0D lumped-parameter plant modeling</span><span>1D lumped modeling</span><span>feed-forward/PI/decoupler control design</span><span>Model Predictive Control (MPC)</span><span>back-pressure-valve (BPV) protection control</span><span>operating-strategy optimization</span><span>balance-of-plant sizing &amp; selection</span><span>CAN communication</span></div>
-  <div class="skill-cat">Modeling &amp; simulation</div>
-  <div class="skills"><span>MATLAB/Simulink</span><span>GT Suite</span><span>Dymola (Modelica)</span><span>Genetic Algorithms</span><span>Gradient Descent</span><span>DP/ECMS benchmarking</span></div>
-  <div class="skill-cat">Test &amp; measurement</div>
-  <div class="skills"><span>fuel-cell test-bench build &amp; commissioning</span><span>single-cell &amp; stack testing</span><span>polarisation curves</span><span>purging/humidity cycling</span><span>measurement-data evaluation &amp; troubleshooting</span></div>
-  <div class="skill-cat">Programming &amp; data</div>
-  <div class="skills"><span>Python (NumPy, Pandas)</span><span>C/C++</span><span>Power BI</span></div>
-  <div class="skill-cat">Design &amp; CFD</div>
-  <div class="skills"><span>CATIA V5</span><span>Siemens NX</span><span>ANSYS (Fluent, Structural)</span></div>
+  <h2>Student Club</h2>
+  <div class="job">
+    <div class="top"><span>Ecogenium e.V, Mechanical / Suspension Team Lead &amp; Pit Crew</span><span class="dates">06/2024 – Present</span></div>
+    <div class="org">Aachen, Germany</div>
+    <ul>
+      <li><strong>Fuel Cell System Testing &amp; Troubleshooting:</strong> Leading this season's fuel cell system testing, integration and fault diagnosis on Germany's only student-built hydrogen fuel cell vehicle, on its newly built water-cooled stack, running structured test campaigns across the electrical, thermal and fluidic subsystems.</li>
+      <li><strong>Energy Management &amp; Cooling Strategy:</strong> Designed and deployed the energy-management and cooling-system control strategy for the new water-cooled fuel cell system in MATLAB/Simulink.</li>
+      <li><strong>Fuel Cell Test Bench Development:</strong> Engineered, fabricated, and electronically integrated a standalone fuel cell test bench for the team's prior air-cooled stack, executing operational testing (purging, humidity cycling, short-circuiting) and performance data evaluation, and mapped the stack's optimal thermal operating window.</li>
+      <li><strong>Strategy Implementation:</strong> Architected and deployed advanced driving and fuel cell temperature-control strategies using Simulink; leveraged real-time competition data to boost fuel efficiency by 80%, a critical factor in securing a runner-up finish at the Shell Eco-Marathon.</li>
+    </ul>
+  </div>
 
   <h2>Education</h2>
   <div class="edu-item">
@@ -104,14 +113,32 @@
     <div class="org">Hyderabad, India · CGPA 9.05 (GPA 1.3, German scale)</div>
   </div>
 
-  <h2>Publications</h2>
-  <ul class="plain">
-    <li>"A Comprehensive Analysis of Two Innovative Aircraft Design Configurations," IJSED Research, 11/2022.</li>
-    <li>Co-author, peer-reviewed paper on a rule-based FCEV operating-strategy control approach (Robert Bosch GmbH), in review at SAE.</li>
-  </ul>
+  <h2>Skills</h2>
+  <div class="skill-cat">Fuel Cell Systems &amp; Controls</div>
+  <div class="skills"><span>PEM fuel cell system architecture</span><span>0D/1D lumped-parameter plant modeling</span><span>feed-forward/PI/decoupler control design</span><span>Model Predictive Control (MPC)</span><span>back-pressure-valve (BPV) protection control</span><span>operating-strategy optimization</span><span>balance-of-plant sizing &amp; selection</span><span>CAN communication</span></div>
+  <div class="skill-cat">Modeling &amp; Simulation</div>
+  <div class="skills"><span>MATLAB/Simulink</span><span>GT Suite</span><span>Dymola (Modelica)</span><span>Genetic Algorithms</span><span>Gradient Descent</span><span>DP/ECMS benchmarking</span></div>
+  <div class="skill-cat">Test &amp; Measurement</div>
+  <div class="skills"><span>fuel cell test-bench build &amp; commissioning</span><span>single-cell &amp; stack testing</span><span>polarisation curves</span><span>purging/humidity cycling</span><span>measurement-data evaluation &amp; troubleshooting</span></div>
+  <div class="skill-cat">Programming &amp; Data</div>
+  <div class="skills"><span>Python (NumPy, Pandas)</span><span>C/C++</span><span>Power BI</span></div>
+  <div class="skill-cat">Design &amp; CFD</div>
+  <div class="skills"><span>CATIA V5</span><span>Siemens NX</span><span>ANSYS (Fluent, Structural)</span></div>
 
   <h2>Languages</h2>
-  <p class="lang">English (Fluent, C1) · German (A2-B1) · Telugu / Hindi (Native)</p>
+  <p class="lang">English (Fluent, C1) · German (Intermediate, B1) · Telugu / Hindi (Native)</p>
+
+  <h2>Recognitions and Publications</h2>
+  <div class="recog-group">
+    <div class="recog">
+      <div class="title">Paper Publication, IJSED Research</div>
+      <div class="item">"A Comprehensive Analysis of Two Innovative Aircraft Design Configurations"</div>
+    </div>
+    <div class="recog">
+      <div class="title">Paper Publication, Robert Bosch GmbH (in review, SAE)</div>
+      <div class="item">Co-author, rule-based FCEV operating-strategy control approach</div>
+    </div>
+  </div>
 
 </div>
 <script>

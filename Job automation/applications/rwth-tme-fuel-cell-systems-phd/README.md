@@ -35,15 +35,23 @@ paper's status to "in review at SAE," added "Germany's only student-built hydrog
 vehicle," and removed the false claim of a specific Master's-thesis submission date (thesis
 hasn't formally started; direction confirmed as fuel-cell system control, scope still open).
 
-## Resume format
-The **resume** (not the cover letter) follows a specific format you supplied
-(`Resume_Prompt.txt`): third-person throughout (no "I"/"my"), a 4-part Summary
-(opening → top industrial contribution → synthesis of leadership/hands-on/academic →
-targeted closing) with 3-5 strategically bolded phrases, and each Experience entry as a
-single dense narrative paragraph (not bullets) plus one closing "Key Skills:" line. The
-Skills section (categorized chips) now sits after Experience, matching your real resumes'
-layout. The cover letter is unaffected and stays first-person, as that prompt only covers
-resumes.
+## Resume format (revised again)
+The narrative-paragraph format (per `Resume_Prompt.txt`) was tried first, then hand-fixed for
+craft issues, but still didn't read as genuinely his. Checked all ~50 real resumes in
+`../../Resumes/`: every fuel-cell-targeted variant (DLR, EKPO, ElringKlinger, Fraunhofer) uses
+his actual **bold-lead-in bullets**, not narrative paragraphs — narrative-with-Key-Skills only
+shows up in his generalist, non-fuel-cell resumes (Porsche, general engineering). Since this
+application is exactly the fuel-cell-target case, switched to match: bold thematic-lead-in
+bullets (`**Theme:** dense sentence.`), no per-role Key Skills line (his real fuel-cell resumes
+don't have one), a single Skills chips section at the end, and Ecogenium moved into its own
+"Student Club" section, separate from "Experience" (DLR + Bosch) — this is his own real
+structural convention, not an invention. The Summary now follows his actual real DLR-target
+summary almost verbatim in structure ("A highly motivated... Possesses... Combines... Eager to
+bring... to <Company>"), still third-person and still respects `Resume_Prompt.txt`'s "no first-
+person pronouns" and "3-5 bolded phrases" rules. Several bullets reuse his real sentences close
+to verbatim (e.g. the Ecogenium test-bench and Strategy Implementation bullets) rather than
+paraphrasing, since fidelity to his actual documented wording was the point. The cover letter is
+unaffected and stays first-person, since that register is normal for a cover letter regardless.
 
 ## Before you send — please confirm/edit
 1. **Whether you actually want all three** — the letter applies to all three ref numbers with
