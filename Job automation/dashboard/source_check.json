@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 39
+    "ok": 40
   },
   "results": [
     {
@@ -348,7 +348,7 @@
       "status": "ERR (ConnectError)",
       "ok": false,
       "jobs": null,
-      "note": "[Errno 104] Connection reset by peer"
+      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate"
     },
     {
       "name": "Liebherr",
@@ -518,10 +518,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://portal.mytum.de/jobs",
-      "status": "ERR (ConnectTimeout)",
-      "ok": false,
-      "jobs": null,
-      "note": "_ssl.c:999: The handshake operation timed out"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "Empa Switzerland",
@@ -591,9 +590,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=fuel%20cell&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 1
     },
     {
       "name": "EURAXESS",
