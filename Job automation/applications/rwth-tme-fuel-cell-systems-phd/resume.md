@@ -1,54 +1,55 @@
 # S V V Sai Sri Vallabh Pataneni
-**Research Assistant/Associate (PhD): Fuel Cell Systems, PEM & SOFC**
+**Research Associate / PhD Candidate: Fuel Cell Systems (PEM & SOFC), Modeling, Simulation and Control**
 Aachen, Germany · vallabh.pataneni@rwth-aachen.de · +49 176 8594 4047 · linkedin.com/in/vallabh-pataneni
 
 ## Summary
-A highly motivated Automotive Engineering Master's student with a deep passion for hydrogen mobility. Possesses a comprehensive understanding of **fuel cell system control**, gained by architecting and building the complete **cathode-side control architecture**, including a **Model Predictive Control (MPC)** approach, for the ~150-200 kW EnginePod aircraft powertrain at DLR. Combines this system-level control expertise with hands-on leadership of **Germany's only student-built hydrogen fuel cell vehicle** at Ecogenium e.V. and industrial FCEV operating-strategy experience at Robert Bosch GmbH, backed by a peer-reviewed manuscript in review at SAE. Eager to bring this fuel cell systems expertise, from control architecture to test-bench validation, to the **Research Assistant/Associate PhD position** at RWTH's Chair of Thermodynamics of Mobile Energy Conversion Systems (TME).
+Automotive Engineering Master's student at RWTH Aachen, specialising in the modeling, simulation, and control of PEM fuel cell systems. At DLR he built the cathode-side control architecture for the ~150-200 kW EnginePod aircraft powertrain. Onto a 0D MATLAB/Simulink plant model he layered feed-forward, PI, decoupler, and a full Model Predictive Control (MPC) approach, now tuned against real measurement data. That control work rests on hands-on test-bench experience: at Ecogenium e.V., his energy-management strategy raised on-track fuel efficiency by roughly 80% and helped secure a runner-up finish at Shell Eco-Marathon 2025, on Germany's only student-built hydrogen fuel cell vehicle. Alongside this he developed FCEV operating strategies at Robert Bosch GmbH and co-authored a rule-based FCEV control paper, now in review at SAE. He is applying to RWTH's Chair of Thermodynamics of Mobile Energy Conversion Systems (TME) to advance PEM and SOFC fuel cell system modeling, control, and test-bench validation.
 
 ## Experience
 
-### Werkstudent, Fuel Cell Systems (Aircraft), DLR Institute for Small Aircraft Technologies (INK) · 01/2026 – Present
+### Werkstudent, Fuel Cell Systems (Aircraft) | DLR Institute for Small Aircraft Technologies (INK) · 01/2026 – Present
 *Würselen (Aachen), Germany*
-- **Cathode-Side Control Architecture:** Architected and built the complete cathode-side control architecture for the ~150-200 kW EnginePod fuel cell system powering DLR's hydrogen-electric 9-seater commuter aircraft, developing a 0D lumped-parameter plant model in MATLAB/Simulink and layering feed-forward, PI, decoupler and Model Predictive Control (MPC) strategies on top, now calibrated against real system measurement data.
-- **Higher-Fidelity Modeling:** Building a complementary 1D lumped-parameter plant model of the cathode system in GT Suite to validate and extend the MATLAB/Simulink control architecture.
-- **Balance-of-Plant Sizing & Selection:** Built Python- and Excel-based sizing tools to select balance-of-plant components, deriving design specifications for the cathode, thermal-management and sensory systems and driving their procurement.
-- **System Rig Design:** Designed the complete fuel cell system rig in CATIA V5 for packaging, piping, testing and component orientation, optimized for easy transferability and integration.
+- **Cathode-Side Control Architecture:** Built a 0D lumped-parameter plant model of the cathode loop in MATLAB/Simulink for DLR's EnginePod, the hydrogen-electric powertrain (~150-200 kW stack) for the D-LIGHT 9-seat commuter aircraft, then designed feed-forward, PI, and decoupler control with back-pressure-valve (BPV) protection on top.
+- **Model Predictive Control:** Developed a full MPC approach for the same cathode-side architecture, now tuning both the classical and MPC strategies against real system measurement data.
+- **Higher-Fidelity Modeling:** Prototyping a complementary 1D lumped-parameter model of the cathode system in GT Suite, a higher-fidelity companion to the MATLAB/Simulink work for cross-checking control behaviour.
+- **Balance-of-Plant Sizing:** Wrote Python- and Excel-based sizing tools to select balance-of-plant components, deriving the design specifications for the cathode, thermal-management, and sensory systems and driving their procurement.
+- **System Rig Design:** Designed the complete fuel cell system rig in CATIA V5, covering packaging, piping, testing, and component orientation, optimised for easy transfer and integration.
 
-### Operating Strategy / System Simulation Intern, Robert Bosch GmbH · 09/2025 – 12/2025
+### Operating Strategy / System Simulation Intern | Robert Bosch GmbH · 09/2025 – 12/2025
 *Schwieberdingen, Germany*
-- **Operating-Strategy Modelling:** Developed a MATLAB/Simulink model for an existing power-split operating strategy concept and integrated it into the (FC)EVsim PHEV module, validating its fidelity by correlating simulation outputs against the original developer's reference Excel and measurement data.
-- **Degradation-Safeguarding Strategy:** Engineered a new, elaborate operating strategy in a MATLAB script for Strong Fuel Cell Hybrid EVs, focused on safeguarding fuel cell and HV-battery degradation by managing dynamic loads, thermal stress, low-voltage operation, SOC swing and life cycles, parameterized by MAPs for different battery capacities and drive cycles.
-- **Multi-Objective Optimization:** Conducted multi-variable parametric optimization to generate the required MAPs, specifically targeting charge sustenance and minimal fuel consumption.
-- **Analysis & Publication:** Developed post-processing plots to analyze efficiency and degradation KPIs, benchmarked the new strategy's performance against Dynamic Programming (DP) and ECMS, and co-authored a peer-reviewed manuscript on the strategy, now in review at SAE.
+- **Operating-Strategy Modeling:** Validated an iterative Simulink model of an existing rule-based power-split operating strategy inside the (FC)EVsim PHEV module, correlating its outputs against the original developer's reference Excel and measurement data.
+- **Degradation-Safeguarding Strategy:** Engineered a new operating strategy in a MATLAB script for Strong Fuel Cell Hybrid EVs on a 100 kW-stack, 1.5 t FCEV pickup, safeguarding fuel-cell and HV-battery degradation by managing dynamic loads, thermal stress, low-voltage operation, SOC swing, and life cycles, parameterised via MAPs for different battery capacities and drive cycles.
+- **Parametric Optimization:** Executed multi-variable parametric optimization with Genetic Algorithms and Gradient Descent to generate the control MAPs, targeting charge sustenance and minimal fuel consumption.
+- **KPI Analysis & Publication:** Benchmarked the new strategy against Dynamic Programming (DP) and ECMS through post-processing of power-distribution, SOC-window, efficiency, and degradation KPIs, and co-authored a peer-reviewed manuscript on the rule-based FCEV control strategy, now in review at SAE.
 
 ## Student Club
-### Ecogenium e.V, Mechanical / Suspension Team Lead & Pit Crew · 06/2024 – Present
+
+### Mechanical / Suspension Team Lead & Pit Crew | Ecogenium e.V. (Shell Eco-Marathon) · 06/2024 – Present
 *Aachen, Germany*
-- **Fuel Cell System Testing & Troubleshooting:** Leading this season's fuel cell system testing, integration and fault diagnosis on Germany's only student-built hydrogen fuel cell vehicle, on its newly built water-cooled stack, running structured test campaigns across the electrical, thermal and fluidic subsystems.
-- **Energy Management & Cooling Strategy:** Designed and deployed the energy-management and cooling-system control strategy for the new water-cooled fuel cell system in MATLAB/Simulink.
-- **Fuel Cell Test Bench Development:** Engineered, fabricated, and electronically integrated a standalone fuel cell test bench for the team's prior air-cooled stack, executing operational testing (purging, humidity cycling, short-circuiting) and performance data evaluation, and mapped the stack's optimal thermal operating window.
-- **Strategy Implementation:** Architected and deployed advanced driving and fuel cell temperature-control strategies using Simulink; leveraged real-time competition data to boost fuel efficiency by 80%, a critical factor in securing a runner-up finish at the Shell Eco-Marathon.
+- **Fuel Cell System Ownership (this season):** Currently leading testing, integration, and fault diagnosis on the team's newly built water-cooled fuel cell system, Germany's only student-built hydrogen fuel cell vehicle, running structured campaigns across its electrical, thermal, and fluidic subsystems, with end-to-end ownership from component sizing and selection through CAN-bus communication, software, and control design.
+- **Energy-Management & Cooling Control (this season):** Deployed the energy-management and cooling-system control strategy for the new water-cooled system in MATLAB/Simulink.
+- **Fuel Cell Test Bench Development (2025 season):** Fabricated and electronically integrated a standalone fuel cell test bench for the prior air-cooled 1 kW stack, executing operational testing (purging, humidity cycling, short-circuiting) and polarisation-curve experiments, and mapped the stack's optimal thermal operating window.
+- **Strategy Implementation (2025 season):** Architected and implemented the energy-management and fuel-cell temperature-control strategy in Simulink and Python; leveraging real-time competition data, it boosted on-track fuel efficiency by roughly 80% and was a critical factor in securing a runner-up finish at Shell Eco-Marathon 2025.
 
 ## Education
-### M.Sc. Automotive Engineering, RWTH Aachen University · 09/2023 – present
-*Aachen, Germany · GPA 1.7 (1.2 in core automotive courses) · Master's thesis planned at DLR on fuel-cell system control · Relevant modules: Alternative & Mobile Propulsion Systems, Simulation Sciences, Mechatronics, Thermodynamics, FEM*
 
-### B.Tech Mechanical Engineering, JNTU Hyderabad · 06/2019 – 04/2023
+### M.Sc. Automotive Engineering | RWTH Aachen University · 09/2023 – Present
+*Aachen, Germany · GPA 1.7 overall, 1.2 in core automotive courses*
+Relevant modules: Fuel Cell System Technology, Alternative and Mobile Propulsion Systems, Simulation Sciences, Thermodynamics. Master's thesis planned in fuel-cell control-system design, building on the DLR EnginePod work.
+
+### B.Tech Mechanical Engineering | Jawaharlal Nehru Technological University (JNTU) · 06/2019 – 04/2023
 *Hyderabad, India · CGPA 9.05 (GPA 1.3, German scale)*
 
 ## Skills
-**Fuel Cell Systems & Controls:** PEM fuel cell system architecture · 0D/1D lumped-parameter plant modeling · feed-forward/PI/decoupler control design · Model Predictive Control (MPC) · back-pressure-valve (BPV) protection control · operating-strategy optimization · balance-of-plant sizing & selection · CAN communication
+**Fuel Cell Systems & Controls:** PEM system architecture · balance-of-plant sizing and selection · 0D/1D lumped-parameter plant modeling · feed-forward, PI, and decoupler control · Model Predictive Control (MPC) · back-pressure-valve protection · operating-strategy design · CAN communication
 **Modeling & Simulation:** MATLAB/Simulink · GT Suite · Dymola (Modelica) · Genetic Algorithms · Gradient Descent · DP/ECMS benchmarking
-**Test & Measurement:** fuel cell test-bench build & commissioning · single-cell & stack testing · polarisation curves · purging/humidity cycling · measurement-data evaluation & troubleshooting
-**Programming & Data:** Python (NumPy, Pandas) · C/C++ · Power BI
-**Design & CFD:** CATIA V5 · Siemens NX · ANSYS (Fluent, Structural)
+**Test & Measurement:** single-cell and stack test benches · polarisation curves · purging, humidity cycling, short-circuiting · measurement-data evaluation · fault diagnosis
+**Programming & Data:** Python (NumPy, Pandas, scikit-learn) · C/C++ · Power BI
+**CAD & CAE:** CATIA V5 · Siemens NX · ANSYS (Structural, Fluent)
 
 ## Languages
 English (Fluent, C1) · German (Intermediate, B1) · Telugu / Hindi (Native)
 
-## Recognitions and Publications
-Paper Publication, IJSED Research
-"A Comprehensive Analysis of Two Innovative Aircraft Design Configurations"
-
-Paper Publication, Robert Bosch GmbH (in review, SAE)
-Co-author, rule-based FCEV operating-strategy control approach
+## Publications
+- Co-author, peer-reviewed paper on a rule-based FCEV operating-strategy control approach (Robert Bosch GmbH), in review at SAE.
+- "A Comprehensive Analysis of Two Innovative Aircraft Design Configurations," IJSED Research, published 11/2022.
