@@ -563,9 +563,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (1 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 1
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
@@ -581,9 +581,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
-      "status": "OK (5 jobs)",
+      "status": "OK (4 jobs)",
       "ok": true,
-      "jobs": 5
+      "jobs": 4
     },
     {
       "name": "Bundesagentur",
