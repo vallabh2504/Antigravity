@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 39
+    "ok": 40
   },
   "results": [
     {
@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (42 jobs)",
+      "status": "OK (41 jobs)",
       "ok": true,
-      "jobs": 42
+      "jobs": 41
     },
     {
       "name": "BMW",
@@ -391,10 +391,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "ERR (ConnectError)",
-      "ok": false,
-      "jobs": null,
-      "note": "[SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1016)"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "PowerCell Sweden",
@@ -573,18 +572,18 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Brennstoffzelle&veroeffentlichtseit=3",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (2 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 2
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
-      "status": "OK (2 jobs)",
+      "status": "OK (5 jobs)",
       "ok": true,
-      "jobs": 2
+      "jobs": 5
     },
     {
       "name": "Bundesagentur",
