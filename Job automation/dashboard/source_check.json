@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (48 jobs)",
+      "status": "OK (47 jobs)",
       "ok": true,
-      "jobs": 48
+      "jobs": 47
     },
     {
       "name": "BMW",
@@ -572,27 +572,27 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Brennstoffzelle&veroeffentlichtseit=3",
-      "status": "OK (2 jobs)",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 2
+      "jobs": 1
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Wasserstoff%20Ingenieur&veroeffentlichtseit=3",
-      "status": "OK (6 jobs)",
+      "status": "OK (3 jobs)",
       "ok": true,
-      "jobs": 6
+      "jobs": 3
     },
     {
       "name": "Bundesagentur",
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=fuel%20cell&veroeffentlichtseit=3",
-      "status": "OK (2 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 2
+      "jobs": 0
     },
     {
       "name": "EURAXESS",
