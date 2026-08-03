@@ -572,9 +572,9 @@
       "portal": "agg_bundesagentur",
       "method": "GET",
       "url": "https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v4/app/jobs?angebotsart=1&pav=false&size=75&page=1&was=Brennstoffzelle&veroeffentlichtseit=3",
-      "status": "OK (2 jobs)",
+      "status": "OK (3 jobs)",
       "ok": true,
-      "jobs": 2
+      "jobs": 3
     },
     {
       "name": "Bundesagentur",
