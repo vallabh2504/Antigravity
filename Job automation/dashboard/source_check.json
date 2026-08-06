@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 37
+    "ok": 36
   },
   "results": [
     {
@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (51 jobs)",
+      "status": "OK (52 jobs)",
       "ok": true,
-      "jobs": 51
+      "jobs": 52
     },
     {
       "name": "BMW",
@@ -536,9 +536,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.psi.ch/en/hr/job-opportunities",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ReadTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "VTT Finland",
@@ -563,9 +564,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (3 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 3
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
