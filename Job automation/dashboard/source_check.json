@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (51 jobs)",
+      "status": "OK (49 jobs)",
       "ok": true,
-      "jobs": 51
+      "jobs": 49
     },
     {
       "name": "BMW",
@@ -563,9 +563,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (4 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 4
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
