@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (50 jobs)",
+      "status": "OK (52 jobs)",
       "ok": true,
-      "jobs": 50
+      "jobs": 52
     },
     {
       "name": "BMW",
