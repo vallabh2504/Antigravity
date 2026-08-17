@@ -563,9 +563,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "HTTP 200 (no jobs parsed)",
+      "status": "OK (2 jobs)",
       "ok": true,
-      "jobs": 0
+      "jobs": 2
     },
     {
       "name": "Bundesagentur",
