@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 37
+    "ok": 36
   },
   "results": [
     {
@@ -245,8 +245,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://careers.honeywell.com/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
+      "status": "HTTP 503",
+      "ok": false,
       "jobs": null
     },
     {
@@ -418,9 +418,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://hydrogenious.net/career/",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ConnectError)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl."
     },
     {
       "name": "Plastic Omnium New Energies",
