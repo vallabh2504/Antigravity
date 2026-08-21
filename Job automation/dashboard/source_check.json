@@ -418,10 +418,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://hydrogenious.net/career/",
-      "status": "ERR (ConnectError)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl."
+      "jobs": null
     },
     {
       "name": "Plastic Omnium New Energies",
