@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 37
+    "ok": 38
   },
   "results": [
     {
@@ -81,8 +81,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.cellcentric.net/career/",
-      "status": "NOTFOUND 404 (bad token?)",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
