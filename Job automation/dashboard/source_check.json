@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 38
+    "ok": 37
   },
   "results": [
     {
@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (54 jobs)",
+      "status": "OK (53 jobs)",
       "ok": true,
-      "jobs": 54
+      "jobs": 53
     },
     {
       "name": "BMW",
@@ -254,8 +254,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.pipistrel-aircraft.com/about-us/careers/",
-      "status": "AUTH 403 (blocked / needs key)",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -382,17 +382,18 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.schaeffler.com/en/careers/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[Errno -2] Name or service not known"
     },
     {
       "name": "Proton Motor Fuel Cell",
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
+      "status": "HTTP 500",
+      "ok": false,
       "jobs": null
     },
     {
@@ -563,9 +564,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (2 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 2
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
