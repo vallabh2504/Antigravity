@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (53 jobs)",
+      "status": "OK (54 jobs)",
       "ok": true,
-      "jobs": 53
+      "jobs": 54
     },
     {
       "name": "BMW",
@@ -291,9 +291,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.man.eu/de/de/karriere.html",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ReadTimeout)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "Scania",
