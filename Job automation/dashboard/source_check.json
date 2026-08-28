@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 37
+    "ok": 36
   },
   "results": [
     {
@@ -291,10 +291,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.man.eu/de/de/karriere.html",
-      "status": "ERR (ReadTimeout)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "The read operation timed out"
+      "jobs": null
     },
     {
       "name": "Scania",
@@ -501,9 +500,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.zbt.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectError)",
+      "ok": false,
+      "jobs": null,
+      "note": "[Errno 104] Connection reset by peer"
     },
     {
       "name": "RWTH Aachen",
@@ -564,9 +564,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (1 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 1
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
