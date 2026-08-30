@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 35
+    "ok": 36
   },
   "results": [
     {
@@ -18,8 +18,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.airbus.com/en/careers",
-      "status": "AUTH 403 (blocked / needs key)",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
@@ -564,9 +564,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (2 jobs)",
+      "status": "OK (1 jobs)",
       "ok": true,
-      "jobs": 2
+      "jobs": 1
     },
     {
       "name": "Bundesagentur",
