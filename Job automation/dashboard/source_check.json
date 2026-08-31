@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 36
+    "ok": 37
   },
   "results": [
     {
@@ -327,9 +327,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.nikolamotor.com/careers",
-      "status": "NOTFOUND 404 (bad token?)",
+      "status": "ERR (ReadTimeout)",
       "ok": false,
-      "jobs": null
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "Hyzon Motors",
@@ -500,10 +501,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.zbt.de/en/career/",
-      "status": "ERR (ConnectError)",
-      "ok": false,
-      "jobs": null,
-      "note": "[Errno 104] Connection reset by peer"
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
+      "jobs": null
     },
     {
       "name": "RWTH Aachen",
@@ -564,9 +564,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (1 jobs)",
+      "status": "HTTP 200 (no jobs parsed)",
       "ok": true,
-      "jobs": 1
+      "jobs": 0
     },
     {
       "name": "Bundesagentur",
