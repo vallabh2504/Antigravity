@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 37
+    "ok": 38
   },
   "results": [
     {
@@ -327,10 +327,9 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.nikolamotor.com/careers",
-      "status": "ERR (ReadTimeout)",
+      "status": "NOTFOUND 404 (bad token?)",
       "ok": false,
-      "jobs": null,
-      "note": "The read operation timed out"
+      "jobs": null
     },
     {
       "name": "Hyzon Motors",
@@ -392,8 +391,8 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.proton-motor.de/en/career/",
-      "status": "HTTP 500",
-      "ok": false,
+      "status": "HTTP 200 (no jobs parsed)",
+      "ok": true,
       "jobs": null
     },
     {
