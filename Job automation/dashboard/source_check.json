@@ -348,7 +348,7 @@
       "status": "ERR (ConnectError)",
       "ok": false,
       "jobs": null,
-      "note": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate"
+      "note": "[Errno -2] Name or service not known"
     },
     {
       "name": "Liebherr",
@@ -563,9 +563,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (1 jobs)",
+      "status": "OK (24 jobs)",
       "ok": true,
-      "jobs": 1
+      "jobs": 24
     },
     {
       "name": "Bundesagentur",
