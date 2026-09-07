@@ -1,7 +1,7 @@
 {
   "summary": {
     "total": 66,
-    "ok": 38
+    "ok": 36
   },
   "results": [
     {
@@ -100,9 +100,9 @@
       "portal": "smartrecruiters",
       "method": "GET",
       "url": "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings?limit=100&q=fuel%20cell",
-      "status": "OK (59 jobs)",
+      "status": "OK (60 jobs)",
       "ok": true,
-      "jobs": 59
+      "jobs": 60
     },
     {
       "name": "BMW",
@@ -500,9 +500,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.zbt.de/en/career/",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ConnectTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "timed out"
     },
     {
       "name": "RWTH Aachen",
@@ -536,9 +537,10 @@
       "portal": "custom",
       "method": "GET",
       "url": "https://www.psi.ch/en/hr/job-opportunities",
-      "status": "HTTP 200 (no jobs parsed)",
-      "ok": true,
-      "jobs": null
+      "status": "ERR (ReadTimeout)",
+      "ok": false,
+      "jobs": null,
+      "note": "The read operation timed out"
     },
     {
       "name": "VTT Finland",
@@ -563,9 +565,9 @@
       "portal": "agg_arbeitnow",
       "method": "GET",
       "url": "https://www.arbeitnow.com/api/job-board-api",
-      "status": "OK (24 jobs)",
+      "status": "OK (13 jobs)",
       "ok": true,
-      "jobs": 24
+      "jobs": 13
     },
     {
       "name": "Bundesagentur",
