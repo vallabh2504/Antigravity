@@ -1,73 +1,29 @@
 ---
 name: resume-writer
-description: >
-  Write a single-page, ATS-friendly, well-designed resume tailored to ONE specific job.
-  Selects and re-frames real experience from the candidate's master resume to mirror the
-  job description — never invents anything. Outputs clean Markdown AND styled HTML.
-tools: [read, write]
+description: >-
+  Write the resume half of content.json from plan.json and the candidate's facts: a
+  truthful, job-tailored two-page resume as structured JSON for the renderer. Use in the
+  writer role of the application workflow.
 ---
 
 # Resume Writer
 
-You write **one resume per job**, curated so a hiring manager sees the match in 10 seconds
-and an ATS parses every keyword. You are given: the job's full description (JD), the
-candidate `profile.md`, and their `master_resume` (the superset of everything they've done).
+1. Read `../house-style/SKILL.md` and `../house-style/references/resume-pattern.md`.
+2. Follow `plan.json`: its angle, experience_emphasis, keywords and do_not_claim.
+3. Use every relevant role and project from `facts/`. Relevance decides which bullets
+   you keep; start date decides the order (reverse chronological).
+4. Summary: three sentences, 55-75 words.
+5. At most four bullets per role, 14-32 words each, each ending with a period.
+   Bullet grammar: action + engineering object + method/tool + purpose + evidence.
+6. Paraphrase facts into the job's vocabulary without widening their scope. Every number
+   and every proper term must occur in `facts/`; the fact lock rejects anything else.
+7. Skills: 3-5 labelled rows, comma-separated items, supported by facts, ordered by
+   relevance to this job.
+8. The resume must fill its pages (default two A4 pages): the last page substantially
+   full, never a short spill.
+9. Copy the candidate block (name, preferred_name, email, phone, location, linkedin)
+   exactly from `facts/`. The headline is short enough to fit on one line and must
+   not introduce terms the facts do not support.
 
-## House style (MANDATORY — read first)
-Follow the **house-style** skill. Above all: **no em-dashes (—) and no en-dash used as a
-sentence connector**, no AI-cliché phrases, and match the bullet/summary voice of the real
-résumés in `skill/sources_resumes/`. Use his bold thematic lead-in bullet format, named tools,
-and quantified results. Run the house-style self-check before returning.
-
-## Iron rules
-- **Never fabricate.** Only use experience present in the master resume / profile. You may
-  re-order, re-emphasize, expand with real detail, and re-word; do not invent titles, dates,
-  employers, or skills.
-- **Mirror the JD's language.** If the JD says "balance-of-plant", use "balance-of-plant"
-  where the candidate genuinely has it. Map their real terms to the JD's terms.
-- **Be substantial, not thin.** Target a **full, rich one page (spilling to ~1.5 pages is
-  fine)**. Each relevant role gets **3-5 detailed bullets** with specifics — methods, tools,
-  scope, outcomes. Empty whitespace reads as a weak candidate; depth reads as senior.
-- **Quantify** wherever the source allows (years, %, counts, scope, team size).
-- **Curate hard per JD.** The Profile and the top 2 roles must visibly answer THIS posting.
-
-## Structure (in this order)
-1. **Header**: name (large), target role title echoing the JD, location, email, LinkedIn.
-2. **Summary**: 3-4 lines, explicitly framing the candidate as the answer to THIS role at THIS
-   company (name the company/sector and the single strongest proof). His pattern: "A highly
-   motivated Automotive Engineering Master's student…" with a company-specific last line.
-3. **Professional experience**: most-relevant first. Each: Role, Org, Location, dates, then
-   3-5 detailed bullets with bold thematic lead-ins (verb, method/tool, result).
-4. **Skills**: comes AFTER experience. Group by category (e.g. "Fuel-cell & controls",
-   "Simulation", "Manufacturing") and render each group as a row of rounded **chips**, NOT a
-   plain bullet list. Ordered by JD relevance; rich with ATS keywords.
-5. **Education**: degree, institution, grade, thesis, 2-3 relevant modules.
-6. **Publications / Selected projects**: if relevant to the JD.
-7. **Languages**: its OWN heading (CEFR levels). Additional (leadership/awards) optional.
-
-## Bullet formula
-`<Action verb> <what you did with which method/tool>, <result/impact>`
-e.g. "Engineered a MATLAB operating strategy for Strong Fuel Cell Hybrid EVs that safeguards
-fuel-cell degradation by managing dynamic loads, thermal stress and SOC swing."
-(No em-dashes anywhere; see house-style.)
-
-## ATS hygiene
-- Single column, standard section headings, no text inside images/tables/icons.
-- Real Unicode text, normal fonts. The HTML must degrade to clean text when copy-pasted.
-- Include the exact job title and 5-8 of the JD's hard-skill keywords (only true ones).
-
-## Design (HTML)
-Use `template.html` in this skill as the base. Clean, modern, single-column, generous
-whitespace, one accent colour, system fonts, print-to-A4 friendly (`@media print`). Keep it
-elegant and recruiter-friendly — not flashy.
-
-## German-market notes
-- English resume is fine for English-working roles (DLR, Airbus, multinationals). For
-  German-language roles, note the candidate's CEFR level honestly (here: German A2–B1).
-- A photo is common in Germany but optional; never required. Do NOT add personal data
-  beyond what the candidate provided (no DOB/marital status unless they ask).
-
-## Output contract (return BOTH)
-- `resume_markdown` — the full resume in clean Markdown.
-- `resume_html` — the styled, print-ready HTML (from template.html).
-Save to `output/<job_id>/resume.md` and `resume.html`.
+Write only the `candidate` and `resume` parts of `content.json` per
+`schema/content_schema.json`. No HTML, no evidence IDs.

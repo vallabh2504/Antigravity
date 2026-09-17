@@ -1,0 +1,156 @@
+# -----------------------------------------------------------------------------
+# job-automation - example pipeline configuration
+#
+# Copy this file to `profile/config.yml` and edit it. That copy is gitignored:
+# it is YOUR search, and this repository is public.
+#
+#   cp profile/config.example.yml profile/config.yml
+#
+# Nothing in the Python package knows about any industry, country or candidate.
+# Every domain term the pipeline uses to filter and rank comes from this file.
+# An empty setting means "I stated no preference", and the pipeline will then
+# filter on nothing rather than inventing a preference for you.
+# -----------------------------------------------------------------------------
+
+# FRESHNESS -------------------------------------------------------------------
+# Only surface postings published within this many days. Sources are queried with
+# this window and the digest filters on it again.
+max_age_days: 14
+# When true, a posting with no parseable date is dropped. When false it is kept
+# and scored down, which is the right default for academic and research postings:
+# they are frequently undated and frequently the best matches.
+strict_freshness: false
+
+# WHAT YOU ARE LOOKING FOR ----------------------------------------------------
+# `include_keywords` is a hard gate: a posting matching none of these is dropped
+# before scoring. Leave the list empty to gate on nothing.
+include_keywords:
+  []
+
+# A posting matching any of these is dropped, whatever else it matched.
+exclude_keywords:
+  []
+
+# Free-text role titles, used to build search queries for the aggregator and
+# agent backends.
+target_roles:
+  []
+
+# WHERE ------------------------------------------------------------------------
+# ISO-3166 alpha-2 codes. A posting whose location resolves to a country outside
+# this list is dropped. A location the parser CANNOT place - a bare city name,
+# "Hybrid", an empty string - is KEPT, never guessed at. Leave the list empty to
+# search worldwide.
+target_countries: []
+
+# Places you would most like to work. A posting in one of these is kept even if
+# the country test would have dropped it, and scores a bonus. Plain substrings,
+# matched case-insensitively against the posting's location.
+priority_locations:
+  []
+
+# Places you will not go. Checked before everything else, so an exclusion here
+# always wins. Whole-word matches only, so "in" will not match "Berlin".
+excluded_locations: []
+
+# Locations to search aggregator APIs with, in their own free-text form.
+search_locations:
+  []
+
+# HOW POSTINGS ARE RANKED ------------------------------------------------------
+# Used only by the free deterministic fallback scorer (`jobauto auto-score`).
+# The agent/LLM scorer reads your profile prose instead and is far better; this
+# block is what keeps the scheduled run useful with no API key.
+scoring:
+  # Score every posting starts from, before any signal below is applied.
+  base: 38
+  # Your core subject. A match in the TITLE is worth +30, in the body +15.
+  primary_terms:
+    []
+  # Adjacent terms, worth +15 in the title and +8 in the body.
+  secondary_terms:
+    []
+  # Your transferable skills: +10 for any match anywhere.
+  skill_terms:
+    []
+  # Industry preference, most wanted FIRST. The default bonus decays with the
+  # order you list them in (12, 9, 6, 4...), so ordering alone expresses
+  # priority; set `bonus:` explicitly to override.
+  sectors:
+    []
+  # Things that make a posting a worse fit for you.
+  penalties:
+    []
+  # Which working language a posting's fluency demands are read in. Derived from
+  # `target_countries` when omitted. Supported: de, fr, nl, es.
+  language: []
+
+# SOURCES ---------------------------------------------------------------------
+# Stage 1a - JobSpy: the no-key volume backbone. It scrapes several large boards
+# directly. NOTE: python-jobspy pins numpy==1.26.3, which has no CPython 3.13
+# wheel, so this source is only available on Python 3.12 or older. On 3.13 the
+# run proceeds without it and records the reason in the report.
+jobspy:
+  enabled: true
+  # `indeed` and `google` run by default. `linkedin` and `glassdoor` prohibit
+  # automated access in their terms; they are only used if you list them here
+  # AND set accept_tos_risk, which is a decision this tool will not make for you.
+  sites: [indeed, google]
+  accept_tos_risk: []
+  search_terms: []      # falls back to include_keywords
+  locations: []         # falls back to search_locations
+  results_wanted: 40
+  country_indeed: ""
+
+# Stage 1b - aggregator APIs that return a posting DATE and a canonical apply link.
+# See docs/source-policy.md for each one's terms, rate limits and caching rules.
+aggregators:
+  arbeitnow:     { enabled: true,  query: "" }        # no auth; broad public feed
+  bundesagentur: { enabled: true,  query: "", where: "" }
+  euraxess:      { enabled: false, query: "" }    # opt-in; review docs/source-policy.md first
+  # Adzuna's free tier is limited to 14 day(s) and 2500 calls/month; ongoing
+  # redistribution requires written consent. Keep this source inert by default.
+  adzuna:        { enabled: false, country: "", what: "", where: "" }
+  jsearch:       { enabled: false, query: "", country: "" }
+
+# REPORTING -------------------------------------------------------------------
+report:
+  top_n: 15
+  min_score: 50
+
+# DELIVERY --------------------------------------------------------------------
+# This tool never submits an application and never POSTs to an employer. Delivery
+# means getting the DIGEST to you; applying stays a human action.
+delivery:
+  gmail: { enabled: false, to: "", mode: draft }   # draft | send
+  messaging: { enabled: false, channel: telegram }
+  commit_report: false
+
+# Non-secret facts the agent may use when drafting a cover letter. Anything
+# sensitive belongs in profile/secrets.yml, which is never committed.
+candidate:
+  work_authorization: ""
+  earliest_start: ""
+  language_level: ""
+
+# --- applications: planner -> writer -> reviewer ---------------------------------
+# `jobauto app prepare <id>` (or "Prepare application" in the dashboard) builds a kit
+# and PROMPT.md for any coding agent; `jobauto autopilot` runs the same workflow with
+# the Claude CLI. List several templates to render them all each round; the first one
+# is the one reviewed and copied to final/. `jobauto templates <content.json>` renders
+# a finished application in every template for comparison.
+# HTML: html-karla-navy, html-scholar-serif, html-slate-band, html-margin-rail
+# rendercv: rendercv-sb2nov, rendercv-classic, rendercv-engineeringresumes, rendercv-harvard
+writer:
+  templates: [rendercv-sb2nov]
+  resume_pages: 2
+  max_review_rounds: 3          # reviewer rounds before the job is handed to you
+  max_fix_attempts: 3           # gate failures per step before the job is handed to you
+  min_scores: {content: 90, design: 90}
+  hold_on_weak_fit: true        # a passing application for a weak fit waits for your decision
+  workspace_root: ""            # default: <application folder>/workspace
+  examples_dir: ""              # default: profile/writer_examples/*.json (your approved applications)
+  agent:                        # only used by `jobauto autopilot`
+    command: claude
+    model: opus
+    timeout_s: 1800

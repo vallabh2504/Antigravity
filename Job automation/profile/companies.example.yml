@@ -1,0 +1,109 @@
+# -----------------------------------------------------------------------------
+# job-automation - example company watchlist
+#
+# Copy this to `profile/companies.yml` and put your own targets in it. That copy
+# is gitignored: a watchlist is a statement about where you want to work, and
+# this repository is public.
+#
+#   cp profile/companies.example.yml profile/companies.yml
+#
+# The companies below are placeholders chosen to document each supported portal.
+# They are not a recommendation and several are deliberately fictional.
+# -----------------------------------------------------------------------------
+#
+# FIELDS
+#   name         Display name. Used in the report and as the dedupe key.
+#   portal       Which adapter fetches this company. See the table below.
+#   token        The company's identifier on that ATS. Where to find it is noted
+#                per portal.
+#   careers_url  The human-readable careers page. Required for `portal: custom`,
+#                and useful on every other portal as a fallback for the agent
+#                backend.
+#   sectors      Free-text tags. They are carried onto every posting and can be
+#                matched by `scoring.sectors` in config.yml.
+#   query        Optional per-company search term, where the portal supports one.
+#   enabled      Set false to keep a company on the list but skip fetching it.
+#   note         Free text for you. Never parsed.
+#
+# PORTALS
+#   greenhouse       token = the slug in boards.greenhouse.io/<token>
+#   lever            token = the slug in jobs.lever.co/<token>
+#   ashby            token = the slug in jobs.ashbyhq.com/<token>
+#   smartrecruiters  token = the company id in jobs.smartrecruiters.com/<token>
+#   personio         token = the subdomain in <token>.jobs.personio.de
+#   recruitee        token = the subdomain in <token>.recruitee.com
+#   workday          token = the CxS tenant; `careers_url` must be the full
+#                    myworkdayjobs.com site URL, tenants differ per company
+#   custom           No ATS adapter. The company's own careers page is fetched
+#                    and read for schema.org JobPosting data. MEASURED CEILING:
+#                    most large employers serve a client-rendered search app
+#                    whose HTML contains no postings at all. When that happens
+#                    the run records the company as a zero WITH the reason, and
+#                    names any ATS board the page links to so you can repoint it
+#                    here. It does not report a silent success.
+#
+# Run `jobauto check-sources` after editing. It reports, per company, whether the
+# portal answered and how many postings it yielded - a board that answers HTTP
+# 200 with zero postings is reported as a zero, not as healthy.
+
+companies:
+  - name: Example Greenhouse Co
+    portal: greenhouse
+    token: examplegreenhouse
+    careers_url: https://boards.greenhouse.io/examplegreenhouse
+    sectors: [software]
+
+  - name: Example Lever Co
+    portal: lever
+    token: examplelever
+    careers_url: https://jobs.lever.co/examplelever
+    sectors: [software]
+
+  - name: Example Ashby Co
+    portal: ashby
+    token: exampleashby
+    careers_url: https://jobs.ashbyhq.com/exampleashby
+    sectors: [software]
+
+  - name: Example SmartRecruiters Co
+    portal: smartrecruiters
+    token: ExampleSmartRecruitersCo
+    careers_url: https://jobs.smartrecruiters.com/ExampleSmartRecruitersCo
+    sectors: [engineering]
+    query: engineer
+
+  - name: Example Personio Co
+    portal: personio
+    token: example-personio-co
+    careers_url: https://example-personio-co.jobs.personio.de/
+    sectors: [engineering]
+
+  - name: Example Recruitee Co
+    portal: recruitee
+    token: examplerecruitee
+    careers_url: https://examplerecruitee.recruitee.com/
+    sectors: [engineering]
+
+  - name: Example Workday Co
+    portal: workday
+    token: examplewd
+    careers_url: https://examplewd.wd3.myworkdayjobs.com/en-US/Careers
+    sectors: [engineering]
+    note: >-
+      Workday tenants vary (wd1/wd3/wd5) and the CxS endpoint is derived from
+      careers_url. If check-sources reports a 404 for this company, the site URL
+      is wrong, not the adapter.
+
+  - name: Example Own-Site Co
+    portal: custom
+    careers_url: https://example.invalid/careers
+    sectors: [engineering]
+    note: >-
+      No ATS adapter. Expect this to yield nothing unless the page embeds
+      schema.org JobPosting markup; the run will tell you which it was.
+
+  - name: Example Disabled Co
+    portal: greenhouse
+    token: exampledisabled
+    enabled: false
+    note: Kept on the list for reference, not fetched.

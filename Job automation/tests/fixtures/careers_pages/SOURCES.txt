@@ -1,0 +1,4 @@
+arbeitnow_jobposting.html	https://www.arbeitnow.com/jobs/companies/doctolib/technical-onboarding-specialist-praxissoftware-berlin-berlin-201495
+bundesagentur_jobdetail.html	https://www.arbeitsagentur.de/jobsuche/jobdetail/10000-1207890540-S
+smartrecruiters_posting.html	https://jobs.smartrecruiters.com/BoschGroup/744000149647900
+mtu_careers_index.html	https://www.mtu.de/de/karriere/
