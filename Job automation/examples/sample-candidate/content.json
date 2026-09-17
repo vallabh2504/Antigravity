@@ -1,0 +1,79 @@
+{
+  "fictional": true,
+  "note": "Structure and density reference only. Every fact belongs to an invented candidate; never reuse them.",
+  "schema": "jobauto.application.v2",
+  "candidate": {
+    "name": "Alex Morgan",
+    "preferred_name": "Alex Morgan",
+    "headline": "Test Engineer for Electrochemical Energy Systems",
+    "email": "alex.morgan@example.com",
+    "phone": "+49 170 0000000",
+    "location": "Hamburg, Germany",
+    "linkedin": "linkedin.com/in/alex-morgan-example"
+  },
+  "resume": {
+    "summary": "Test engineer with two years of hands-on fuel cell and battery testing, from building test benches to analysing degradation data. Built a standalone fuel cell test bench and characterised 12 stacks with polarization curves and start-stop cycling. Brings Python data analysis and written test procedures to validation teams that need repeatable, well documented results.",
+    "experience": [
+      {
+        "title": "Test Engineer",
+        "org": "Example Energy GmbH",
+        "location": "Hamburg, Germany",
+        "start": "11/2024",
+        "end": "Present",
+        "bullets": [
+          "Built a standalone fuel cell test bench with PLC control and Python logging, then ran polarization curves on 12 stacks.",
+          "Wrote start-stop cycling test procedures that shortened a full test campaign from six weeks to four weeks.",
+          "Analysed voltage decay data in Python and reported degradation trends to the design team in weekly reviews."
+        ]
+      },
+      {
+        "title": "Working Student, Battery Testing",
+        "org": "Example Mobility AG",
+        "location": "Hamburg, Germany",
+        "start": "04/2022",
+        "end": "09/2024",
+        "bullets": [
+          "Ran capacity and impedance tests on 40 lithium-ion cells following IEC 62660 test procedures.",
+          "Automated test reports with Python and pandas, saving about three hours of manual work per test series."
+        ]
+      }
+    ],
+    "projects": [],
+    "education": [
+      {
+        "degree": "M.Sc. Mechanical Engineering",
+        "institution": "Example Technical University",
+        "location": "Hamburg, Germany",
+        "start": "10/2021",
+        "end": "09/2024",
+        "details": ["Thesis: Humidity control for a 5 kW fuel cell test bench (grade 1.3)"]
+      }
+    ],
+    "skills": [
+      {"label": "Testing", "items": "Polarization curves, impedance spectroscopy, test procedures, degradation analysis"},
+      {"label": "Software", "items": "Python, pandas, MATLAB, LabVIEW, Git"}
+    ],
+    "publications": [],
+    "languages": "English (C1), German (B2)",
+    "section_order": ["summary", "experience", "education", "skills", "languages"]
+  },
+  "cover_letter": {
+    "recipient_lines": ["Example Hydrogen GmbH", "Human Resources", "Hamburg"],
+    "subject": "Application for Test Engineer Electrolysis",
+    "salutation": "Dear Hiring Team,",
+    "paragraphs": [
+      "Your posting asks for an engineer who can assemble laboratory cells, execute test protocols and turn measurements into clear results. That is the work I have done every week for the last two years, first on lithium-ion cells and now on fuel cell stacks at Example Energy GmbH, and I would like to bring it to your electrolysis test team.",
+      "At Example Energy I built a standalone fuel cell test bench with PLC control and Python logging. I used it to run polarization curves on 12 stacks and wrote the start-stop cycling procedures that shortened a full test campaign from six weeks to four. Electrolysis cells differ from fuel cells in their operating point, but the discipline is the same: a stable bench, a written protocol and data that another engineer can trust.",
+      "Data analysis is the part of testing I enjoy most. I analyse voltage decay in Python and present degradation trends to our design team every week, which has taught me to report what the data shows and to say plainly what it does not show. As a working student I also automated battery test reports with pandas, which saved about three hours per test series.",
+      "I have not yet worked on electrolyzers, and I would say so openly in an interview. What I can offer from the first week is careful bench work, reliable procedures and analysis that helps your developers decide faster. My German is at B2 level and I use it daily with technicians.",
+      "I would welcome the chance to discuss how my testing experience can support Example Hydrogen. Thank you for considering my application."
+    ],
+    "closing": "Kind regards,",
+    "signature": "Alex Morgan"
+  },
+  "requirement_trace": [
+    {"requirement": "assemble laboratory-scale cells", "evidence": "experience[0].bullets[0]", "status": "partial"},
+    {"requirement": "execute test protocols", "evidence": "experience[0].bullets[1]", "status": "supported"},
+    {"requirement": "electrolyzer experience", "evidence": "", "status": "gap"}
+  ]
+}

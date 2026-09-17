@@ -1,0 +1,22 @@
+name: Job automation tests
+
+on:
+  push:
+    paths: ["Job automation/**", ".github/workflows/job-automation-tests.yml"]
+  pull_request:
+    paths: ["Job automation/**", ".github/workflows/job-automation-tests.yml"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "Job automation"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: pytest -q

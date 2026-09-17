@@ -1,0 +1,17 @@
+# Copy to profile/master_resume.yml (gitignored) and replace the placeholders.
+# New tailoring flows should use the evidence-backed private ledger when one is
+# available; this file documents the minimum profile shape for a fresh install.
+
+name: "Your Name"
+preferred_name: "Your Name"
+headline: "Your professional headline"
+contact:
+  email: ""
+  phone: ""
+  location: ""
+  linkedin: ""
+
+education: []
+experience: []
+projects: []
+skills: []

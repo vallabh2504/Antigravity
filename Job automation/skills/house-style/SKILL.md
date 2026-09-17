@@ -1,85 +1,69 @@
 ---
 name: house-style
-description: >
-  The candidate's own writing voice, reverse-engineered from his 50 real résumé
-  variants (skill/sources_resumes/). EVERY résumé, cover letter, and summary the
-  application-writer produces MUST follow this. The point is that the output is
-  indistinguishable from something Vallabh wrote himself: human, dense, technical,
-  zero AI tells, and ZERO em-dashes.
+description: >-
+  Write and review resumes, cover letters and application plans in the evidence-led house
+  style. Use for every application document in this project, especially when selecting
+  claims, constructing technical bullets, or checking whether prose sounds generic,
+  inflated or machine-written.
 ---
 
-# House Style — write like Vallabh, not like an AI
+# House Style
 
-Source of truth: the real résumés in `skill/sources_resumes/Resume_Merged_*.pdf`.
-Read them before writing. Match their voice exactly.
+Write as a calm engineer or researcher. Prove capability with technical objects, methods,
+validation, scale and measured outcomes. Never replace evidence with self-praise.
 
-## The single most important rule
-**NEVER use an em-dash (—) or use an en-dash (–) as a sentence connector.** His real
-résumés contain none. Connect clauses with commas, colons, parentheses, semicolons, or
-full stops. (An en-dash is allowed ONLY inside a date range, e.g. `09/2025 – 12/2025`.)
-A stray "—" is an instant tell that an AI wrote it. There must be none.
+## Where the truth lives
 
-## Banned AI tells (never write these)
-- Em/en dashes as punctuation (see above).
-- "I am writing to express", "keen interest", "I am confident that", "leverage my…",
-  "passionate about", "synergy", "delve", "tapestry", "in today's fast-paced world",
-  "honed", "pivotal", "testament to", "spearheaded my journey".
-- Rhetorical triads for their own sake ("faster, better, stronger").
-- Vague filler ("various tasks", "many things", "cutting-edge solutions") with no specifics.
+The candidate's facts are the files in `facts/` of the application workspace
+(`master_resume.yml`, `profile.md`, and `writer_answers.md` once the candidate has
+answered open questions). Nothing else is a source of truth about the candidate: not
+the job description, not the examples, not your general knowledge.
 
-## His résumé bullet formula (copy this exactly)
-Most bullets begin with a **bold thematic lead-in**, then a colon, then one dense,
-specific sentence naming the real tools and the quantified result:
+A mechanical **fact lock** checks the documents: every number and every proper term
+(tool, organisation, acronym, product) in the resume must occur in `facts/`. The cover
+letter may additionally name terms from the job description, because a letter speaks
+about the employer's work.
 
-> **Fuel Cell Test Bench Development:** Engineered, fabricated, and electronically
-> integrated a standalone fuel cell test bench, executing operational testing (purging,
-> humidity cycling, short-circuiting) and performance data evaluation.
+## Workflow
 
-> **Strategy Implementation:** Architected and deployed advanced driving and fuel cell
-> temperature control strategies using Simulink; leveraged real-time competition data to
-> boost fuel efficiency by 80%, a critical factor in securing a runner-up finish at the
-> Shell Eco-Marathon.
+1. The planner maps job requirements to verbatim fact quotes (`plan.json`).
+2. The writer drafts from the plan. Read [resume-pattern.md](references/resume-pattern.md)
+   for resume work and [cover-letter-pattern.md](references/cover-letter-pattern.md) for
+   letter work.
+3. A reviewer who did not write the documents checks the rendered PDFs against
+   [quality-gates.md](references/quality-gates.md).
 
-Rules for bullets:
-- Strong opening verbs he actually uses: Engineered, Developed, Architected, Designed,
-  Executed, Conducted, Performed, Led, Spearheaded, Oversaw, Managed, Validated,
-  Prototyped, Integrated, Utilized, Drove, Benchmarked.
-- Name the real tools every time: MATLAB/Simulink, CATIA V5, Siemens NX, Fusion 360,
-  ANSYS (Structural, Fluent, ACP), Star-CCM+, MSC ADAMS, DMLS, Resin Infusion, Python,
-  Power BI, CoppeliaSim, Siemens Teamcenter.
-- Quantify with his real numbers: 80% efficiency, 25 kg mass reduction, 12% drag
-  reduction, 150+ parts, DP/ECMS benchmarks, runner-up Shell Eco-Marathon 2025.
-- One sentence per bullet (occasionally two). Dense, not padded.
-- British/US spelling: follow the source. He writes "optimization/optimize" (z) but
-  "fibre", "aluminium" and "aluminum" both appear. Prefer the JD's spelling; stay consistent.
-- Capitalize real proper nouns and named systems (Fuel Cell, Simulink). Do not invent capitals.
+## Voice
 
-## His summary formula (copy this exactly)
-Two patterns he uses, both first person:
-1. "A highly motivated Automotive Engineering Master's student [specializing in / with a
-   strong focus on] X, Y, and Z. [Top-down] industrial simulation experience at Robert
-   Bosch GmbH … [bottom-up] hands-on leadership at Ecogenium e.V. … Seeking [this role]
-   to [apply specific expertise] at **<Company>** [for the specific JD topic]."
-2. "As an Automotive Engineering Master's student, my career is purposefully aimed at
-   advancing hydrogen mobility. … I am seeking <role> to <specific contribution> at <Company>."
+- Technical, evidence-led, direct and credible.
+- Prefer demonstrated competence over adjectives about the candidate.
+- Past tense for completed work; present tense only for ongoing work.
+- Keep terminology and capitalisation consistent.
+- Use ASCII hyphens only inside compounds. No em dashes or en dashes as punctuation.
+- Keep umlauts and accents in proper nouns exactly as the source spells them
+  ("für", not "fuer").
+- No generic enthusiasm, company admiration, theatrical metaphors or keyword dumps.
 
-The LAST sentence must name the target company and the JD's actual focus. This is how he
-tailors. 3 to 5 lines. Confident, specific, dense. No clichés.
+## Non-negotiable truth rules
 
-## Cover-letter voice (derive from his summaries; he writes in this register)
-- First person, plain, confident, specific. Sounds like a sharp engineer, not a marketer.
-- Open with the single strongest, most JD-relevant real proof (e.g. the Bosch
-  degradation/SOH work for a condition-monitoring role). No throat-clearing.
-- Body: 1 to 2 short paragraphs of concrete proof points mapped to the JD, using real
-  projects and numbers. Name tools.
-- One honest "why this company / why now" line (sector, Stuttgart location, availability,
-  visa if relevant), stated briefly.
-- 250 to 330 words. No em-dashes. No boilerplate. Sign off simply.
+- Never invent a title, date, employer, tool, result, metric, scope, affiliation,
+  publication status, start date, supervisor, work permit or company fact.
+- Never turn planned work into completed work.
+- Never broaden a narrow fact into a system-level claim.
+- A job-description keyword may appear in the resume only where a fact supports it.
+  Paraphrasing a fact into the job's vocabulary is good; importing the job's vocabulary
+  as experience the facts do not show is fabrication.
+- If evidence is incomplete, omit the claim or state the limitation.
+- Any unsupported claim fails the document regardless of visual quality.
 
-## Self-check before returning (the writer MUST run this)
-1. Search the text for "—" and "– " used as punctuation. If any exist, rewrite. Target: zero.
-2. Scan for every banned phrase above. Remove.
-3. Does each bullet name a real tool and (where possible) a number? If not, tighten.
-4. Read it aloud: does it sound like the source résumés? If it sounds "AI smooth", roughen
-   it toward his denser, more technical register.
-5. Is the summary's last line company-specific to THIS JD? It must be.
+## Banned phrasing
+
+Do not write: `highly motivated`, `seeking a position`, `perfect fit`, `ideal candidate`,
+`uniquely suited`, `passionate about`, `keen interest`, `I am confident that`,
+`leverage my skill set`, `synergy`, `cutting-edge solutions`, `profound interest`,
+`unique blend`, or `regardless of the outcome`.
+
+## Output principle
+
+Write structured JSON, never HTML. The renderer owns geometry, typography, pagination
+and PDF metadata; the chosen template decides the look.
